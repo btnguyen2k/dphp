@@ -48,15 +48,6 @@ class Ddth_Xconfig {
         $this->objSimpleXml = NULL;
     }
     
-	/**
-	 * Constructs a new Ddth_Xconfig object with initialized XML configuration string.
-	 * @param string $xml
-	 */
-    function __construct($xml) {
-        $this->__construct();
-        $this->setXmlConfig($xml);
-    }
-    
     /**
      * Gets the XML configuration string.
      * @return string
