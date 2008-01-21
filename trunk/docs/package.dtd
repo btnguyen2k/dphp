@@ -1,8 +1,10 @@
 <!-- $Id$ -->
 
-<!ELEMENT package (name, summary?, author)>
+<!ELEMENT package (name, description, summary?, author)>
 
 <!ELEMENT name (#PCDATA)>
+
+<!ELEMENT description (#PCDATA)>
 
 <!ELEMENT summary (#PCDATA)>
 
