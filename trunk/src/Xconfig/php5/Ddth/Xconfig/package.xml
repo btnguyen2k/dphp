@@ -8,7 +8,7 @@
 	<description>Light-weight library to manipulate XML-based data.</description>
 	<summary>
 		This library is to provide a light-weight mechanism to access data stored in a XML file.
-		This library is created with the purpose to read application's configuration data stored
+		This library was created with the purpose to read application's configuration data stored
 		in XML format; hence the name Xconfig.
 	</summary>
 	<author>
