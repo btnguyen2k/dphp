@@ -1,8 +1,10 @@
 <!-- $Id$ -->
 
-<!ELEMENT package (name, description, summary?, author)>
+<!ELEMENT package (name, version, description, summary, author, dependencies)>
 
 <!ELEMENT name (#PCDATA)>
+
+<!ELEMENT version (#PCDATA)>
 
 <!ELEMENT description (#PCDATA)>
 
@@ -11,3 +13,10 @@
 <!ELEMENT author (author-name, author-email)>
 <!ELEMENT author-name (#PCDATA)>
 <!ELEMENT author-email (#PCDATA)>
+
+<!ELEMENT dependencies (dependency*)>
+
+<!ELEMENT dependency (dependency-name, dependency-version?, dependency-description?)>
+<!ELEMENT dependency-name (#PCDATA)>
+<!ELEMENT dependency-version (#PCDATA)>
+<!ELEMENT dependency-description (#PCDATA)>
