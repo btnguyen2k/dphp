@@ -4,6 +4,6 @@
 
 <!ELEMENT summary (#PCDATA)>
 
-<!ELEMENT author (name, email)>
-<!ELEMENT name (#PCDATA)>
-<!ELEMENT email (#PCDATA)>
+<!ELEMENT author (author-name, author-email)>
+<!ELEMENT author-name (#PCDATA)>
+<!ELEMENT author-email (#PCDATA)>
