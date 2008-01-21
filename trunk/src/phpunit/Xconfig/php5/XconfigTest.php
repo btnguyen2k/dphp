@@ -25,6 +25,36 @@ require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Ddth/Xconfig/ClassXconfig.php';
 
+class AllTests {
+    public static function main() {
+        PHPUnit_TextUI_TestRunner::run(self::suite());
+    }
+
+    public static function suite() {
+        $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
+        $suite->addTest(XconfigTestAllTests::suite());
+        return $suite;
+    }
+}
+
+class Framework_AllTests
+{
+    public static function main()
+    {
+        PHPUnit_TextUI_TestRunner::run(self::suite());
+    }
+ 
+    public static function suite()
+    {
+        $suite = new PHPUnit_Framework_TestSuite('PHPUnit Framework');
+ 
+        $suite->addTestSuite('Framework_AssertTest');
+        // ...
+ 
+        return $suite;
+    }
+}
+
 class XconfigTest extends PHPUnit_Framework_TestCase {
     public function testBasic() {
         $obj = new Ddth_Xconfig();
