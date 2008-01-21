@@ -37,5 +37,41 @@
  * @since      	Class available since v0.1
  */
 class Ddth_Xconfig {
+    private $strXml;
+    private $objSimpleXml;
+    
+    /**
+     * Constructs a new Ddth_Xconfig object.
+     */
+    function __construct() {
+        $this->strXml = "";
+        $this->objSimpleXml = NULL;
+    }
+    
+	/**
+	 * Constructs a new Ddth_Xconfig object with initialized XML configuration string.
+	 * @param string $xml
+	 */
+    function __construct($xml) {
+        $this->__construct();
+        $this->setXmlConfig($xml);
+    }
+    
+    /**
+     * Gets the XML configuration string.
+     * @return string
+     */
+    public function getXmlConfig() {
+        return $this->strXml;
+    }
+    
+    /**
+     * Sets the XML configuration string.
+     * @param string $xml
+     */
+    public function setXmlConfig($xml="") {
+        $this->strXml = $xml;
+        $this->objSimpleXml = new SimpleXMLElement($xml);
+    }
 }
 ?>
