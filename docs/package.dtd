@@ -1,0 +1,9 @@
+<!ELEMENT package (name, summary?, author)>
+
+<!ELEMENT name (#PCDATA)>
+
+<!ELEMENT summary (#PCDATA)>
+
+<!ELEMENT author (name, email)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT email (#PCDATA)>
