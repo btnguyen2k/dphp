@@ -1,6 +1,6 @@
 <!-- $Id$ -->
 
-<!ELEMENT package (name, version, description, summary, author, dependencies)>
+<!ELEMENT package (name, version, description, summary, author, dependencies?)>
 
 <!ELEMENT name (#PCDATA)>
 
