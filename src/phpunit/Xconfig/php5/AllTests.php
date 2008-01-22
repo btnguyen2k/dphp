@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * PHPUnit (http://www.phpunit.de/) test case for Xconfig.
+ * PHPUnit (http://www.phpunit.de/) test suite bootstrap for Xconfig.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -18,6 +18,10 @@
  */
 
 //initialization
+if ( !defined('PHPUnit_MAIN_METHOD') ) {
+    define('PHPUnit_MAIN_METHOD', 'AllTests::main');
+}
+
 //defines package name and package php version
 define('PACKAGE', 'Xconfig');
 define('PACKAGE_PHP_VERSION', 'php5');
@@ -30,17 +34,23 @@ $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.PACKAGE.'/'.PACKAGE_PHP_VERSION;
 ini_set('include_path', $INCLUDE_PATH);
 
 require_once 'PHPUnit/Framework.php';
-require_once 'Ddth/Xconfig/ClassXconfig.php';
+require_once 'PHPUnit/TextUI/TestRunner.php';
 
-class XconfigTest extends PHPUnit_Framework_TestCase {
-    /**
-     * Tests creation of Ddth::Xconfig objects.
-     */
-    public function testObjCreation() {
-        $obj = new Ddth_Xconfig();
-        $this->assertNotNull($obj, "Can not create Ddth::Xconfig object!");
+require_once 'XconfigTest.php';
 
-        $this->assertEquals("", $obj->getXmlConfig(), "XML configuration string is not empty!");
+class AllTests {
+    public static function main() {
+        PHPUnit_TextUI_TestRunner::run(self::suite());
     }
+
+    public static function suite() {
+        $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
+        $suite->addTestSuite('XconfigTest');
+        return $suite;
+    }
+}
+
+if ( PHPUnit_MAIN_METHOD == 'AllTests::main' ) {
+    AllTests::main();
 }
 ?>
