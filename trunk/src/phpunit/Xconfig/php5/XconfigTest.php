@@ -19,8 +19,12 @@
 
 //initialization
 //defines package name and package php version
-define('PACKAGE', 'Xconfig');
-define('PACKAGE_PHP_VERSION', 'php5');
+if ( !defined('PACKAGE') ) {
+    define('PACKAGE', 'Xconfig');
+}
+if ( !defined('PACKAGE_PHP_VERSION') ) {
+    define('PACKAGE_PHP_VERSION', 'php5');
+}
 
 //setting up include path
 $dir = dirname(dirname(dirname(dirname(__FILE__))));
@@ -41,6 +45,19 @@ class XconfigTest extends PHPUnit_Framework_TestCase {
         $this->assertNotNull($obj, "Can not create Ddth::Xconfig object!");
 
         $this->assertEquals("", $obj->getXmlConfig(), "XML configuration string is not empty!");
+    }
+    
+    public function testSetXmlConfig() {        
+        $obj = new Ddth_Xconfig();
+        $this->assertNotNull($obj, "Can not create Ddth::Xconfig object!");
+        
+        $xml = '<?xml version="1.0" encoding="UTF-8"?><author><name>NGUYEN, Ba Thanh</name></author>';
+        $obj->setXmlConfig($xml);
+        $this->assertEquals($xml, $obj->getXmlConfig(), "XML configuration string does not match!");
+        
+        $xml = '<?xml version="1.0"';
+        $obj->setXmlConfig($xml);
+        $this->assertEquals(NULL, $obj->getXmlConfig(), "XML configuration string does not match!");
     }
 }
 ?>
