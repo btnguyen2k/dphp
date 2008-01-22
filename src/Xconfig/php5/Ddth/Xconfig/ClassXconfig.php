@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
  * Main class of Ddth::Xconfig package.
- * 
+ *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
@@ -39,15 +39,15 @@
 class Ddth_Xconfig {
     private $strXml;
     private $objSimpleXml;
-    
+
     /**
      * Constructs a new Ddth_Xconfig object.
      */
     function __construct() {
-        $this->strXml = "";
+        $this->strXml = NULL;
         $this->objSimpleXml = NULL;
     }
-    
+
     /**
      * Gets the XML configuration string.
      * @return string
@@ -55,14 +55,22 @@ class Ddth_Xconfig {
     public function getXmlConfig() {
         return $this->strXml;
     }
-    
+
     /**
      * Sets the XML configuration string.
+     * 
+     * XML configuration string is set to NULL if the input xml string is not parsable.
+     * 
      * @param string $xml
      */
     public function setXmlConfig($xml="") {
         $this->strXml = $xml;
-        $this->objSimpleXml = new SimpleXMLElement($xml);
+        try {
+            @$this->objSimpleXml = new SimpleXMLElement($xml);
+        } catch (Exception $e) {
+            $this->objSimpleXml = NULL;
+            $this->strXml = NULL;
+        }
     }
 }
 ?>
