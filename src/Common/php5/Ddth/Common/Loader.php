@@ -9,34 +9,34 @@
  * the GNU Lesser General Public License and are unable to obtain it through the web,
  * please send a note to gnu@gnu.org, or send an email to any of the file's authors
  * so we can email you a copy.
- *
+ * 
+ * This module provides handy procedural and object oriented interface to load PHP
+ * classes and source code files.
+ * 
  * @category	Common
  * @package		Ddth
- * @subpackage	Common
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @id			$Id$
- * @since      	File available since v0.1
+ * @since      	File available since v0.1 
  */
 
 /**
- * Main class of Ddth::Xconfig package.
+ * Object oriented interface to load PHP classes and source code files.
  *
  * Xconfig is a library that provides a light-weight mechanism to access data
  * stored in a XML file. This library was created with the purpose to read
  * application's configuration data stored in XML format; hence the name Xconfig.
  *
- * @category   	XML
  * @package    	Ddth
- * @subpackage	Xconfig
+ * @subpackage	Common
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1
  * @since      	Class available since v0.1
  */
-class Ddth_Xconfig {
+class Ddth_Common_Loader {
     private $strXml;
     private $objSimpleXml;
 
