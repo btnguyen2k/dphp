@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Main class of Ddth::Xconfig package.
+ * Class and source code loader for PHP.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -10,13 +10,13 @@
  * please send a note to gnu@gnu.org, or send an email to any of the file's authors
  * so we can email you a copy.
  *
- * @category	XML
+ * @category	Common
  * @package		Ddth
- * @subpackage	Xconfig
+ * @subpackage	Common
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id:$
+ * @id			$Id$
  * @since      	File available since v0.1
  */
 
