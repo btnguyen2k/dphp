@@ -9,10 +9,10 @@
  * the GNU Lesser General Public License and are unable to obtain it through the web,
  * please send a note to gnu@gnu.org, or send an email to any of the file's authors
  * so we can email you a copy.
- * 
+ *
  * This module provides handy procedural and object oriented interface to load PHP
  * classes and source code files.
- * 
+ *
  * @category	Common
  * @package		Ddth
  * @subpackage	Common
@@ -20,15 +20,14 @@
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @id			$Id$
- * @since      	File available since v0.1 
+ * @since      	File available since v0.1
  */
 
 /**
  * Object oriented interface to load PHP classes and source code files.
  *
- * Xconfig is a library that provides a light-weight mechanism to access data
- * stored in a XML file. This library was created with the purpose to read
- * application's configuration data stored in XML format; hence the name Xconfig.
+ * This helper class provides an object oriented interface to load PHP classes and
+ * source code files.
  *
  * @package    	Ddth
  * @subpackage	Common
@@ -37,41 +36,35 @@
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @since      	Class available since v0.1
  */
-class Ddth_Common_Loader {
-    private $strXml;
-    private $objSimpleXml;
-
+final class Ddth_Common_Loader {
     /**
-     * Constructs a new Ddth_Xconfig object.
+     * Loads a PHP source file.
+     *
+     * @param string $fileName
+     * @param bool $singleton use {@link http://www.php.net/include_once/ include_once()}
+     * to load file if set to true, use {@link http://www.php.net/include/ include()} otherwise.
+     *
+     * @return bool true if success, false otherwise
      */
-    function __construct() {
-        $this->strXml = NULL;
-        $this->objSimpleXml = NULL;
-    }
-
-    /**
-     * Gets the XML configuration string.
-     * @return string
-     */
-    public function getXmlConfig() {
-        return $this->strXml;
-    }
-
-    /**
-     * Sets the XML configuration string.
-     * 
-     * XML configuration string is set to NULL if the input xml string is not parsable.
-     * 
-     * @param string $xml
-     */
-    public function setXmlConfig($xml="") {
-        $this->strXml = $xml;
-        try {
-            @$this->objSimpleXml = new SimpleXMLElement($xml);
-        } catch (Exception $e) {
-            $this->objSimpleXml = NULL;
-            $this->strXml = NULL;
+    public static function loadFile($fileName, $singleton=true) {
+        if ( $singleton ) {
+            return (@include_once $fileName) != FALSE;
+        } else {
+            return (@include $fileName) != FALSE;
         }
+    }
+
+    /**
+     * Loads a PHP class.
+     *
+     * @param string $className
+     * @param Ddth_Common_IClassNameTranslator $classNameTranslator
+     *
+     * @return bool true if success, false otherwise
+     */
+    public static function loadClass($className, $classNameTranslator) {
+        return Ddth_Common_Loader::loadFile(
+            $classNameTranslator->translateClassNameToFileName($className));
     }
 }
 ?>
