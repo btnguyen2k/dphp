@@ -1,4 +1,4 @@
-* 07-Jan-2008: version 0.1 (initial version)
+* 28-Jan-2008: version 0.1_1 (initial version)
 	- Introduced Loader module:
 		+ Interface(s): IClassNameTranslator
 		+ Class(es): Loader, DefaultClassNameTranslator
