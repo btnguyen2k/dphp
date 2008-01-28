@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Class and source code loader for PHP.
+ * Class name to physical file name translator.  
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -10,38 +10,43 @@
  * please send a note to gnu@gnu.org, or send an email to any of the file's authors
  * so we can email you a copy.
  * 
- * This module provides handy procedural and object oriented interface to load PHP
- * classes and source code files.
+ * Provides a mechanism to translate class name to physical file name
+ * on disk, available for use with {@link http://www.php.net/include/ include()},
+ * {@link http://www.php.net/include_once/ include_once()},
+ * {@link http://www.php.net/require/ require()}, and
+ * {@link http://www.php.net/require_once/ require_once()} methods.
  * 
  * @category	Common
  * @package		Ddth
  * @subpackage	Common
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: Loader.php 51 2008-01-27 19:35:35Z nbthanh@vninformatics.com $
+ * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
+ * @id			$Id$
  * @since      	File available since v0.1 
  */
 
 /**
- * Object oriented interface to load PHP classes and source code files.
- *
- * This helper class provides an object oriented interface to load PHP classes and
- * source code files.
+ * Class name to physical file name translator.
+ * 
+ * This interface provides a mechanism to translate class name to physical file name
+ * on disk, available for use with {@link http://www.php.net/include/ include()},
+ * {@link http://www.php.net/include_once/ include_once()},
+ * {@link http://www.php.net/require/ require()}, and
+ * {@link http://www.php.net/require_once/ require_once()} methods.
  *
  * @package    	Ddth
  * @subpackage	Common
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
+ * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
 interface Ddth_Common_IClassNameTranslator {
     /**
      * Translates a class name to physical file name on disk.
      * 
-     * @param string $className
-     * 
+     * @param string $className 
      * @return string file name on disk available for including.  
      */
     public function translateClassNameToFileName($className);

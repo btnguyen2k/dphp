@@ -18,10 +18,41 @@
  * @subpackage	Common
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
+ * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @id			$Id$
  * @since      	File available since v0.1
  */
+
+require_once 'ClassDefaultClassNameTranslator.php';
+
+/**
+ * Loads a PHP class.
+ *
+ * @param string $className
+ * @param Ddth_Common_IClassNameTranslator $classNameTranslator
+ * @return bool true if success, false otherwise
+ */
+function loader_loadClass($className, $classNameTranslator=NULL) {
+    if ( $classNameTranslator==NULL || !is_object($classNameTranslator) 
+            || !($classNameTranslator instanceof Ddth_Common_IClassNameTranslator) ) {
+        $translator = Ddth_Common_DefaultClassNameTranslator::getInstance();
+        return Ddth_Common_Loader::loadClass($className, $translator);
+    } else {
+        return Ddth_Common_Loader::loadClass($className, $classNameTranslator);
+    }
+}
+
+/**
+ * Loads a PHP source file.
+ *
+ * @param string $fileName
+ * @param bool $singleton use {@link http://www.php.net/include_once/ include_once()}
+ * to load file if set to true, use {@link http://www.php.net/include/ include()} otherwise.
+ * @return bool true if success, false otherwise
+ */
+function loader_loadFile($fileName, $singleton=true) {
+    return Ddth_Common_Loader::loadFile($fileName, $singleton);
+}
 
 /**
  * Object oriented interface to load PHP classes and source code files.
@@ -33,7 +64,7 @@
  * @subpackage	Common
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
+ * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
 final class Ddth_Common_Loader {
@@ -43,7 +74,6 @@ final class Ddth_Common_Loader {
      * @param string $fileName
      * @param bool $singleton use {@link http://www.php.net/include_once/ include_once()}
      * to load file if set to true, use {@link http://www.php.net/include/ include()} otherwise.
-     *
      * @return bool true if success, false otherwise
      */
     public static function loadFile($fileName, $singleton=true) {
@@ -59,12 +89,11 @@ final class Ddth_Common_Loader {
      *
      * @param string $className
      * @param Ddth_Common_IClassNameTranslator $classNameTranslator
-     *
      * @return bool true if success, false otherwise
      */
     public static function loadClass($className, $classNameTranslator) {
         return Ddth_Common_Loader::loadFile(
-            $classNameTranslator->translateClassNameToFileName($className));
+        $classNameTranslator->translateClassNameToFileName($className));
     }
 }
 ?>
