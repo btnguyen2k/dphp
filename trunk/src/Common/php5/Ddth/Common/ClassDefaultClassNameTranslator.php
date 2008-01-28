@@ -66,7 +66,14 @@ final class Ddth_Common_DefaultClassNameTranslator implements Ddth_Common_IClass
      * @see Ddth_Common_IClassNameTranslator::translateClassNameToFileName()
      */
     public function translateClassNameToFileName($className) {
-        return $className;
+        $tokens = explode("_", $className);
+        $fileName = "";
+        $n = count($tokens);
+        for ( $i = 0 ; $i < $n-1; $i++ ) {
+            $fileName .= $tokens[$i] . '/';
+        }
+        $fileName .= "Class" . $tokens[$n-1] . '.php';
+        return $fileName;
     }
 }
 ?>
