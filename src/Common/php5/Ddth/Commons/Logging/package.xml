@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE package PUBLIC
+	"-//dPHP Package Description DTD//EN"
+	"http://dphp.googlecode.com/svn/trunk/docs/package.dtd">
+<package>
+	<name>Ddth::Common::Logging</name>
+	<version>0.1</version>
+	<description>Ddth Commons Loggings package.</description>
+	<summary>
+		This packages provides a Log interface that is an independent abstraction of
+		other logging libraries.
+	</summary>
+	<author>
+		<author-name>NGUYEN, Ba Thanh</author-name>
+		<author-email>btnguyen2k@gmail.com / nbthanh@vninformatics.com</author-email>
+	</author>
+	<dependencies>
+		<dependency>
+			<dependency-name>PHP</dependency-name>
+			<dependency-version>5.0+</dependency-version>
+			<dependency-description>PHP 5.0+ is needed for the new Object Model.</dependency-description>
+		</dependency>
+	</dependencies>
+</package>

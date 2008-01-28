@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * PHPUnit (http://www.phpunit.de/) test suite bootstrap for package Common.
+ * PHPUnit (http://www.phpunit.de/) test suite bootstrap for package Commons.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -23,7 +23,7 @@ if ( !defined('PHPUnit_MAIN_METHOD') ) {
 }
 
 //defines package name and package php version
-define('PACKAGE', 'Common');
+define('PACKAGE', 'Commons');
 define('PACKAGE_PHP_VERSION', 'php5');
 
 //setting up include path

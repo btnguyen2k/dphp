@@ -16,9 +16,9 @@
  * {@link http://www.php.net/require/ require()}, and
  * {@link http://www.php.net/require_once/ require_once()} methods.
  * 
- * @category	Common
+ * @category	Commons
  * @package		Ddth
- * @subpackage	Common
+ * @subpackage	Commons
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
@@ -36,7 +36,7 @@
  * {@link http://www.php.net/require_once/ require_once()} methods.
  *
  * @package    	Ddth
- * @subpackage	Common
+ * @subpackage	Commons
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
