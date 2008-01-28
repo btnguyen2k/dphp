@@ -25,7 +25,7 @@
  * 
  * A simple logging interface abstracting other logging libraries. In order to be
  * instantiated successfully by LogFactory, classes that implement this interface
- * must have a constructor that takes a single String parameter representing the
+ * must have a constructor that takes a single string parameter representing the
  * "name" of this ILog.
  * 
  * The six logging levels used by ILog are (in order):
