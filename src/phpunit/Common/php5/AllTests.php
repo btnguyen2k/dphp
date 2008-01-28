@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * PHPUnit (http://www.phpunit.de/) test suite bootstrap for Xconfig.
+ * PHPUnit (http://www.phpunit.de/) test suite bootstrap for package Common.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -12,8 +12,8 @@
  *
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id$
+ * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
+ * @id			$Id: AllTests.php 53 2008-01-28 07:51:45Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -23,7 +23,7 @@ if ( !defined('PHPUnit_MAIN_METHOD') ) {
 }
 
 //defines package name and package php version
-define('PACKAGE', 'Xconfig');
+define('PACKAGE', 'Common');
 define('PACKAGE_PHP_VERSION', 'php5');
 
 //setting up include path
@@ -36,7 +36,7 @@ ini_set('include_path', $INCLUDE_PATH);
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-require_once 'XconfigTest.php';
+require_once 'LoaderTest.php';
 
 class AllTests {
     public static function main() {
@@ -45,7 +45,7 @@ class AllTests {
 
     public static function suite() {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
-        $suite->addTestSuite('XconfigTest');
+        $suite->addTestSuite('LoaderTest');
         return $suite;
     }
 }
