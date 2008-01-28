@@ -22,7 +22,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id$
+ * @id			$Id:ClassIClassNameTranslator.php 60 2008-01-28 18:25:46Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1 
  */
 
@@ -42,7 +42,7 @@
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-interface Ddth_Common_IClassNameTranslator {
+interface Ddth_Commons_IClassNameTranslator {
     /**
      * Translates a class name to physical file name on disk.
      * 

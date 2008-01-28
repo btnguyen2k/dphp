@@ -13,7 +13,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id$
+ * @id			$Id:LoaderTest.php 60 2008-01-28 18:25:46Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -39,10 +39,10 @@ require_once 'Ddth/Commons/ClassLoader.php';
 class LoaderTest extends PHPUnit_Framework_TestCase {
     public function testDefaultClassNameTranslator() {
         require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        $instance = Ddth_Common_DefaultClassNameTranslator::getInstance();
-        $this->assertNotNull($instance, "Can not get instance of class Ddth_Common_DefaultClassNameTranslator");
+        $instance = Ddth_Commons_DefaultClassNameTranslator::getInstance();
+        $this->assertNotNull($instance, "Can not get instance of class Ddth_Commons_DefaultClassNameTranslator");
         
-        $filename = $instance->translateClassNameToFileName("Ddth_Common_DefaultClassNameTranslator");
+        $filename = $instance->translateClassNameToFileName("Ddth_Commons_DefaultClassNameTranslator");
         $this->assertEquals("Ddth/Commons/ClassDefaultClassNameTranslator.php", $filename, "Class name to file name translation failed!");
     }
 }
