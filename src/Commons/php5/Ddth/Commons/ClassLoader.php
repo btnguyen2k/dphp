@@ -23,6 +23,7 @@
  * @since      	File available since v0.1
  */
 
+/** */
 require_once 'ClassDefaultClassNameTranslator.php';
 
 /**
