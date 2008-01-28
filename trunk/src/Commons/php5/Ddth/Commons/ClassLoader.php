@@ -19,7 +19,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id$
+ * @id			$Id:ClassLoader.php 60 2008-01-28 18:25:46Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -29,16 +29,16 @@ require_once 'ClassDefaultClassNameTranslator.php';
  * Loads a PHP class.
  *
  * @param string $className
- * @param Ddth_Common_IClassNameTranslator $classNameTranslator
+ * @param Ddth_Commons_IClassNameTranslator $classNameTranslator
  * @return bool true if success, false otherwise
  */
 function loader_loadClass($className, $classNameTranslator=NULL) {
     if ( $classNameTranslator==NULL || !is_object($classNameTranslator) 
-            || !($classNameTranslator instanceof Ddth_Common_IClassNameTranslator) ) {
-        $translator = Ddth_Common_DefaultClassNameTranslator::getInstance();
-        return Ddth_Common_Loader::loadClass($className, $translator);
+            || !($classNameTranslator instanceof Ddth_Commons_IClassNameTranslator) ) {
+        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
+        return Ddth_Commons_Loader::loadClass($className, $translator);
     } else {
-        return Ddth_Common_Loader::loadClass($className, $classNameTranslator);
+        return Ddth_Commons_Loader::loadClass($className, $classNameTranslator);
     }
 }
 
@@ -51,7 +51,7 @@ function loader_loadClass($className, $classNameTranslator=NULL) {
  * @return bool true if success, false otherwise
  */
 function loader_loadFile($fileName, $singleton=true) {
-    return Ddth_Common_Loader::loadFile($fileName, $singleton);
+    return Ddth_Commons_Loader::loadFile($fileName, $singleton);
 }
 
 /**
@@ -67,7 +67,7 @@ function loader_loadFile($fileName, $singleton=true) {
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-final class Ddth_Common_Loader {
+final class Ddth_Commons_Loader {
     /**
      * Loads a PHP source file.
      *
@@ -88,11 +88,11 @@ final class Ddth_Common_Loader {
      * Loads a PHP class.
      *
      * @param string $className
-     * @param Ddth_Common_IClassNameTranslator $classNameTranslator
+     * @param Ddth_Commons_IClassNameTranslator $classNameTranslator
      * @return bool true if success, false otherwise
      */
     public static function loadClass($className, $classNameTranslator) {
-        return Ddth_Common_Loader::loadFile(
+        return Ddth_Commons_Loader::loadFile(
         $classNameTranslator->translateClassNameToFileName($className));
     }
 }

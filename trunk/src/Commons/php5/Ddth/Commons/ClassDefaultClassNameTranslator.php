@@ -16,22 +16,22 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id$
+ * @id			$Id:ClassDefaultClassNameTranslator.php 60 2008-01-28 18:25:46Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
 require_once 'ClassIClassNameTranslator.php';
 
 /**
- * Default inplementation of interface {@link Ddth_Common_IClassNameTranslator}.
+ * Default inplementation of interface {@link Ddth_Commons_IClassNameTranslator}.
  *
- * This class implements interface {@link Ddth_Common_IClassNameTranslator} with the
+ * This class implements interface {@link Ddth_Commons_IClassNameTranslator} with the
  * following translating rule:
  *
  * <ul>
  * 	<li>Class name format: <i>Package1_Package2_Package3_ClazzName</i>.
  * 	<li>Translated file name: <i>Package1/Package2/Package3/ClassClazzName.php</i>
- * 	<li>Example: class <i>Ddth_Common_DefaultClassNameTranslator</i> will be
+ * 	<li>Example: class <i>Ddth_Commons_DefaultClassNameTranslator</i> will be
  * 		translated to file <i>Ddth/Commons/ClassDefaultClassNameTranslator.php</i>
  * </ul>
  *
@@ -42,7 +42,7 @@ require_once 'ClassIClassNameTranslator.php';
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-final class Ddth_Common_DefaultClassNameTranslator implements Ddth_Common_IClassNameTranslator {
+final class Ddth_Commons_DefaultClassNameTranslator implements Ddth_Commons_IClassNameTranslator {
     private static $instance;
 
     private function __construct() {
@@ -50,20 +50,20 @@ final class Ddth_Common_DefaultClassNameTranslator implements Ddth_Common_IClass
     }
 
     /**
-     * Gets an instance of Ddth_Common_DefaultClassNameTranslator class.
+     * Gets an instance of Ddth_Commons_DefaultClassNameTranslator class.
      *
-     * @return Ddth_Common_DefaultClassNameTranslator
+     * @return Ddth_Commons_DefaultClassNameTranslator
      */
     public static function getInstance() {
-        if ( !is_object(Ddth_Common_DefaultClassNameTranslator::$instance) ) {
-            Ddth_Common_DefaultClassNameTranslator::$instance =
-                new Ddth_Common_DefaultClassNameTranslator();
+        if ( !is_object(Ddth_Commons_DefaultClassNameTranslator::$instance) ) {
+            Ddth_Commons_DefaultClassNameTranslator::$instance =
+                new Ddth_Commons_DefaultClassNameTranslator();
         }
-        return Ddth_Common_DefaultClassNameTranslator::$instance;
+        return Ddth_Commons_DefaultClassNameTranslator::$instance;
     }
 
     /**
-     * @see Ddth_Common_IClassNameTranslator::translateClassNameToFileName()
+     * @see Ddth_Commons_IClassNameTranslator::translateClassNameToFileName()
      */
     public function translateClassNameToFileName($className) {
         $tokens = explode("_", $className);
