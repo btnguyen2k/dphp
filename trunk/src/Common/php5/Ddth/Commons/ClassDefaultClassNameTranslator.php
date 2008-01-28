@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Default inplementation of interface {@link Ddth_Common_IClassNameTranslator}.
+ * Default inplementation of interface {@link Ddth_Commons_IClassNameTranslator}.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -10,9 +10,9 @@
  * please send a note to gnu@gnu.org, or send an email to any of the file's authors
  * so we can email you a copy.
  *
- * @category	Common
+ * @category	Commons
  * @package		Ddth
- * @subpackage	Common
+ * @subpackage	Commons
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
@@ -32,11 +32,11 @@ require_once 'ClassIClassNameTranslator.php';
  * 	<li>Class name format: <i>Package1_Package2_Package3_ClazzName</i>.
  * 	<li>Translated file name: <i>Package1/Package2/Package3/ClassClazzName.php</i>
  * 	<li>Example: class <i>Ddth_Common_DefaultClassNameTranslator</i> will be
- * 		translated to file <i>Ddth/Common/ClassDefaultClassNameTranslator.php</i>
+ * 		translated to file <i>Ddth/Commons/ClassDefaultClassNameTranslator.php</i>
  * </ul>
  *
  * @package    	Ddth
- * @subpackage	Common
+ * @subpackage	Commons
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0

@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * PHPUnit (http://www.phpunit.de/) test case for Ddth::Common::Loader.
+ * PHPUnit (http://www.phpunit.de/) test case for Ddth::Commons::Loader.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -20,7 +20,7 @@
 //initialization
 //defines package name and package php version
 if ( !defined('PACKAGE') ) {
-    define('PACKAGE', 'Common');
+    define('PACKAGE', 'Commons');
 }
 if ( !defined('PACKAGE_PHP_VERSION') ) {
     define('PACKAGE_PHP_VERSION', 'php5');
@@ -34,16 +34,16 @@ $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.PACKAGE.'/'.PACKAGE_PHP_VERSION;
 ini_set('include_path', $INCLUDE_PATH);
 
 require_once 'PHPUnit/Framework.php';
-require_once 'Ddth/Common/ClassLoader.php';
+require_once 'Ddth/Commons/ClassLoader.php';
 
 class LoaderTest extends PHPUnit_Framework_TestCase {
     public function testDefaultClassNameTranslator() {
-        require_once 'Ddth/Common/ClassDefaultClassNameTranslator.php';
+        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
         $instance = Ddth_Common_DefaultClassNameTranslator::getInstance();
         $this->assertNotNull($instance, "Can not get instance of class Ddth_Common_DefaultClassNameTranslator");
         
         $filename = $instance->translateClassNameToFileName("Ddth_Common_DefaultClassNameTranslator");
-        $this->assertEquals("Ddth/Common/ClassDefaultClassNameTranslator.php", $filename, "Class name to file name translation failed!");
+        $this->assertEquals("Ddth/Commons/ClassDefaultClassNameTranslator.php", $filename, "Class name to file name translation failed!");
     }
 }
 ?>
