@@ -37,6 +37,13 @@ require_once 'PHPUnit/Framework.php';
 require_once 'Ddth/Common/ClassLoader.php';
 
 class LoaderTest extends PHPUnit_Framework_TestCase {
-
+    public function testDefaultClassNameTranslator() {
+        require_once 'Ddth/Common/ClassDefaultClassNameTranslator.php';
+        $instance = Ddth_Common_DefaultClassNameTranslator::getInstance();
+        $this->assertNotNull($instance, "Can not get instance of class Ddth_Common_DefaultClassNameTranslator");
+        
+        $filename = $instance->translateClassNameToFileName("Ddth_Common_DefaultClassNameTranslator");
+        $this->assertEquals("Ddth/Common/ClassDefaultClassNameTranslator.php", $filename, "Class name to file name translation failed!");
+    }
 }
 ?>
