@@ -5,7 +5,7 @@ if ( count($argv) != 5 ) {
     echo "\tphp builddocs.php <full_path_to_php_executable> <path_to_phpDocumentor> <package> <package_php_version>";
     echo "\n";
     echo "Example:\n";
-    echo "\tphp builddocs.php /usr/bin/php /usr/phpDocumentor Common php5";
+    echo "\tphp builddocs.php /usr/bin/php /usr/phpDocumentor Commons php5";
     echo "\n";
     exit;
 }
