@@ -3,18 +3,148 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>dPHP - Coding Standards</title>
+<style type="text/css">
+BODY {
+    font-family: arial,helvetica,clean,sans-serif;
+    font-size: 14px;    
+}
+TD, TH {
+    font-size: 14px;
+}
+HR {
+    width: 75%;
+}
+TABLE.block {
+    padding: 4px;
+    width: 50%;
+}
+TABLE.note {
+    border: solid 1px #204a87;
+    background-color: #729fcf;
+    color: #000000;
+}
+TABLE.must {
+    border: solid 1px #c4a000;
+    background-color: #fce94f;
+    color: #000000;
+}
+TABLE.should {
+    border: solid 1px #4e9a06;
+    background-color: #8ae234;
+    color: #000000;
+}
+TABLE.code {
+    font-family: monospace;
+}
+TABLE.example {
+    border: solid 1px #babdb6;
+    background-color: #eeeeec;
+    color: #000000;
+}
+</style>
 </head>
 <body>
+<a name="top"></a>
 <center>
-	<h1>dPHP - Coding Standards</h1>
+    <h1>dPHP - Coding Standards</h1>
 </center>
 <table align="center" cellpadding="4" cellspacing="0" border="0">
 <tr>
-	<td><i>$Revision$</i></td>
+    <td><i>$Revision$</i></td>
 </tr>
 <tr>
-	<td><i>$Date$</i></td>
+    <td><i>$Date$</i></td>
 </tr>
 </table>
+<h2>Table of Contents</h2>
+<ol>
+    <li><a href="#intro">Introduction</a>
+    <li>General Standards
+        <ol>
+            <li><a href="#indent">Indentation and Line Length</a>
+            <li><a href="#php_tags">PHP Code Tags</a>
+            <li><a href="#encoding">File Format and Encoding</a>
+        </ol>
+    </li>
+    <li><a>Class Definition and Package Directory Structure</a>
+    <li><a>Naming Conventions</a>
+    <li><a>Control Structures</a>        
+    <li><a>Comments</a>
+    
+</ol>
+<hr>
+
+<a name="intro"></a>
+<h2>Introduction</h2>
+<p>The dPHP Coding Standards (or CS for short) apply to code that is part of the
+official dPHP packages. The aim of dPHP Coding Standards is to to keep the code
+consistent, readable and easy to maintain by dPHP development group.</p>
+<p align="center"><a href="#top">Top</a></p>
+<hr>
+
+<a name="indent"></a>
+<h2>Indentation and Line Length</h2>
+<table class="must block">
+<tr>
+    <td>
+        <table border="0" cellpadding="4" cellspacing="0">
+        <tr>
+            <td valign="top"><img border="0" alt="Warning" src="images/icon_warning.gif"></td>
+            <td valign="top">
+                Use an indent of <b>4</b> spaces, do <b>not</b> use tabs to avoid
+                viewing problem with different text editors. 
+            </td>
+        </tr>
+        </table>
+    </td>
+</tr>
+</table>
+<p>If you use Emacs, set <code>indent-tabs-mode</code> to <code>nil</code>.
+Here is an example mode hook that will set up Emacs:</p>
+<table align="center" class="code example block">
+<tr>
+    <td>
+<pre>(defun php-mode-hook ()
+    (setq tab-width 4
+        c-basic-offset 4
+        c-hanging-comment-ender-p nil
+        indent-tabs-mode
+    (not
+        (and (string-match "/\\(PEAR\\|pear\\)/" (buffer-file-name))
+            (string-match "\.php$" (buffer-file-name))))))</pre>
+    </td>
+</tr>
+</table>
+<p>Here are Vim rules for setting tabs:</p>
+<table align="center" class="code example block">
+<tr>
+    <td>
+<pre>set expandtab
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4</pre>
+    </td>
+</tr>
+</table>
+<br>
+<table class="should block">
+<tr>
+    <td>
+        <table border="0" cellpadding="4" cellspacing="0">
+        <tr>
+            <td valign="top"><img border="0" alt="Information" src="images/icon_information.gif"></td>
+            <td valign="top">
+                Lines are recommended to be kept at <b>80</b> characters long; and should not
+                exceed <b>100</b> characters. 
+            </td>
+        </tr>
+        </table>
+    </td>
+</tr>
+</table>
+<p>Try your best to keep lines under 100 characters long for readability.</p>
+<p align="center"><a href="#top">Top</a></p>
+<hr>
+
 </body>
 </html>
