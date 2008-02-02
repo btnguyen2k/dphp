@@ -21,22 +21,33 @@
  */
 
 /**
+ * Automatically loads class source file when used.
+ *
+ * @param string
+ */
+function __autoload($className) {
+    require_once 'ClassLoader.php';
+    $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
+    Ddth_Commons_Loader::loadClass($className, $translator);
+}
+
+/**
  * This class represents a set of properties as pairs of (key => value).
  *
  * The property list can be exported as a string, imported from a string, saved
  * to a file or loaded from a file. Keys and values are treated as strings.
  *
  * Encoding: Properties class uses UTF-8 as the default character encoding.
- * 
+ *
  * Supported property file format: the loading, storing, exporting and importing
  * methods support the following property file/string formats.
- * 
+ *
  * <b>Java-like properties and ini-like files:</b>
  * - Lines begin with ; or # are comments
  * - Each key/value pair is stored in one or more lines with the following
  *   format: propertyKey=propertyValue
  * - Property value can span multiple lines, joining by character \
- * 
+ *
  * Example:
  * <pre>
  * ;this is a comment
@@ -63,13 +74,15 @@ class Ddth_Commons_Properties {
      * the second (optional) is the property comment (string.
      */
     private $properties = Array();
+    private $STATE_START = 0;
+    private $STATE_IN_COMMENT = 0;
 
     /**
      * Constructs a new Ddth_Commons_Properties object.
      */
     public function __construct() {
     }
-    
+
     /**
      * Empties the property list.
      */
@@ -78,8 +91,128 @@ class Ddth_Commons_Properties {
     }
 
     /**
+     * Imports property list from a string input (Java-like properties/ini-like
+     * format).
+     *
+     * @param string property list in Java-like properties/ini-like format
+     * @throws {@link Ddth_Commons_Exceptions_IllegalArgumentException IllegalArgumentException}
+     */
+    public function import($input) {
+        if ( $input == NULL ) {
+            $msg = "Null input!";
+            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
+        }
+        $lines = preg_split("/[\n\r]+/", $input);
+        $this->parse($lines);
+    }
+
+    /**
+     * Parses input and populates properties.
+     *
+     * @param Array() input as array of strings
+     * @throws {@link Ddth_Commons_Exceptions_IllegalArgumentException IllegalArgumentException}
+     */
+    private function parse($lines = Array()) {
+        if ( !is_array($lines) ) {
+            $msg = "Invalid input";
+            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
+        }
+        $COMMENT_START = Array(';', '#');
+        $MULTILINE_FLAG = '\\';
+        $STATE_START = 0;
+        $STATE_IN_COMMENT = 1;
+        $STATE_IN_PROPERTY_VALUE = 2;
+
+        $state = $STATE_START;
+        $comment = NULL;
+        $value = NULL;
+        $key = NULL;
+        foreach ( $lines as $line ) {
+            switch ( $state ) {
+                case $STATE_START:
+                    $line = trim($line);
+                    if ( $line == "" ) {
+                        //reset
+                        $comment = NULL;
+                        $value = NULL;
+                        $key = NULL;
+                        $state = $STATE_START;
+                    } elseif ( in_array($line[0], $COMMENT_START) ) {
+                        //comment
+                        $comment = substr($line, 1);
+                        $state = $STATE_IN_COMMENT;
+                    } else {
+                        //should be propertyKey=propertyValue line by now
+                        $tokens = preg_split("/\s*=\s*/", $line, 2);
+                        if ( count($tokens) != 2 ) {
+                            $msg = 'Invalid input near "'.substr($line, 0, 20).'"';
+                            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
+                        }
+                        $key = trim($tokens[0]);
+                        $value = trim($tokens[1]);
+                        if ( $key == "" ) {
+                            $msg = 'Empty property key at "'.substr($line, 0, 20).'"';
+                            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
+                        }
+                        if ( $value!="" && $value[count($value)-1]==$MULTILINE_FLAG) {
+                            $state = $STATE_IN_PROPERTY_VALUE;
+                        } else {
+                            $this->setProperty($key, $value, $comment);
+                            //reset
+                            $comment = NULL;
+                            $value = NULL;
+                            $key = NULL;
+                            $state = $STATE_START;
+                        }
+                    }
+                    break;
+                case $STATE_IN_COMMENT:
+                    $line = trim($line);
+                    if ( $line == "" ) {
+                        //reset
+                        $comment = NULL;
+                        $value = NULL;
+                        $key = NULL;
+                        $state = $STATE_START;
+                    } elseif ( in_array($line[0], $COMMENT_START) ) {
+                        //comment
+                        $comment .= "\n".substr($line, 1);
+                        $state = $STATE_IN_COMMENT;
+                    } else {
+                        //should be propertyKey=propertyValue line by now
+                        $tokens = preg_split("/\s*=\s*/", $line, 2);
+                        if ( count($tokens) != 2 ) {
+                            $msg = 'Invalid input near "'.substr($line, 0, 20).'"';
+                            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
+                        }
+                        $key = trim($tokens[0]);
+                        $value = trim($tokens[1]);
+                        if ( $key == "" ) {
+                            $msg = 'Empty property key at "'.substr($line, 0, 20).'"';
+                            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
+                        }
+                        if ( $value!="" && $value[count($value)-1]==$MULTILINE_FLAG) {
+                            $state = $STATE_IN_PROPERTY_VALUE;
+                        } else {
+                            $this->setProperty($key, $value, $comment);
+                            //reset
+                            $comment = NULL;
+                            $value = NULL;
+                            $key = NULL;
+                            $state = $STATE_START;
+                        }
+                    }
+                    break;
+                default:
+                    ;
+                    break;
+            }
+        }
+    }
+
+    /**
      * Gets a property value.
-     * 
+     *
      * @param string the property key
      * @param string a default value
      * @return string the property value if found, the default value otherwise
@@ -90,10 +223,10 @@ class Ddth_Commons_Properties {
         }
         return $defaultValue;
     }
-    
+
     /**
      * Sets a property value.
-     * 
+     *
      * @param string the property key
      * @param string the property value
      * @param string the property comment
