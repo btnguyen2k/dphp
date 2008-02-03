@@ -74,8 +74,12 @@ class Ddth_Commons_Properties {
      * the second (optional) is the property comment (string.
      */
     private $properties = Array();
-    private $STATE_START = 0;
-    private $STATE_IN_COMMENT = 0;
+
+    private static $STATE_START = 0;
+    private static $STATE_IN_COMMENT = 1;
+    private static $STATE_IN_PROPERTY_VALUE = 2;
+    private static $COMMENT_START = Array(';', '#');
+    private static $MULTILINE_FLAG = '\\';
 
     /**
      * Constructs a new Ddth_Commons_Properties object.
@@ -117,96 +121,87 @@ class Ddth_Commons_Properties {
             $msg = "Invalid input";
             throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
         }
-        $COMMENT_START = Array(';', '#');
-        $MULTILINE_FLAG = '\\';
-        $STATE_START = 0;
-        $STATE_IN_COMMENT = 1;
-        $STATE_IN_PROPERTY_VALUE = 2;
-
-        $state = $STATE_START;
+        $state = self::$STATE_START;
         $comment = NULL;
         $value = NULL;
         $key = NULL;
         foreach ( $lines as $line ) {
             switch ( $state ) {
                 case $STATE_START:
-                    $line = trim($line);
-                    if ( $line == "" ) {
-                        //reset
-                        $comment = NULL;
-                        $value = NULL;
-                        $key = NULL;
-                        $state = $STATE_START;
-                    } elseif ( in_array($line[0], $COMMENT_START) ) {
-                        //comment
-                        $comment = substr($line, 1);
-                        $state = $STATE_IN_COMMENT;
-                    } else {
-                        //should be propertyKey=propertyValue line by now
-                        $tokens = preg_split("/\s*=\s*/", $line, 2);
-                        if ( count($tokens) != 2 ) {
-                            $msg = 'Invalid input near "'.substr($line, 0, 20).'"';
-                            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
-                        }
-                        $key = trim($tokens[0]);
-                        $value = trim($tokens[1]);
-                        if ( $key == "" ) {
-                            $msg = 'Empty property key at "'.substr($line, 0, 20).'"';
-                            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
-                        }
-                        if ( $value!="" && $value[count($value)-1]==$MULTILINE_FLAG) {
-                            $state = $STATE_IN_PROPERTY_VALUE;
-                        } else {
-                            $this->setProperty($key, $value, $comment);
-                            //reset
-                            $comment = NULL;
-                            $value = NULL;
-                            $key = NULL;
-                            $state = $STATE_START;
-                        }
-                    }
+                    $this->parseStateStart($state, $line, $key, $value, $comment);
                     break;
                 case $STATE_IN_COMMENT:
-                    $line = trim($line);
-                    if ( $line == "" ) {
-                        //reset
-                        $comment = NULL;
-                        $value = NULL;
-                        $key = NULL;
-                        $state = $STATE_START;
-                    } elseif ( in_array($line[0], $COMMENT_START) ) {
-                        //comment
-                        $comment .= "\n".substr($line, 1);
-                        $state = $STATE_IN_COMMENT;
-                    } else {
-                        //should be propertyKey=propertyValue line by now
-                        $tokens = preg_split("/\s*=\s*/", $line, 2);
-                        if ( count($tokens) != 2 ) {
-                            $msg = 'Invalid input near "'.substr($line, 0, 20).'"';
-                            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
-                        }
-                        $key = trim($tokens[0]);
-                        $value = trim($tokens[1]);
-                        if ( $key == "" ) {
-                            $msg = 'Empty property key at "'.substr($line, 0, 20).'"';
-                            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
-                        }
-                        if ( $value!="" && $value[count($value)-1]==$MULTILINE_FLAG) {
-                            $state = $STATE_IN_PROPERTY_VALUE;
-                        } else {
-                            $this->setProperty($key, $value, $comment);
-                            //reset
-                            $comment = NULL;
-                            $value = NULL;
-                            $key = NULL;
-                            $state = $STATE_START;
-                        }
-                    }
+                    $this->parseStateInComment($state, $line, $key, $value, $comment);
                     break;
                 default:
                     ;
                     break;
             }
+        }
+    }
+
+    private function parseReset(&$state, &$key, &$value, &$comment) {
+        $comment = NULL;
+        $value = NULL;
+        $key = NULL;
+        $state = self::$STATE_START;
+    }
+
+    private function parseComment(&$state, &$comment, $input) {
+        if ( $comment != NULL ) {
+            $comment .= "\n" . $input;
+        } else {
+            $comment = $input;
+        }
+        $state = self::$STATE_IN_COMMENT;
+    }
+
+    private function parseValue(&$state, &$key, &$value, &$comment, $input) {
+        $tokens = preg_split("/\s*=\s*/", $input, 2);
+        if ( count($tokens) != 2 ) {
+            $msg = 'Invalid input near "'.substr($line, 0, 20).'"';
+            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
+        }
+        $key = trim($tokens[0]);
+        $value = trim($tokens[1]);
+        if ( $key == "" ) {
+            $msg = 'Empty property key at "'.substr($line, 0, 20).'"';
+            throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
+        }
+        if ( $value!="" && $value[count($value)-1]==self::$MULTILINE_FLAG) {
+            $state = self::$STATE_IN_PROPERTY_VALUE;
+        } else {
+            $this->setProperty($key, $value, $comment);
+            //reset
+            $this->parseReset($state, $key, $value, $comment);
+        }
+    }
+
+    private function parseStateStart(&$state, $line, &$key, &$value, &$comment) {
+        $line = trim($line);
+        if ( $line == "" ) {
+            //reset
+            $this->parseReset($state, $key, $value, $comment);
+        } elseif ( in_array($line[0], self::$COMMENT_START) ) {
+            //comment
+            $this->parseComment($state, $comment, substr($line, 1));
+        } else {
+            //should be propertyKey=propertyValue line by now
+            $this->parseValue($state, $key, $value, $comment, $line);
+        }
+    }
+
+    private function parseStateInComment(&$state, $line, &$key, &$value, &$comment) {
+        $line = trim($line);
+        if ( $line == "" ) {
+            //reset
+            $this->parseReset($state, $key, $value, $comment);
+        } elseif ( in_array($line[0], self::$COMMENT_START) ) {
+            //comment
+            $this->parseComment($state, $comment, substr($line, 1));
+        } else {
+            //should be propertyKey=propertyValue line by now
+            $this->parseValue($state, $key, $value, $comment, $line);
         }
     }
 
