@@ -36,8 +36,6 @@ ini_set('include_path', $INCLUDE_PATH);
 require_once 'PHPUnit/Framework.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 
-require_once 'LoaderTest.php';
-
 class AllTests {
     public static function main() {
         PHPUnit_TextUI_TestRunner::run(self::suite());
@@ -45,7 +43,14 @@ class AllTests {
 
     public static function suite() {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
-        $suite->addTestSuite('LoaderTest');
+        if ( $handle = opendir('.') ) {
+            while ( false !== ($file = readdir($handle)) ) {
+                if ( preg_match("/^([\\w]+Test)\\.php$/", $file, $matches) ) {
+                    include_once $file;
+                    $suite->addTestSuite($matches[1]);                    
+                }
+            }
+        }
         return $suite;
     }
 }

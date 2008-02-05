@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Thrown to indicate that a method has been passed an illegal or inappropriate argument.
+ * This class is the top level abstract class of all other exception classes.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -20,11 +20,8 @@
  * @since      	File available since v0.1
  */
 
-/** */
-require_once 'ClassAbstractException.php';
-
 /**
- * Thrown to indicate that a method has been passed an illegal or inappropriate argument.
+ * This class is the top level abstract class of all other exception classes.
  *
  * @package    	Ddth
  * @subpackage	Exceptions
@@ -33,17 +30,25 @@ require_once 'ClassAbstractException.php';
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-class Ddth_Commons_Exceptions_IllegalArgumentException
-extends Ddth_Commons_Exceptions_AbstractException {
+abstract class Ddth_Commons_Exceptions_AbstractException extends Exception {
 
     /**
-     * Constructs a new Ddth_Commons_Exceptions_IllegalArgumentException object.
-     *
+     * Constructs a new Ddth_Commons_Exceptions_AbstractException object.
+     * 
      * @param string exception message
      * @param int user defined exception code
      */
-    public function __construct($message = "Invalid argument!", $code = 0) {
+    public function __construct($message = NULL, $code = 0) {
         parent::__construct($message, $code);
+    }
+    
+    /**
+     * Custom string representation of the object.
+     * 
+     * @return string
+     */
+    public function __toString() {
+        return __CLASS__ . ": [{$this->code}]: {$this->message}\n";
     }
 }
 ?>
