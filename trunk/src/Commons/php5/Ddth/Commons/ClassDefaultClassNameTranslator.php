@@ -43,7 +43,8 @@ require_once 'ClassIClassNameTranslator.php';
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-final class Ddth_Commons_DefaultClassNameTranslator implements Ddth_Commons_IClassNameTranslator {
+final class Ddth_Commons_DefaultClassNameTranslator 
+implements Ddth_Commons_IClassNameTranslator {
     private static $instance;
 
     private function __construct() {

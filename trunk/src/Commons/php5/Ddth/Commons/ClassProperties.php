@@ -26,6 +26,7 @@
  * @param string
  */
 function __autoload($className) {
+    require_once 'ClassDefaultClassNameTranslator.php';
     require_once 'ClassLoader.php';
     $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
     Ddth_Commons_Loader::loadClass($className, $translator);

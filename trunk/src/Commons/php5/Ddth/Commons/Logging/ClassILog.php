@@ -52,6 +52,13 @@
  */
 interface Ddth_Commons_Logging_ILog {
     /**
+     * Initializes this ILog.
+     * 
+     * @param Ddth_Commons_Properties initializing properties
+     */
+    public function init($prop);
+    
+    /**
      * Logs a message with debug log level.
      *
      * @param string
