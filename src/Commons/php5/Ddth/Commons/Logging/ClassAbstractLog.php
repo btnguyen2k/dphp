@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * A simple logging interface abstracting other logging libraries.
+ * An abstract named logger.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -21,27 +21,22 @@
  */
 
 /**
- * A simple logging interface abstracting other logging libraries.
+ * Automatically loads class source file when used.
  *
- * A simple logging interface abstracting other logging libraries. In order to be
- * instantiated successfully by LogFactory, classes that implement this interface
- * must have a constructor that takes a single string parameter representing the
- * "name" of this ILog.
- *
- * The six logging levels used by ILog are (in order):
- * 1. trace (the least serious)
- * 2. debug
- * 3. info
- * 4. warn
- * 5. error
- * 6. fatal (the most serious)
- *
- * The mapping of these log levels to the concepts used by the underlying logging
- * system is implementation dependent. The implemention should ensure, though,
- * that this ordering behaves as expected.
- *
- * Configuration of the underlying logging system will generally be done external
- * to the Logging APIs, through whatever mechanism is supported by that system.
+ * @param string
+ */
+function __autoload($className) {
+    require_once 'Commons/ClassDefaultClassNameTranslator.php';
+    require_once 'Commons/ClassLoader.php';
+    $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
+    Ddth_Commons_Loader::loadClass($className, $translator);
+}
+
+/**
+ * An abstract named logger.
+ * 
+ * This class is the top level abstract class of all other concrete named
+ * logger inplementations.
  *
  * @package    	Ddth
  * @subpackage	Logging
@@ -50,15 +45,33 @@
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-interface Ddth_Commons_Logging_ILog {
-    /**
-     * Initializes this ILog.
-     * 
-     * @param Ddth_Commons_Properties initializing properties
-     * @throws {@link Ddth_Commons_Logging_LogConfigurationException LogConfigurationException}
-     */
-    public function init($prop);
+abstract class Ddth_Commons_Logging_AbstractLog
+implements Ddth_Commons_Logging_ILog {
+    private $className;
     
+    private $settings;
+    
+    public function __construct($className) {
+        $this->className = $className;
+    }
+
+    /**
+     * Initializes this logger.
+     *
+     * @param Ddth_Commons_Properties initializing properties
+     * @throws {@link Ddth_Commons_Logging_LogConfigurationException LogConfigurationException} 
+     */
+    public function init($prop) {
+        if ( $prop == NULL ) {
+            $prop = new Ddth_Commons_Properties();
+        }
+        if ( !($prop instanceof Ddth_Commons_Properties) ) {
+            $msg = 'Invalid argument!';
+            throw new Ddth_Commons_Logging_LogConfigurationException($msg);
+        }
+        $this->settings = $prop;
+    }
+
     /**
      * Logs a message with debug log level.
      *
