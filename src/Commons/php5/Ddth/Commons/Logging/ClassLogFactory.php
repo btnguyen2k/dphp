@@ -44,6 +44,10 @@ function __autoload($className) {
  */
 interface Ddth_Commons_Logging_LogFactory {
     const FACTORY_SETTINGS_FILE = "dphp-logging.properties";
+    
+    const PROPERTY_LOGGER = "ddth.commons.logging.Logger";
+    
+    const PROPERTY_LOGGER_SETTING_REFIX = "logger.setting.";
 
     private static $factorySettings = NULL;
 
@@ -59,11 +63,27 @@ interface Ddth_Commons_Logging_LogFactory {
      * @throws {@link Ddth_Commons_Exceptions_IllegalStateException IllegalStateException}
      */
     public static function getLog($className, $configFile=NULL) {
-        if ( self::$logSettings == NULL ) {
+        if ( self::$logSettings == NULL || $configFile != NULL ) {
             if ( $configFile == NULL ) {
                 $configFile = self::FACTORY_SETTINGS_FILE;
             }
             self::loadFactorySettings($configFile);
+        }
+        $prop = self::$logSettings;
+        $loggerClass = $prop->getProperty(self::PROPERTY_LOGGER);
+        if ( $loggerClass == NULL ) {
+            $msg = 'Invalid setting for "'.self::PROPERTY_LOGGER.'"';
+            throw new Ddth_Commons_Logging_LogConfigurationException($msg);
+        }
+        try {
+            $log = new $loggerClass($className);
+            $log->init(self::$logSettings);
+            return $log;
+        } catch (Ddth_Commons_Logging_LogConfigurationException $lce) {
+            throw $lce;
+        } catch (Exception $e) {
+            $msg = '['.$e->getMessage().']\n'.$e->getTraceAsString();
+            throw new Ddth_Commons_Logging_LogConfigurationException($msg);
         }
     }
 
@@ -87,6 +107,28 @@ interface Ddth_Commons_Logging_LogFactory {
         $prop = new Ddth_Commons_Properties();
         $prop->import($config);
         self::$factorySettings = $prop;
+        
+        self::$logSettings = $this->buildLogSettings();
+        
+        return self::$factorySettings;
+    }
+    
+    /**
+     * Builds logger configuration settings from factory configuration settings.
+     */
+    private static function buildLogSettings() {
+        $prop = new Ddth_Commons_Properties();
+        foreach ( self::$factorySettings->keys() as $key ) {
+            $found = strpos($key, self::PROPERTY_LOGGER_SETTING_REFIX);
+            if ( $found !== false ) {
+                $k = substr($key, $found);
+                $v = self::$factorySettings->getProperty($key);
+                $prop->setProperty($k, $v);
+            }
+        }
+        self::$logSettings = $prop;
+        
+        return self::$logSettings;
     }
 }
 ?>
