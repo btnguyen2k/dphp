@@ -103,6 +103,15 @@ class Ddth_Commons_Properties {
     public function count() {
         return count($this->properties);
     }
+    
+    /**
+     * Gets all property key in the list.
+     * 
+     * @return Array()
+     */
+    public function keys() {
+        return array_keys($this->properties);
+    }
 
     /**
      * Imports property list from a string input (Java-like properties format).
