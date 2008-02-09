@@ -12,6 +12,21 @@
  *
  * This module provides handy procedural and object oriented interface to load PHP
  * classes and files.
+ * 
+ * <b>Class and file naming convention:</b>
+ * 
+ * Class is named as <i>Package1</i>_<i>Package2</i>_<i>ClassName</i>.
+ * Interface is named as <i>Package1</i>_<i>Package2</i>_<b>I</b><i>InterfaceName</i>.
+ * Example: <i>Ddth_Commons_Loader</i>.
+ * 
+ * Source code of class <i>Package1</i>_<i>Package2</i>_<i>ClassName</i> is stored	
+ * in file <i>Package1</i>/<i>Package2</i>/<b>Class</b><i>ClassName</i><b>.php</b>
+ * in the {@link http://www.php.net/manual/en/ini.core.php#ini.include-path include directory}.
+ * Similarly, source code of interface
+ * <i>Package1</i>_<i>Package2</i>_<b>I</b><i>InterfaceName</i> is stored in file
+ * <i>Package1</i>/<i>Package2</i>/<b>ClassI</b><i>InterfaceName</i><b>.php</b>.
+ * Example: source code of class <i>Ddth_Commons_Loader</i> is stored in file
+ * <i>Ddth</i>/<i>Commons</i>/<b>Class</b><i>Loader</i><b>.php</b>.
  *
  * @category	Commons
  * @package		Ddth
@@ -81,13 +96,15 @@ function loadFileContent($fileName) {
  * Object oriented interface to load PHP classes and files.
  *
  * This helper class provides an object oriented interface to load PHP classes and files.
+ * 
+ * Note: {@link ClassLoader.php Class and file naming convention}.
  *
  * @package    	Ddth
  * @subpackage	Commons
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @since      	Class available since v0.1
+ * @since      	Class available since v0.1			
  */
 final class Ddth_Commons_Loader {
     /**
