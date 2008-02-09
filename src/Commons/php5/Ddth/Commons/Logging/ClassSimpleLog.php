@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * An abstract named logger.
+ * Simple logger that sends log messages to PHP's system logger.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -33,10 +33,10 @@ function __autoload($className) {
 }
 
 /**
- * An abstract named logger.
+ * Simple logger that sends log messages to PHP's system logger.
  *
- * This class is the top level abstract class of all other concrete named
- * logger inplementations.
+ * This logger uses {@link http://www.php.net/error_log error_log()}
+ * function to send log messages to PHP's system logger.
  *
  * @package    	Ddth
  * @subpackage	Logging
@@ -45,26 +45,15 @@ function __autoload($className) {
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-abstract class Ddth_Commons_Logging_AbstractLog
-implements Ddth_Commons_Logging_ILog {
-    private $className;
-
-    private $settings;
-
-    private $isTrace = false;
-    private $isDebug = false;
-    private $isInfo = false;
-    private $isWarn = false;
-    private $isError = false;
-    private $isFatal = false;
-
+abstract class Ddth_Commons_Logging_SimpleLog
+extends Ddth_Commons_Logging_AbstractLog {
     /**
      * Constructs an new Ddth_Commons_Logging_AbstractLog object.
      *
      * @param logical name of the logger
      */
     public function __construct($className) {
-        $this->className = $className;
+        parent::__construct($className);
     }
 
     /**

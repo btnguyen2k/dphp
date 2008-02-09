@@ -35,6 +35,17 @@ function __autoload($className) {
 /**
  * Factory for creating {@link Ddth_Commons_Logging_ILog ILog} instances.
  *
+ * By default, this factory will look for its configuration file called
+ * dphp-logging.properties in the
+ * {@link http://www.php.net/manual/en/ini.core.php#ini.include-path include directory},
+ * or user can specify his own configuration file.
+ * 
+ * The factory configuration file has the following format:
+ * <code>
+ * ddth.commons.logging.Logger=class name of the logger (an implementation of ILog)
+ * </code>
+ *
+ *
  * @package    	Ddth
  * @subpackage	Logging
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -42,20 +53,26 @@ function __autoload($className) {
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-interface Ddth_Commons_Logging_LogFactory {
+final class Ddth_Commons_Logging_LogFactory {
+    /**
+     * The default configuration file.
+     */
     const FACTORY_SETTINGS_FILE = "dphp-logging.properties";
-    
+
     const PROPERTY_LOGGER = "ddth.commons.logging.Logger";
-    
+
     const PROPERTY_LOGGER_SETTING_REFIX = "logger.setting.";
 
     private static $factorySettings = NULL;
 
     private static $logSettings = NULL;
 
+    private static $reloadConfig = true;
+
     /**
      * Gets a named logger.
      *
+     * @param string name of the logger
      * @param string name of the configuration file
      * @return Ddth_Commons_Logging_ILog
      * @throws {@link Ddth_Commons_Logging_LogConfigurationException LogConfigurationException}
@@ -63,11 +80,14 @@ interface Ddth_Commons_Logging_LogFactory {
      * @throws {@link Ddth_Commons_Exceptions_IllegalStateException IllegalStateException}
      */
     public static function getLog($className, $configFile=NULL) {
-        if ( self::$logSettings == NULL || $configFile != NULL ) {
+        if ( self::$reloadConfig ) {
             if ( $configFile == NULL ) {
-                $configFile = self::FACTORY_SETTINGS_FILE;
+                self::loadFactorySettings(self::FACTORY_SETTINGS_FILE);                 
+            } else {
+                self::loadFactorySettings($configFile);
+                self::$reloadConfig = true;
             }
-            self::loadFactorySettings($configFile);
+
         }
         $prop = self::$logSettings;
         $loggerClass = $prop->getProperty(self::PROPERTY_LOGGER);
@@ -89,7 +109,7 @@ interface Ddth_Commons_Logging_LogFactory {
 
     /**
      * Loads factory settings from configuration file.
-     * 
+     *
      * @param string name of the configuration file
      * @throws {@link Ddth_Commons_Logging_LogConfigurationException LogConfigurationException}
      * @throws {@link Ddth_Commons_Exceptions_IllegalArgumentException IllegalArgumentException}
@@ -107,12 +127,14 @@ interface Ddth_Commons_Logging_LogFactory {
         $prop = new Ddth_Commons_Properties();
         $prop->import($config);
         self::$factorySettings = $prop;
-        
+
         self::$logSettings = $this->buildLogSettings();
+        
+        self::$reloadConfig = true;
         
         return self::$factorySettings;
     }
-    
+
     /**
      * Builds logger configuration settings from factory configuration settings.
      */
@@ -126,7 +148,7 @@ interface Ddth_Commons_Logging_LogFactory {
                 $prop->setProperty($k, $v);
             }
         }
-        self::$logSettings = $prop;        
+        self::$logSettings = $prop;
         return self::$logSettings;
     }
 }
