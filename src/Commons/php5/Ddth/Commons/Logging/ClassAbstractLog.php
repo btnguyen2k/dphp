@@ -34,7 +34,7 @@ function __autoload($className) {
 
 /**
  * An abstract named logger.
- * 
+ *
  * This class is the top level abstract class of all other concrete named
  * logger inplementations.
  *
@@ -48,9 +48,21 @@ function __autoload($className) {
 abstract class Ddth_Commons_Logging_AbstractLog
 implements Ddth_Commons_Logging_ILog {
     private $className;
-    
+
     private $settings;
-    
+
+    private $isTrace = false;
+    private $isDebug = false;
+    private $isInfo = false;
+    private $isWarn = false;
+    private $isError = false;
+    private $isFatal = false;
+
+    /**
+     * Constructs an new Ddth_Commons_Logging_AbstractLog object.
+     *
+     * @param logical name of the logger
+     */
     public function __construct($className) {
         $this->className = $className;
     }
@@ -59,9 +71,17 @@ implements Ddth_Commons_Logging_ILog {
      * Initializes this logger.
      *
      * @param Ddth_Commons_Properties initializing properties
-     * @throws {@link Ddth_Commons_Logging_LogConfigurationException LogConfigurationException} 
+     * @throws {@link Ddth_Commons_Logging_LogConfigurationException LogConfigurationException}
      */
     public function init($prop) {
+        //normalize class name
+        if ( !is_string($this->className) ) {
+            $this->className = NULL;
+        }
+        if ( $this->className != NULL ) {
+            $this->className = trim(str_replace('::', '_', $this->className));
+        }
+
         if ( $prop == NULL ) {
             $prop = new Ddth_Commons_Properties();
         }
@@ -70,6 +90,44 @@ implements Ddth_Commons_Logging_ILog {
             throw new Ddth_Commons_Logging_LogConfigurationException($msg);
         }
         $this->settings = $prop;
+
+        //set up logging level
+        $loggerClazzs = Array();
+        $needle = Ddth_Commons_Logging_ILog::SETTING_PREFIX_LOGGER_CLASS;
+        foreach ( $prop->keys() as $key ) {
+            $pos = strpos($key, $needle);
+            if ( $pos !== false ) {
+                $loggerClazzs[] = substr($key, $pos);
+            }
+        }
+        sort($loggerClazzs);
+        $loggerClazzs = array_reverse($loggerClazzs);
+        foreach ( $loggerClazzs as $clazz ) {
+            if ( $this->className == $clazz ||
+            strpos($clazz, $this->className.'_')!==false ) {
+                $key = Ddth_Commons_Logging_ILog::SETTING_PREFIX_LOGGER_CLASS.$clazz;
+                $level = trim(strtoupper($prop->getProperty($key)));
+                switch ($level) {
+                    case 'TRACE':
+                        $this->isTrace = true;
+                    case 'DEBUG':
+                        $this->isDebug = true;
+                    case 'INFO':
+                        $this->isInfo = true;
+                    case 'WARN':
+                        $this->isWarn = true;
+                    case 'ERROR':
+                        $this->isError = true;
+                    case 'FATAL':
+                        $this->isFatal = true;
+                    default:
+                        //default level = ERROR
+                        $this->isError = true;
+                        $this->isFatal = true;
+                }
+                break;
+            }
+        }
     }
 
     /**

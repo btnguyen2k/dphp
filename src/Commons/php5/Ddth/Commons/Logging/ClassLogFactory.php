@@ -126,8 +126,7 @@ interface Ddth_Commons_Logging_LogFactory {
                 $prop->setProperty($k, $v);
             }
         }
-        self::$logSettings = $prop;
-        
+        self::$logSettings = $prop;        
         return self::$logSettings;
     }
 }

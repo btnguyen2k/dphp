@@ -51,6 +51,8 @@
  * @since      	Class available since v0.1
  */
 interface Ddth_Commons_Logging_ILog {
+    const SETTING_PREFIX_LOGGER_CLASS = 'loggerClass.';
+    
     /**
      * Initializes this ILog.
      * 
