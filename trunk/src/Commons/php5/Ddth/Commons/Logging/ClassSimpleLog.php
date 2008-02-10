@@ -37,6 +37,25 @@ function __autoload($className) {
  *
  * This logger uses {@link http://www.php.net/error_log error_log()}
  * function to send log messages to PHP's system logger.
+ * 
+ * This logger has several settings which can be set via log factory configuration file:
+ * <code>
+ * # Format of the log message (multiline is supported!)
+ * # Supported "placeholder" tags:
+ * # - {datetime}: date/time when the log is created. Date/time follows
+ * #           follow PHP's date() format (see http://www.php.net/date)
+ * # - {level}: log level (one of TRACE, DEBUG, INFO, WARN, ERROR, FATAL)
+ * # - {message}: log message
+ * # - {stacktrace}: stacktrace (if any)
+ * # - {message_auto_stacktrace}: log message, then if stacktrace exists, followed
+ * #           by a newline chacter and the stacktrace                            
+ * # - {nl}: newline character
+ * logger.setting.simple.logFormat={datetime}{nl}{level}: {message_auto_stacktrace}
+ * 
+ * # Date/time format (follow PHP's date() format, see http://www.php.net/date)
+ * logger.setting.simple.datetimeFormat=Y-m-d H:i:s
+ * 
+ * </code> 
  *
  * @package    	Ddth
  * @subpackage	Logging
@@ -45,8 +64,44 @@ function __autoload($className) {
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-abstract class Ddth_Commons_Logging_SimpleLog
+class Ddth_Commons_Logging_SimpleLog
 extends Ddth_Commons_Logging_AbstractLog {
+    /**
+     * Default log message format.
+     */
+    const DEFAULT_LOG_FORMAT = '{datetime}{nl}{level}: {message_auto_stacktrace}';
+    
+    /**
+     * Default date/time format
+     */
+    const DEFAULT_DATETIME_FORMAT = 'Y-m-d H:i:s';
+
+    /**
+     * Configuration etting key for log message format
+     */
+    const SETTING_LOG_FORMAT = 'simple.logFormat';
+    
+    /**
+     * Configuration etting key for date/time format
+     */
+    const SETTING_DATETIME_FORMAT = 'simple.datetimeFormat';
+    
+    const PLACE_HOLDER_NL                  = '{nl}';
+    
+    const PLACE_HOLDER_DATETIME            = '{datetime}';
+    
+    const PLACE_HOLDER_LEVEL               = '{level}';
+    
+    const PLACE_HOLDER_MESSAGE             = '{message}';
+    
+    const PLACE_HOLDER_STACKTRACE          = '{stacktrace}';
+    
+    const PLACE_HOLDER_MSG_AUTO_STACKTRACE = '{message_auto_stacktrace}';
+    
+    private $logFormat = NULL;
+    
+    private $datetimeFormat = NULL;
+    
     /**
      * Constructs an new Ddth_Commons_Logging_AbstractLog object.
      *
@@ -63,60 +118,43 @@ extends Ddth_Commons_Logging_AbstractLog {
      * @throws {@link Ddth_Commons_Logging_LogConfigurationException LogConfigurationException}
      */
     public function init($prop) {
-        //normalize class name
-        if ( !is_string($this->className) ) {
-            $this->className = NULL;
+        parent::init($prop);
+            
+        //retrieves configuration settings
+        $logFormat = $prop->getProperty(self::SETTING_LOG_FORMAT);
+        $datetimeFormat = $prop->getProperty(self::SETTING_DATETIME_FORMAT);
+        
+        //setup log message format
+        if ( $logFormat == NULL || trim($logFormat) == "" ) {
+            $logFormat = self::DEFAULT_LOG_FORMAT;
         }
-        if ( $this->className != NULL ) {
-            $this->className = trim(str_replace('::', '_', $this->className));
+        $this->logFormat = trim($logFormat);
+        
+        //setup date/time format
+        if ( $datetimeFormat == NULL || trim($datetimeFormat) == "" ) {
+            $datetimeFormat = self::DEFAULT_DATETIME_FORMAT;
         }
-
-        if ( $prop == NULL ) {
-            $prop = new Ddth_Commons_Properties();
+        $this->datetimeFormat = trim($datetimeFormat);
+    }
+    
+    private function buildLogMessage($level, $message, $e=NULL) {
+        $datetime = date($this->datetimeFormat, time());
+        $level = strtoupper($level);
+        $stacktrace = $e!=NULL ? $e->getTraceAsString() : NULL;
+        $msgAutoStacktrace = $msg;
+        if ( $e != NULL ) {
+            $msgAutoStacktrace .= '\n' . $e->getTraceAsString();
         }
-        if ( !($prop instanceof Ddth_Commons_Properties) ) {
-            $msg = 'Invalid argument!';
-            throw new Ddth_Commons_Logging_LogConfigurationException($msg);
+        $msg = $this->logFormat;
+        $msg = str_ireplace(self::PLACE_HOLDER_NL, '\n', $msg);
+        $msg = str_ireplace(self::PLACE_HOLDER_DATETIME, $datetime, $msg);
+        $msg = str_ireplace(self::PLACE_HOLDER_LEVEL, strtoupper($level), $msg);
+        $msg = str_ireplace(self::PLACE_HOLDER_MESSAGE, $message, $msg);
+        $msg = str_ireplace(self::PLACE_HOLDER_MSG_AUTO_STACKTRACE, $msgAutoStacktrace, $msg);
+        if ( $stacktrace != NULL ) {
+            $msg = str_ireplace(self::PLACE_HOLDER_STACKTRACE, $stacktrace, $msg);
         }
-        $this->settings = $prop;
-
-        //set up logging level
-        $loggerClazzs = Array();
-        $needle = Ddth_Commons_Logging_ILog::SETTING_PREFIX_LOGGER_CLASS;
-        foreach ( $prop->keys() as $key ) {
-            $pos = strpos($key, $needle);
-            if ( $pos !== false ) {
-                $loggerClazzs[] = substr($key, $pos);
-            }
-        }
-        sort($loggerClazzs);
-        $loggerClazzs = array_reverse($loggerClazzs);
-        foreach ( $loggerClazzs as $clazz ) {
-            if ( $this->className == $clazz ||
-            strpos($clazz, $this->className.'_')!==false ) {
-                $key = Ddth_Commons_Logging_ILog::SETTING_PREFIX_LOGGER_CLASS.$clazz;
-                $level = trim(strtoupper($prop->getProperty($key)));
-                switch ($level) {
-                    case 'TRACE':
-                        $this->isTrace = true;
-                    case 'DEBUG':
-                        $this->isDebug = true;
-                    case 'INFO':
-                        $this->isInfo = true;
-                    case 'WARN':
-                        $this->isWarn = true;
-                    case 'ERROR':
-                        $this->isError = true;
-                    case 'FATAL':
-                        $this->isFatal = true;
-                    default:
-                        //default level = ERROR
-                        $this->isError = true;
-                        $this->isFatal = true;
-                }
-                break;
-            }
-        }
+        return $msg; 
     }
 
     /**
@@ -125,7 +163,11 @@ extends Ddth_Commons_Logging_AbstractLog {
      * @param string
      * @param Exception
      */
-    public abstract function debug($message, $e = NULL);
+    public function debug($message, $e = NULL) {
+        if ( !$this->isDebugEnabled() ) return;
+        $msg = $this->buildLogMessage('DEBUG', $message, $e);
+        error_log($msg, 0 /* PHP's system logger */);
+    }
 
     /**
      * Logs a message with error log level.
@@ -133,7 +175,11 @@ extends Ddth_Commons_Logging_AbstractLog {
      * @param string
      * @param Exception
      */
-    public abstract function error($message, $e = NULL);
+    public function error($message, $e = NULL) {
+        if ( !$this->isErrorEnabled() ) return;
+        $msg = $this->buildLogMessage('ERROR', $message, $e);
+        error_log($msg, 0 /* PHP's system logger */);
+    }
 
     /**
      * Logs a message with fatal log level.
@@ -141,7 +187,11 @@ extends Ddth_Commons_Logging_AbstractLog {
      * @param string
      * @param Exception
      */
-    public abstract function fatal($message, $e = NULL);
+    public function fatal($message, $e = NULL) {
+        if ( !$this->isFatalEnabled() ) return;
+        $msg = $this->buildLogMessage('FATAL', $message, $e);
+        error_log($msg, 0 /* PHP's system logger */);
+    }
 
     /**
      * Logs a message with info log level.
@@ -149,7 +199,11 @@ extends Ddth_Commons_Logging_AbstractLog {
      * @param string
      * @param Exception
      */
-    public abstract function info($message, $e = NULL);
+    public function info($message, $e = NULL) {
+        if ( !$this->isInfoEnabled() ) return;
+        $msg = $this->buildLogMessage('INFO', $message, $e);
+        error_log($msg, 0 /* PHP's system logger */);
+    }
 
     /**
      * Logs a message with trace log level.
@@ -157,7 +211,11 @@ extends Ddth_Commons_Logging_AbstractLog {
      * @param string
      * @param Exception
      */
-    public abstract function trace($message, $e = NULL);
+    public function trace($message, $e = NULL) {
+        if ( !$this->isTraceEnabled() ) return;
+        $msg = $this->buildLogMessage('TRACE', $message, $e);
+        error_log($msg, 0 /* PHP's system logger */);
+    }
 
     /**
      * Logs a message with warn log level.
@@ -165,60 +223,10 @@ extends Ddth_Commons_Logging_AbstractLog {
      * @param string
      * @param Exception
      */
-    public abstract function warn($message, $e = NULL);
-
-    /**
-     * Is debug logging currently enabled?
-     *
-     * @return bool
-     */
-    public function isDebugEnabled() {
-        return $this->isDebug;
-    }
-
-    /**
-     * Is error logging currently enabled?
-     *
-     * @return bool
-     */
-    public function isErrorEnabled() {
-        return $this->isError;
-    }
-
-    /**
-     * Is fatal logging currently enabled?
-     *
-     * @return bool
-     */
-    public function isFatalEnabled() {
-        return $this->isFatal;
-    }
-
-    /**
-     * Is info logging currently enabled?
-     *
-     * @return bool
-     */
-    public function isInfoEnabled() {
-        return $this->isInfo;
-    }
-
-    /**
-     * Is trace logging currently enabled?
-     *
-     * @return bool
-     */
-    public function isTraceEnabled() {
-        return $this->isTrace;
-    }
-
-    /**
-     * Is warn logging currently enabled?
-     *
-     * @return bool
-     */
-    public function isWarnEnabled() {
-        return $this->isWarn;
+    public function warn($message, $e = NULL) {
+        if ( !$this->isWarnEnabled() ) return;
+        $msg = $this->buildLogMessage('WARN', $message, $e);
+        error_log($msg, 0 /* PHP's system logger */);
     }
 }
 ?>
