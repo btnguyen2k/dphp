@@ -104,7 +104,7 @@ implements Ddth_Commons_Logging_ILog {
         $loggerClazzs = array_reverse($loggerClazzs);
         foreach ( $loggerClazzs as $clazz ) {
             if ( $this->className == $clazz ||
-            strpos($clazz, $this->className.'_')!==false ) {
+            strpos($clazz.'_', $this->className)!==false ) {
                 $key = Ddth_Commons_Logging_ILog::SETTING_PREFIX_LOGGER_CLASS.$clazz;
                 $level = trim(strtoupper($prop->getProperty($key)));
                 switch ($level) {
@@ -129,54 +129,6 @@ implements Ddth_Commons_Logging_ILog {
             }
         }
     }
-
-    /**
-     * Logs a message with debug log level.
-     *
-     * @param string
-     * @param Exception
-     */
-    public abstract function debug($message, $e = NULL);
-
-    /**
-     * Logs a message with error log level.
-     *
-     * @param string
-     * @param Exception
-     */
-    public abstract function error($message, $e = NULL);
-
-    /**
-     * Logs a message with fatal log level.
-     *
-     * @param string
-     * @param Exception
-     */
-    public abstract function fatal($message, $e = NULL);
-
-    /**
-     * Logs a message with info log level.
-     *
-     * @param string
-     * @param Exception
-     */
-    public abstract function info($message, $e = NULL);
-
-    /**
-     * Logs a message with trace log level.
-     *
-     * @param string
-     * @param Exception
-     */
-    public abstract function trace($message, $e = NULL);
-
-    /**
-     * Logs a message with warn log level.
-     *
-     * @param string
-     * @param Exception
-     */
-    public abstract function warn($message, $e = NULL);
 
     /**
      * Is debug logging currently enabled?

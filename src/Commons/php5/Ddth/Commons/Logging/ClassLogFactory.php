@@ -43,8 +43,18 @@ function __autoload($className) {
  * The factory configuration file has the following format:
  * <code>
  * ddth.commons.logging.Logger=class name of the logger (an implementation of ILog)
+ * logger.setting.xxx=setting xxx for the underlying logger
+ * 
+ * # The following settings are used by class AbstractLog:
+ * # Set DEBUG log level for package Ddth
+ * logger.setting.loggerClass.Ddth=DEBUG
+ * # Set INFO log level for package Ddth_Commons
+ * logger.setting.loggerClass.Ddth_Commons=INFO
+ * # Set WARN log level for class Ddth_Commons_LogFactory
+ * logger.setting.loggerClass.Ddth_Commons_LogFactory=WARN
  * </code>
- *
+ * 
+ * Note: {@link ClassLoader.php Class and file naming convention}.
  *
  * @package    	Ddth
  * @subpackage	Logging
@@ -59,9 +69,9 @@ final class Ddth_Commons_Logging_LogFactory {
      */
     const FACTORY_SETTINGS_FILE = "dphp-logging.properties";
 
-    const PROPERTY_LOGGER = "ddth.commons.logging.Logger";
+    const SETTING_LOGGER = "ddth.commons.logging.Logger";
 
-    const PROPERTY_LOGGER_SETTING_REFIX = "logger.setting.";
+    const SETTING_PREFIX_LOGGER_SETTING = "logger.setting.";
 
     private static $factorySettings = NULL;
 
@@ -90,9 +100,9 @@ final class Ddth_Commons_Logging_LogFactory {
 
         }
         $prop = self::$logSettings;
-        $loggerClass = $prop->getProperty(self::PROPERTY_LOGGER);
+        $loggerClass = $prop->getProperty(self::SETTING_LOGGER);
         if ( $loggerClass == NULL ) {
-            $msg = 'Invalid setting for "'.self::PROPERTY_LOGGER.'"';
+            $msg = 'Invalid setting for "'.self::SETTING_LOGGER.'"';
             throw new Ddth_Commons_Logging_LogConfigurationException($msg);
         }
         try {
@@ -141,7 +151,7 @@ final class Ddth_Commons_Logging_LogFactory {
     private static function buildLogSettings() {
         $prop = new Ddth_Commons_Properties();
         foreach ( self::$factorySettings->keys() as $key ) {
-            $found = strpos($key, self::PROPERTY_LOGGER_SETTING_REFIX);
+            $found = strpos($key, self::SETTING_PREFIX_LOGGER_SETTING);
             if ( $found !== false ) {
                 $k = substr($key, $found);
                 $v = self::$factorySettings->getProperty($key);
