@@ -20,16 +20,18 @@
  * @since      	File available since v0.1
  */
 
-/**
- * Automatically loads class source file when used.
- *
- * @param string
- */
-function __autoload($className) {
-    require_once 'Commons/ClassDefaultClassNameTranslator.php';
-    require_once 'Commons/ClassLoader.php';
-    $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-    Ddth_Commons_Loader::loadClass($className, $translator);
+if ( !function_exists('__autoload') ) {
+    /**
+     * Automatically loads class source file when used.
+     *
+     * @param string
+     */
+    function __autoload($className) {
+        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
+        require_once 'Ddth/Commons/ClassLoader.php';
+        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
+        Ddth_Commons_Loader::loadClass($className, $translator);
+    }
 }
 
 /**
@@ -44,6 +46,8 @@ function __autoload($className) {
  * <code>
  * ddth.commons.logging.Logger=class name of the logger (an implementation of ILog)
  * logger.setting.xxx=setting xxx for the underlying logger
+ * 
+ * logger.setting.default=default log level (TRACE, DEBUG, INFO, WARN, ERROR, or FATAL) 
  * 
  * # The following settings are used by class AbstractLog:
  * # Set DEBUG log level for package Ddth
@@ -98,10 +102,10 @@ final class Ddth_Commons_Logging_LogFactory {
                 self::$reloadConfig = true;
             }
 
-        }
-        $prop = self::$logSettings;
-        $loggerClass = $prop->getProperty(self::SETTING_LOGGER);
-        if ( $loggerClass == NULL ) {
+        }        
+        $prop = self::$factorySettings;        
+        $loggerClass = $prop->getProperty(self::SETTING_LOGGER);        
+        if ( $loggerClass == NULL || trim($loggerClass)=="" ) {
             $msg = 'Invalid setting for "'.self::SETTING_LOGGER.'"';
             throw new Ddth_Commons_Logging_LogConfigurationException($msg);
         }
@@ -130,17 +134,17 @@ final class Ddth_Commons_Logging_LogFactory {
             $configFile = self::FACTORY_SETTINGS_FILE;
         }
         $config = Ddth_Commons_Loader::loadFileContent($configFile);
-        if ( $config == NULL ) {
+        if ( $config == NULL ) {           
             $msg = 'Can not load log factory configuration file "'.$configFile.'"';
             throw new Ddth_Commons_Logging_LogConfigurationException($msg);
-        }
+        }        
         $prop = new Ddth_Commons_Properties();
         $prop->import($config);
         self::$factorySettings = $prop;
 
-        self::$logSettings = $this->buildLogSettings();
+        self::$logSettings = self::buildLogSettings();
         
-        self::$reloadConfig = true;
+        self::$reloadConfig = false;
         
         return self::$factorySettings;
     }
@@ -153,7 +157,7 @@ final class Ddth_Commons_Logging_LogFactory {
         foreach ( self::$factorySettings->keys() as $key ) {
             $found = strpos($key, self::SETTING_PREFIX_LOGGER_SETTING);
             if ( $found !== false ) {
-                $k = substr($key, $found);
+                $k = substr($key, $found+strlen(self::SETTING_PREFIX_LOGGER_SETTING));
                 $v = self::$factorySettings->getProperty($key);
                 $prop->setProperty($k, $v);
             }
