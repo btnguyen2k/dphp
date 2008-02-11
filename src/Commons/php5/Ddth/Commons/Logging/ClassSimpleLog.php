@@ -20,16 +20,19 @@
  * @since      	File available since v0.1
  */
 
-/**
- * Automatically loads class source file when used.
- *
- * @param string
- */
-function __autoload($className) {
-    require_once 'Commons/ClassDefaultClassNameTranslator.php';
-    require_once 'Commons/ClassLoader.php';
-    $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-    Ddth_Commons_Loader::loadClass($className, $translator);
+if ( !function_exists('__autoload') ) {
+    /**
+     * Automatically loads class source file when used.
+     *
+     * @param string
+     * @ignore
+     */
+    function __autoload($className) {
+        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
+        require_once 'Ddth/Commons/ClassLoader.php';
+        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
+        Ddth_Commons_Loader::loadClass($className, $translator);
+    }
 }
 
 /**
@@ -50,12 +53,15 @@ function __autoload($className) {
  * # - {message_auto_stacktrace}: log message, then if stacktrace exists, followed
  * #           by a newline chacter and the stacktrace                            
  * # - {nl}: newline character
- * logger.setting.simple.logFormat={datetime}{nl}{level}: {message_auto_stacktrace}
+ * logger.setting.simple.logFormat={level}: {message_auto_stacktrace}
  * 
  * # Date/time format (follow PHP's date() format, see http://www.php.net/date)
- * logger.setting.simple.datetimeFormat=Y-m-d H:i:s
- * 
+ * logger.setting.simple.datetimeFormat=Y-m-d H:i:s 
  * </code> 
+ * 
+ * Note: since PHP automatically adds timestamp to any log message, the default
+ * log message format is "{level}: {message_auto_stacktrace}".
+ * 
  *
  * @package    	Ddth
  * @subpackage	Logging
@@ -69,7 +75,7 @@ extends Ddth_Commons_Logging_AbstractLog {
     /**
      * Default log message format.
      */
-    const DEFAULT_LOG_FORMAT = '{datetime}{nl}{level}: {message_auto_stacktrace}';
+    const DEFAULT_LOG_FORMAT = '{level}: {message_auto_stacktrace}';
     
     /**
      * Default date/time format
@@ -141,7 +147,7 @@ extends Ddth_Commons_Logging_AbstractLog {
         $datetime = date($this->datetimeFormat, time());
         $level = strtoupper($level);
         $stacktrace = $e!=NULL ? $e->getTraceAsString() : NULL;
-        $msgAutoStacktrace = $msg;
+        $msgAutoStacktrace = $message;
         if ( $e != NULL ) {
             $msgAutoStacktrace .= '\n' . $e->getTraceAsString();
         }

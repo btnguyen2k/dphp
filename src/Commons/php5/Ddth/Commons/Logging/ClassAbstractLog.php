@@ -20,16 +20,19 @@
  * @since      	File available since v0.1
  */
 
-/**
- * Automatically loads class source file when used.
- *
- * @param string
- */
-function __autoload($className) {
-    require_once 'Commons/ClassDefaultClassNameTranslator.php';
-    require_once 'Commons/ClassLoader.php';
-    $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-    Ddth_Commons_Loader::loadClass($className, $translator);
+if ( !function_exists('__autoload') ) {
+    /**
+     * Automatically loads class source file when used.
+     *
+     * @param string
+     * @ignore
+     */
+    function __autoload($className) {
+        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
+        require_once 'Ddth/Commons/ClassLoader.php';
+        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
+        Ddth_Commons_Loader::loadClass($className, $translator);
+    }
 }
 
 /**
@@ -97,36 +100,45 @@ implements Ddth_Commons_Logging_ILog {
         foreach ( $prop->keys() as $key ) {
             $pos = strpos($key, $needle);
             if ( $pos !== false ) {
-                $loggerClazzs[] = substr($key, $pos);
+                $loggerClazzs[] = substr($key, $pos+strlen($needle));
             }
         }
         sort($loggerClazzs);
         $loggerClazzs = array_reverse($loggerClazzs);
+        $found = false;
+        $level = NULL;
         foreach ( $loggerClazzs as $clazz ) {
             if ( $this->className == $clazz ||
-            strpos($clazz.'_', $this->className)!==false ) {
+            strpos($this->className, $clazz.'_')!==false ) {                
                 $key = Ddth_Commons_Logging_ILog::SETTING_PREFIX_LOGGER_CLASS.$clazz;
                 $level = trim(strtoupper($prop->getProperty($key)));
-                switch ($level) {
-                    case 'TRACE':
-                        $this->isTrace = true;
-                    case 'DEBUG':
-                        $this->isDebug = true;
-                    case 'INFO':
-                        $this->isInfo = true;
-                    case 'WARN':
-                        $this->isWarn = true;
-                    case 'ERROR':
-                        $this->isError = true;
-                    case 'FATAL':
-                        $this->isFatal = true;
-                    default:
-                        //default level = ERROR
-                        $this->isError = true;
-                        $this->isFatal = true;
-                }
+                $found = true;                
                 break;
             }
+        }
+
+        if ( !$found ) {
+            $key = Ddth_Commons_Logging_ILog::SETTING_DEFAULT_LOG_LEVEL;
+            $level = trim(strtoupper($prop->getProperty($key)));
+        }        
+
+        switch ($level) {
+            case 'TRACE':
+                $this->isTrace = true;
+            case 'DEBUG':
+                $this->isDebug = true;
+            case 'INFO':
+                $this->isInfo = true;
+            case 'WARN':
+                $this->isWarn = true;
+            case 'ERROR':
+                $this->isError = true;
+            case 'FATAL':
+                $this->isFatal = true;
+            default:
+                //default level = ERROR
+                $this->isError = true;
+                $this->isFatal = true;
         }
     }
 

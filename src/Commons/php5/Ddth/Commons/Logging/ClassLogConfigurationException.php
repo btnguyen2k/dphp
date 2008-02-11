@@ -22,7 +22,7 @@
  */
 
 /** */
-require_once 'Commons/Exceptions/ClassAbstractException.php';
+require_once 'Ddth/Commons/Exceptions/ClassAbstractException.php';
 
 /**
  * Thrown to indicate that the commons logging configuration file contains
