@@ -20,5 +20,10 @@
 			<dependency-version>5.0+</dependency-version>
 			<dependency-description>PHP 5.0+ is needed for the new Object Model.</dependency-description>
 		</dependency>
+		<dependency>
+			<dependency-name>Ddth::Commons</dependency-name>
+			<dependency-version>0.1+</dependency-version>
+			<dependency-description>Ddth::Commons::Logging uses several modules from Ddth::Commons package.</dependency-description>
+		</dependency>
 	</dependencies>
 </package>
