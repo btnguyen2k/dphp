@@ -58,7 +58,7 @@ if ( !function_exists('__autoload') ) {
  * logger.setting.loggerClass.Ddth_Commons_LogFactory=WARN
  * </code>
  * 
- * Note: {@link ClassLoader.php Class and file naming convention}.
+ * Note: {@link ClassLoader.php Classes and files naming conventions}.
  *
  * @package    	Ddth
  * @subpackage	Logging
