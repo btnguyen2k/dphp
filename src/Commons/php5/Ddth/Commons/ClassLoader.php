@@ -51,7 +51,7 @@ require_once 'ClassDefaultClassNameTranslator.php';
  * @param Ddth_Commons_IClassNameTranslator class name to file name translator
  * @return bool true if success, false otherwise
  */
-function loader_loadClass($className, $classNameTranslator=NULL) {
+function Ddth_Commons_Loader_loadClass($className, $classNameTranslator=NULL) {
     if ( $classNameTranslator==NULL || !is_object($classNameTranslator)
     || !($classNameTranslator instanceof Ddth_Commons_IClassNameTranslator) ) {
         $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
@@ -74,7 +74,7 @@ function loader_loadClass($className, $classNameTranslator=NULL) {
  * otherwise.
  * @return bool true if success, false otherwise
  */
-function loader_loadFile($fileName, $singleton=true) {
+function Ddth_Commons_Loader_loadFile($fileName, $singleton=true) {
     return Ddth_Commons_Loader::loadFile($fileName, $singleton);
 }
 
