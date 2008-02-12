@@ -38,7 +38,7 @@ require_once 'Ddth/Commons/ClassLoader.php';
 
 class LoaderTest extends PHPUnit_Framework_TestCase {
     /**
-     * Tests DefaultClassNameTranslator's funcitonality.
+     * Tests DefaultClassNameTranslator's functionality.
      */
     public function testDefaultClassNameTranslator() {
         require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
