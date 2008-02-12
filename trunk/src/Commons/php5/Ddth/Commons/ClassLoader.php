@@ -13,10 +13,10 @@
  * This module provides handy procedural and object oriented interface to load PHP
  * classes and files.
  * 
- * <b>Class and file naming convention:</b>
+ * <b>Classes and files naming conventions:</b>
  * 
- * Class is named as <i>Package1</i>_<i>Package2</i>_<i>ClassName</i>.
- * Interface is named as <i>Package1</i>_<i>Package2</i>_<b>I</b><i>InterfaceName</i>.
+ * Classes are named as <i>Package1</i>_<i>Package2</i>_<i>ClassName</i>.
+ * Interfaces are named as <i>Package1</i>_<i>Package2</i>_<b>I</b><i>InterfaceName</i>.
  * Example: <i>Ddth_Commons_Loader</i>.
  * 
  * Source code of class <i>Package1</i>_<i>Package2</i>_<i>ClassName</i> is stored	
@@ -97,7 +97,7 @@ function loadFileContent($fileName) {
  *
  * This helper class provides an object oriented interface to load PHP classes and files.
  * 
- * Note: {@link ClassLoader.php Class and file naming convention}.
+ * Note: {@link ClassLoader.php Classes and files naming conventionn}.
  *
  * @package    	Ddth
  * @subpackage	Commons
