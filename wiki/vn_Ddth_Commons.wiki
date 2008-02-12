@@ -2,7 +2,7 @@
 
 = Giới Thiệu =
 
-Package Ddth::Commons là project "đầu tay" của dPHP. Package này chứa các interface, class và các thư viện (utility class, helper class, v.v...) sẽ được sử dụng thường xuyên trong các package khác của dPHP.
+Package Ddth::Commons là sub-project "đầu tay" của dPHP. Package này chứa các interface, class và các thư viện (utility class, helper class, v.v...) sẽ được sử dụng thường xuyên trong các package khác của dPHP.
 
 
 = Release Notes =
