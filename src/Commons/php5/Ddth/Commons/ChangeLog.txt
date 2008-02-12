@@ -3,6 +3,7 @@
 		+ Interface(s): ILog
 		+ Class(es): AbstractLog, LogConfigurationException, LogFactory, SimpleLog
 	- Several typos and minor bug fixes
+	
 * 05-Feb-2008: version 0.1_2
 	- Introduced package Ddth::Commons::Exceptions:
 		+ AbstractException
