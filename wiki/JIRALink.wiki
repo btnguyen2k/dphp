@@ -1,3 +1,3 @@
-#Project's JIRA Bug Tracking URL
+#summary Project's JIRA Bug Tracking URL
 
 Please use project's JIRA Bug Tracking at http://bugbase.ddth.org/jira/browse/DPHPCOMM/
