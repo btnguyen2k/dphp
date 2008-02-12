@@ -59,15 +59,20 @@ TABLE.example {
 <h2>Table of Contents</h2>
 <ol>
     <li><a href="#intro">Introduction</a>
-    <li>General Standards
+    <li><a href="#general">General Standards</a>
         <ol>
             <li><a href="#indent">Indentation and Line Length</a>
             <li><a href="#php_tags">PHP Code Tags</a>
             <li><a href="#encoding">File Format and Encoding</a>
         </ol>
-    </li>
-    <li><a>Class Definition and Package Directory Structure</a>
-    <li><a>Naming Conventions</a>
+    </li>    
+    <li><a href="#naming">Naming Conventions</a>
+    	<ol>
+    		<li><a>Classes</a>
+    		<li><a>Files and Directories</a>
+    		<li><a>Functions and Methods</a>
+    		<li><a>Constants</a>
+    	</ol>
     <li><a>Control Structures</a>        
     <li><a>Comments</a>
         <ol>
@@ -91,6 +96,7 @@ consistent, readable and easy to maintain by dPHP development group.</p>
 <hr>
 
 <!--########## General Standards ##########-->
+<a name="general"></a>
 <h2>General Standards</h2>
 <a name="indent"></a>
 <h3>Indentation and Line Length</h3>
@@ -156,10 +162,81 @@ set tabstop=4</pre>
 
 <a name="php_tags"></a>
 <h3>PHP Code Tags</h3>
+<table class="must block">
+<tr>
+    <td>
+        <table border="0" cellpadding="4" cellspacing="0">
+        <tr>
+            <td valign="top"><img border="0" alt="Warning" src="images/icon_warning.gif"></td>
+            <td valign="top">
+                <b>Always</b> use long PHP open tag (i.e. <code>&lt;?php</code>);
+                do not use the short one (i.e. <code>&lt;?</code> or <code>&lt;?=</code>). 
+            </td>
+        </tr>
+        </table>
+    </td>
+</tr>
+</table>
+<p>Short PHP open tags are not portable as many hosting services do not enable it. So avoid
+it for best portability.</p>
+
+<a name="encoding"></a>
+<h3>File Format and Encoding</h3>
+<table class="must block">
+<tr>
+    <td>
+        <table border="0" cellpadding="4" cellspacing="0">
+        <tr>
+            <td valign="top"><img border="0" alt="Warning" src="images/icon_warning.gif"></td>
+            <td valign="top">
+                Use <b>UTF-8</b> as character encoding for all text files (PHP source code,
+                XML, text-based configuration files, etc).
+                <br>
+                <i>Remember to remove the BOM from files!</i>
+            </td>
+        </tr>
+        </table>
+    </td>
+</tr>
+</table>
+<p>UTF-8 is the de facto standard encoding for interchange of Unicode text. It is
+also supported and used by most recent systems. All text files within dPHP project
+must use UTF-8 as character encoding.</p>
+
+<table class="should block">
+<tr>
+    <td>
+        <table border="0" cellpadding="4" cellspacing="0">
+        <tr>
+            <td valign="top"><img border="0" alt="Information" src="images/icon_information.gif"></td>
+            <td valign="top">
+                Use *NIX-style line delimiter: lines should end only with a line feed (LF)
+                character (decimal 10, hex 0A or \n in PHP).
+                <br>
+                <b>Do not use Macintosh-style line delimiter (lines ends only with a
+                carriage return - CR).</b>
+                <br><br>
+                If file ends with a closing tag (<code>?></code>), there should be
+                one line feed after the tag. It means right after the <code>></code>
+                character is the LF character.                
+            </td>
+        </tr>
+        </table>
+    </td>
+</tr>
+</table>
+<p>Windows-style line delimiter (CRLR) is also acceptable, but discouraged!</p>
+<p>When file ends with a PHP closing tag (<code>?></code>), there must be <i>no
+output</i>, even spaces and tabs, after the closing tag except for <i>at
+most</i> one new-line delimiter (LF or CRLF).</p>
 
 <p align="center"><a href="#top">Top</a></p>
 <hr>
 <!--########## General Standards ##########-->
+
+<!--########## Naming Conventions ##########-->
+<a name="naming"></a>
+<!--########## Naming Conventions ##########-->
 
 </body>
 </html>
