@@ -1,4 +1,6 @@
-=File and Class Naming Conventions=
+#summary File and Class naming conventions.
+
+= File and Class Naming Conventions =
 
 Class is named as _{{{Package1_Package2_ClassName}}}_. Interface is named as _{{{Package1_Package2_}}}_*{{{I}}}*_{{{InterfaceName}}}_. Example: _{{{Ddth_Commons_Loader}}}_.
 
