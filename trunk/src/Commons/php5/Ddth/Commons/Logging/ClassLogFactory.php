@@ -76,6 +76,8 @@ final class Ddth_Commons_Logging_LogFactory {
     const SETTING_LOGGER = "ddth.commons.logging.Logger";
 
     const SETTING_PREFIX_LOGGER_SETTING = "logger.setting.";
+    
+    const DEFAULT_LOGGER = "Ddth_Commons_Logging_SimpleLog";
 
     private static $factorySettings = NULL;
 
@@ -106,8 +108,9 @@ final class Ddth_Commons_Logging_LogFactory {
         $prop = self::$factorySettings;        
         $loggerClass = $prop->getProperty(self::SETTING_LOGGER);        
         if ( $loggerClass == NULL || trim($loggerClass)=="" ) {
-            $msg = 'Invalid setting for "'.self::SETTING_LOGGER.'"';
-            throw new Ddth_Commons_Logging_LogConfigurationException($msg);
+            $loggerClass = self::DEFAULT_LOGGER;
+            //$msg = 'Invalid setting for "'.self::SETTING_LOGGER.'"';
+            //throw new Ddth_Commons_Logging_LogConfigurationException($msg);
         }
         try {
             $log = new $loggerClass($className);
