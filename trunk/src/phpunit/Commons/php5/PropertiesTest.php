@@ -63,6 +63,33 @@ class PropertiesTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals(1, $prop->count());
     }
     
+    /**
+     * Tests export() operation.
+     */
+    public function testExport() {
+        $prop1 = new Ddth_Commons_Properties();
+        $this->assertNotNull($prop1);
+        $prop2 = new Ddth_Commons_Properties();
+        $this->assertNotNull($prop2);
+        
+        $content = file_get_contents('test.properties');
+        $prop1->import($content);
+        $this->assertEquals(3, $prop1->count());
+        
+        $content = $prop1->export();
+        $prop2->import($content);
+        $this->assertEquals(3, $prop2->count());
+        
+        foreach ( $prop1->keys() as $key ) {
+            $value1 = $prop1->getProperty($key);
+            $value2 = $prop2->getProperty($key);
+            $comment1 = $prop1->getComment($key);
+            $comment2 = $prop2->getComment($key);
+            $this->assertEquals($value1, $value2);
+            $this->assertEquals($comment1, $comment2);
+        }
+    }
+    
 	/**
      * Tests import() operation.
      */
@@ -84,6 +111,34 @@ class PropertiesTest extends PHPUnit_Framework_TestCase {
         
         $prop->load('test.properties');
         $this->assertEquals(3, $prop->count());
+    }
+    
+/**
+     * Tests store() operation.
+     */
+    public function testStore() {
+        $prop1 = new Ddth_Commons_Properties();
+        $this->assertNotNull($prop1);
+        $prop2 = new Ddth_Commons_Properties();
+        $this->assertNotNull($prop2);
+        
+        $prop1->load('test.properties');        
+        $this->assertEquals(3, $prop1->count());
+        
+        $r = rand(1, time());        
+        $r = "$r.properties";
+        $prop1->store($r);
+        $prop2->load($r);
+        $this->assertEquals(3, $prop2->count());
+        unlink($r);
+        foreach ( $prop1->keys() as $key ) {
+            $value1 = $prop1->getProperty($key);
+            $value2 = $prop2->getProperty($key);
+            $comment1 = $prop1->getComment($key);
+            $comment2 = $prop2->getComment($key);
+            $this->assertEquals($value1, $value2);
+            $this->assertEquals($comment1, $comment2);
+        }
     }
 }
 ?>
