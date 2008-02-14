@@ -59,6 +59,7 @@ if ( !function_exists('__autoload') ) {
  * </code>
  * 
  * Note: {@link ClassLoader.php Classes and files naming conventions}.
+ * Note: The APIs of this package mimics Apache's commons-logging library.
  *
  * @package    	Ddth
  * @subpackage	Logging

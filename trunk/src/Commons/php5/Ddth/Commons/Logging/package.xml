@@ -7,8 +7,9 @@
 	<version>0.1</version>
 	<description>Ddth Commons Loggings package.</description>
 	<summary>
-		This packages provides a Log interface that is an independent abstraction of
+		This package provides a Log interface that is an independent abstraction of
 		other logging libraries.
+		The APIs of this package mimics Apache's commons-logging library.
 	</summary>
 	<author>
 		<author-name>NGUYEN, Ba Thanh</author-name>

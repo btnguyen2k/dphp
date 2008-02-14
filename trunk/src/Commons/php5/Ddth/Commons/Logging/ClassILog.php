@@ -42,6 +42,8 @@
  *
  * Configuration of the underlying logging system will generally be done external
  * to the Logging APIs, through whatever mechanism is supported by that system.
+ * 
+ * Note: The APIs of this package mimics Apache's commons-logging library.
  *
  * @package    	Ddth
  * @subpackage	Logging
