@@ -82,7 +82,7 @@ class Ddth_Commons_Properties {
     private static $STATE_START = 0;
     private static $STATE_IN_COMMENT = 1;
     private static $STATE_IN_PROPERTY_VALUE = 2;
-    private static $COMMENT_START = Array(';', '#');
+    private static $COMMENT_START = Array('#', ';');
     private static $MULTILINE_FLAG = '\\';
 
     /**
@@ -106,14 +106,54 @@ class Ddth_Commons_Properties {
     public function count() {
         return count($this->properties);
     }
-    
+
     /**
      * Gets all property key in the list.
-     * 
+     *
      * @return Array()
      */
     public function keys() {
         return array_keys($this->properties);
+    }
+
+    /**
+     * Exports property list to a string.
+     *
+     * @return string
+     */
+    public function export() {
+        $result = "";
+        foreach ( $this->properties as $key=>$node ) {                        
+            $comment = count($node) > 1 ? $node[1] : NULL;
+            if ( $comment != NULL ) {
+                $lines = explode("\n", $comment);
+                if ( $lines !== false ) {
+                    foreach ( $lines as $line ) {
+                        $result .= self::$COMMENT_START[0];
+                        $result .= $line;
+                        $result .= "\n";
+                    }
+                }
+            }
+            $value = $node[0];
+            $result .= $key;
+            $result .= "=";
+            $lines = explode("\n", $value);
+            if ( $lines !== false ) {
+                for ( $i = 0, $n = count($lines); $i < $n; $i++ ) {
+                    if ( $i > 0 ) {
+                        $result .= "\t";                        
+                    }
+                    $result .= $lines[$i];
+                    if ( $i != $n-1 ) {
+                        $result .= " \\";    
+                    }
+                    $result .= "\n";
+                }
+            }
+            $result .= "\n";
+        }
+        return $result;
     }
 
     /**
@@ -133,11 +173,11 @@ class Ddth_Commons_Properties {
         $lines = preg_split("/\\n/", $input);
         $this->parse($lines);
     }
-    
+
     /**
-     * Loads properties list from a file (Java-like properties format).
-     * 
-     * @param name of the property list file
+     * Loads property list from a file (Java-like properties format).
+     *
+     * @param string name of the property list file
      * @throws {@link Ddth_Commons_Exceptions_IllegalArgumentException IllegalArgumentException}
      * @throws {@link Ddth_Commons_Exceptions_IllegalStateException IllegalStateException}
      * @throws {@link Ddth_Commons_Exceptions_IOException IOException}
@@ -148,6 +188,29 @@ class Ddth_Commons_Properties {
             $this->import($content);
         } else {
             $msg = 'Error reading file "'.$fileName.'"';
+            throw new Ddth_Commons_Exceptions_IOException($msg);
+        }
+    }
+    
+    /**
+     * Stores property list to a file.
+     * 
+     * @param string name of the file
+     * @throws {@link Ddth_Commons_Exceptions_IOException IOException} 
+     */
+    public function store($fileName) {
+        $content = $this->export();
+        $fh = @fopen($fileName, "wb");
+        if ( $fh === false ) {
+            $msg = 'Can not open file "'.$fileName.'" for writing';
+            throw new Ddth_Commons_Exceptions_IOException($msg);
+        }
+        if ( @fwrite($fh, $content)===false ) {
+            $msg = 'Error while writing to file "'.$fileName.'"';
+            throw new Ddth_Commons_Exceptions_IOException($msg);
+        }
+        if ( @fclose($fh)===false ) {
+            $msg = 'Error while writing to file "'.$fileName.'"';
             throw new Ddth_Commons_Exceptions_IOException($msg);
         }
     }
@@ -208,13 +271,13 @@ class Ddth_Commons_Properties {
     private function parseValue(&$state, &$key, &$value, &$comment, $input) {
         $tokens = preg_split("/\s*=\s*/", $input, 2);
         if ( count($tokens) != 2 ) {
-            $msg = 'Invalid input near "'.substr($line, 0, 20).'"';
+            $msg = 'Invalid input near "'.substr($input, 0, 20).'"';
             throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
         }
         $key = trim($tokens[0]);
         $value = trim($tokens[1]);
         if ( $key == "" ) {
-            $msg = 'Empty property key at "'.substr($line, 0, 20).'"';
+            $msg = 'Empty property key at "'.substr($input, 0, 20).'"';
             throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
         }
         if ( $value!="" && $value[strlen($value)-1]==self::$MULTILINE_FLAG) {
@@ -325,7 +388,7 @@ class Ddth_Commons_Properties {
      * @param string the property key
      * @param string the property value
      * @param string the property comment
-     * @return the previous value of the property specified by property key, or
+     * @return string the previous value of the property specified by property key, or
      * NULL if there is no such value
      */
     public function setProperty($key, $value, $comment=NULL) {
