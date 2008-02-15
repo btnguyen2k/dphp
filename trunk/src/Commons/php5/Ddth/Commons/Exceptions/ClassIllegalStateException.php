@@ -16,7 +16,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id:ClassDefaultClassNameTranslator.php 60 2008-01-28 18:25:46Z nbthanh@vninformatics.com $
+ * @id			$Id$
  * @since      	File available since v0.1
  */
 
