@@ -45,9 +45,11 @@ class AllTests {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
         if ( $handle = opendir('.') ) {
             while ( false !== ($file = readdir($handle)) ) {
-                if ( preg_match("/^([\\w]+Test)\\.php$/", $file, $matches) ) {
-                    include_once $file;
-                    $suite->addTestSuite($matches[1]);                    
+                if ( $file != "AllTests.php" ) {
+                    if ( preg_match("/^([\\w]+Test)\\.php$/", $file, $matches) ) {
+                        include_once $file;
+                        $suite->addTestSuite($matches[1]);                    
+                    }
                 }
             }
         }

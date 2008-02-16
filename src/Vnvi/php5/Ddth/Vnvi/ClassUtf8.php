@@ -123,16 +123,16 @@ class Ddth_Vnvi_Utf8 {
         }
 
         /**
-         * Removes tone mark from a word.
+         * Removes tone marks from a string.
          *
          * @param string
-         * @return string the word after removing tone mark
+         * @return string the string after removing tone marks
          */
-        public function removeToneMark($word) {
-            if ( !is_string($word) ) {
-                return $word;
+        public function removeToneMarks($str) {
+            if ( !is_string($str) ) {
+                return $str;
             }
-            return str_replace(self::$toneMarkRemovalSearches, self::$toneMarkRemovalReplaces, $word);
+            return str_replace(self::$toneMarkRemovalSearches, self::$toneMarkRemovalReplaces, $str);
         }
 }
 ?>
