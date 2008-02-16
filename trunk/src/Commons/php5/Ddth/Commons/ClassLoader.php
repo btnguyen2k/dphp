@@ -28,9 +28,7 @@
  * Example: source code of class <i>Ddth_Commons_Loader</i> is stored in file
  * <i>Ddth</i>/<i>Commons</i>/<b>Class</b><i>Loader</i><b>.php</b>.
  *
- * @category	Commons
- * @package		Ddth
- * @subpackage	Commons
+ * @package		Commons
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
@@ -99,8 +97,7 @@ function loadFileContent($fileName) {
  * 
  * Note: {@link ClassLoader.php Classes and files naming conventionn}.
  *
- * @package    	Ddth
- * @subpackage	Commons
+ * @package    	Commons
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
