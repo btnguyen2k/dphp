@@ -20,7 +20,7 @@
 //initialization
 //defines package name and package php version
 if ( !defined('PACKAGE') ) {
-    define('PACKAGE', 'Commons');
+    define('PACKAGE', 'Vnvi');
 }
 if ( !defined('PACKAGE_PHP_VERSION') ) {
     define('PACKAGE_PHP_VERSION', 'php5');
@@ -34,19 +34,34 @@ $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.PACKAGE.'/'.PACKAGE_PHP_VERSION;
 ini_set('include_path', $INCLUDE_PATH);
 
 require_once 'PHPUnit/Framework.php';
-require_once 'Ddth/Commons/ClassLoader.php';
+require_once 'Ddth/Vnvi/ClassUtf8.php';
+//require_once 'Ddth/Commons/ClassLoader.php';
 
-class LoaderTest extends PHPUnit_Framework_TestCase {
+class Utf8Test extends PHPUnit_Framework_TestCase {
     /**
-     * Tests DefaultClassNameTranslator's functionality.
+     * Tests creating Ddth_Vnvi_Utf8 instance.
      */
-    public function testDefaultClassNameTranslator() {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        $instance = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        $this->assertNotNull($instance, "Can not get instance of class Ddth_Commons_DefaultClassNameTranslator");
+    public function testCreateInstance() {
+        $obj = Ddth_Vnvi_Utf8::getInstance();
+        $this->assertTrue($obj instanceof Ddth_Vnvi_Utf8);
+    }
+    
+    /**
+     * Tests removeToneMarks() functionality.
+     */
+    public function testRemoveToneMarks() {
+        $utf8 = Ddth_Vnvi_Utf8::getInstance();
+        $this->assertTrue($utf8 instanceof Ddth_Vnvi_Utf8);
         
-        $filename = $instance->translateClassNameToFileName("Ddth_Commons_DefaultClassNameTranslator");
-        $this->assertEquals("Ddth/Commons/ClassDefaultClassNameTranslator.php", $filename, "Class name to file name translation failed!");
+        $in = 'Nguyễn Bá Thành';
+        $out = $utf8->removeToneMarks($in);
+        $expected = 'Nguyên Ba Thanh';
+        $this->assertEquals($expected, $out);
+        
+        $in = 'Diễn Đàn Tin Học';
+        $out = $utf8->removeToneMarks($in);
+        $expected = 'Diên Đan Tin Hoc';
+        $this->assertEquals($expected, $out);
     }
 }
 ?>
