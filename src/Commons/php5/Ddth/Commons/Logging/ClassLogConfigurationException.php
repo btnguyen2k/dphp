@@ -11,8 +11,7 @@
  * please send a note to gnu@gnu.org, or send an email to any of the file's authors
  * so we can email you a copy.
  *
- * @category	Commons
- * @package		Ddth
+ * @package		Commons
  * @subpackage	Logging
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
@@ -28,7 +27,7 @@ require_once 'Ddth/Commons/Exceptions/ClassAbstractException.php';
  * Thrown to indicate that the commons logging configuration file contains
  * error or a logger instance can not be created.
  *
- * @package    	Ddth
+ * @package    	Commons
  * @subpackage	Logging
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG

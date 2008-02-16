@@ -10,8 +10,7 @@
  * please send a note to gnu@gnu.org, or send an email to any of the file's authors
  * so we can email you a copy.
  *
- * @category	Commons
- * @package		Ddth
+ * @package		Commons
  * @subpackage	Exceptions
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
@@ -23,7 +22,7 @@
 /**
  * This class is the top level abstract class of all other exception classes.
  *
- * @package    	Ddth
+ * @package    	Commons
  * @subpackage	Exceptions
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG

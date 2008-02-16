@@ -10,8 +10,7 @@
  * please send a note to gnu@gnu.org, or send an email to any of the file's authors
  * so we can email you a copy.
  *
- * @category	Commons
- * @package		Ddth
+ * @package		Commons
  * @subpackage	Logging
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
@@ -63,7 +62,7 @@ if ( !function_exists('__autoload') ) {
  * log message format is "{level}: {message_auto_stacktrace}".
  * 
  *
- * @package    	Ddth
+ * @package    	Commons
  * @subpackage	Logging
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG

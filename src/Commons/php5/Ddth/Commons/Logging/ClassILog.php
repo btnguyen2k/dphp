@@ -10,8 +10,7 @@
  * please send a note to gnu@gnu.org, or send an email to any of the file's authors
  * so we can email you a copy.
  *
- * @category	Commons
- * @package		Ddth
+ * @package		Commons
  * @subpackage	Logging
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
@@ -45,7 +44,7 @@
  * 
  * Note: The APIs of this package mimics Apache's commons-logging library.
  *
- * @package    	Ddth
+ * @package    	Commons
  * @subpackage	Logging
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
