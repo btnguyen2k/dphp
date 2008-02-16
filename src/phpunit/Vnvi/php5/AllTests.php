@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * PHPUnit (http://www.phpunit.de/) test case for Ddth::Commons::Loader.
+ * PHPUnit (http://www.phpunit.de/) test suite bootstrap for package Vnvi.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -18,13 +18,13 @@
  */
 
 //initialization
+if ( !defined('PHPUnit_MAIN_METHOD') ) {
+    define('PHPUnit_MAIN_METHOD', 'AllTests::main');
+}
+
 //defines package name and package php version
-if ( !defined('PACKAGE') ) {
-    define('PACKAGE', 'Commons');
-}
-if ( !defined('PACKAGE_PHP_VERSION') ) {
-    define('PACKAGE_PHP_VERSION', 'php5');
-}
+define('PACKAGE', 'Vnvi');
+define('PACKAGE_PHP_VERSION', 'php5');
 
 //setting up include path
 $dir = dirname(dirname(dirname(dirname(__FILE__))));
@@ -34,19 +34,28 @@ $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.PACKAGE.'/'.PACKAGE_PHP_VERSION;
 ini_set('include_path', $INCLUDE_PATH);
 
 require_once 'PHPUnit/Framework.php';
-require_once 'Ddth/Commons/ClassLoader.php';
+require_once 'PHPUnit/TextUI/TestRunner.php';
 
-class LoaderTest extends PHPUnit_Framework_TestCase {
-    /**
-     * Tests DefaultClassNameTranslator's functionality.
-     */
-    public function testDefaultClassNameTranslator() {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        $instance = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        $this->assertNotNull($instance, "Can not get instance of class Ddth_Commons_DefaultClassNameTranslator");
-        
-        $filename = $instance->translateClassNameToFileName("Ddth_Commons_DefaultClassNameTranslator");
-        $this->assertEquals("Ddth/Commons/ClassDefaultClassNameTranslator.php", $filename, "Class name to file name translation failed!");
+class AllTests {
+    public static function main() {
+        PHPUnit_TextUI_TestRunner::run(self::suite());
     }
+
+    public static function suite() {
+        $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
+        if ( $handle = opendir('.') ) {
+            while ( false !== ($file = readdir($handle)) ) {
+                if ( preg_match("/^([\\w]+Test)\\.php$/", $file, $matches) ) {
+                    include_once $file;
+                    $suite->addTestSuite($matches[1]);                    
+                }
+            }
+        }
+        return $suite;
+    }
+}
+
+if ( PHPUnit_MAIN_METHOD == 'AllTests::main' ) {
+    AllTests::main();
 }
 ?>
