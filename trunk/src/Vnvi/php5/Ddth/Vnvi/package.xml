@@ -19,5 +19,9 @@
 			<dependency-version>5.0+</dependency-version>
 			<dependency-description>PHP 5.0+ is needed for SimpleXML</dependency-description>
 		</dependency>
+		<dependency>
+			<dependency-name>PHP-mbstring</dependency-name>
+			<dependency-description>PHP must be compiled with --enable-mbstring.</dependency-description>
+		</dependency>
 	</dependencies>
 </package>
