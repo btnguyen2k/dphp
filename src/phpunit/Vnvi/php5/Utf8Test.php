@@ -45,23 +45,117 @@ class Utf8Test extends PHPUnit_Framework_TestCase {
         $obj = Ddth_Vnvi_Utf8::getInstance();
         $this->assertTrue($obj instanceof Ddth_Vnvi_Utf8);
     }
-    
+
     /**
      * Tests removeToneMarks() functionality.
      */
     public function testRemoveToneMarks() {
         $utf8 = Ddth_Vnvi_Utf8::getInstance();
         $this->assertTrue($utf8 instanceof Ddth_Vnvi_Utf8);
-        
+
         $in = 'Nguyễn Bá Thành';
         $out = $utf8->removeToneMarks($in);
         $expected = 'Nguyên Ba Thanh';
-        $this->assertEquals($expected, $out);
-        
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
+        $in = 'nGUYỄN bÁ tHÀNH';
+        $out = $utf8->removeToneMarks($in);
+        $expected = 'nGUYÊN bA tHANH';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
         $in = 'Diễn Đàn Tin Học';
         $out = $utf8->removeToneMarks($in);
         $expected = 'Diên Đan Tin Hoc';
-        $this->assertEquals($expected, $out);
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
+        $in = 'dIỄN đÀN tIN hỌC';
+        $out = $utf8->removeToneMarks($in);
+        $expected = 'dIÊN đAN tIN hOC';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+    }
+
+    /**
+     * Tests deVietnamese() functionality.
+     */
+    public function testDeVietnamese() {
+        $utf8 = Ddth_Vnvi_Utf8::getInstance();
+        $this->assertTrue($utf8 instanceof Ddth_Vnvi_Utf8);
+
+        $in = 'Nguyễn Bá Thành';
+        $out = $utf8->deVietnamese($in);
+        $expected = 'Nguyen Ba Thanh';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
+        $in = 'nGUYỄN bÁ tHÀNH';
+        $out = $utf8->deVietnamese($in);
+        $expected = 'nGUYEN bA tHANH';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
+        $in = 'Diễn Đàn Tin Học';
+        $out = $utf8->deVietnamese($in);
+        $expected = 'Dien Dan Tin Hoc';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
+        $in = 'dIỄN đÀN tIN hỌC';
+        $out = $utf8->deVietnamese($in);
+        $expected = 'dIEN dAN tIN hOC';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+    }
+
+    /**
+     * Tests toLower() functionality.
+     */
+    public function testToLower() {
+        $utf8 = Ddth_Vnvi_Utf8::getInstance();
+        $this->assertTrue($utf8 instanceof Ddth_Vnvi_Utf8);
+
+        $in = 'Nguyễn Bá Thành';
+        $out = $utf8->toLower($in);
+        $expected = 'nguyễn bá thành';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
+        $in = 'nGUYỄN bÁ tHÀNH';
+        $out = $utf8->toLower($in);
+        $expected = 'nguyễn bá thành';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
+        $in = 'Diễn Đàn Tin Học';
+        $out = $utf8->toLower($in);
+        $expected = 'diễn đàn tin học';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
+        $in = 'dIỄN đÀN tIN hỌC';
+        $out = $utf8->toLower($in);
+        $expected = 'diễn đàn tin học';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+    }
+
+    /**
+     * Tests toUpper() functionality.
+     */
+    public function testToUpper() {
+        $utf8 = Ddth_Vnvi_Utf8::getInstance();
+        $this->assertTrue($utf8 instanceof Ddth_Vnvi_Utf8);
+
+        $in = 'Nguyễn Bá Thành';
+        $out = $utf8->toUpper($in);
+        $expected = 'NGUYỄN BÁ THÀNH';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
+        $in = 'nGUYỄN bÁ tHÀNH';
+        $out = $utf8->toUpper($in);
+        $expected = 'NGUYỄN BÁ THÀNH';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
+        $in = 'Diễn Đàn Tin Học';
+        $out = $utf8->toUpper($in);
+        $expected = 'DIỄN ĐÀN TIN HỌC';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
+
+        $in = 'dIỄN đÀN tIN hỌC';
+        $out = $utf8->toUpper($in);
+        $expected = 'DIỄN ĐÀN TIN HỌC';
+        $this->assertEquals($expected, $out, "Expected '$expected' but received '$out'");
     }
 }
 ?>

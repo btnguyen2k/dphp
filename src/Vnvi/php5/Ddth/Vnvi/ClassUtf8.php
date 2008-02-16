@@ -33,6 +33,46 @@ class Ddth_Vnvi_Utf8 {
 
     private static $instance = NULL;
 
+    private static $tblAllLettersLower = Array (
+    	'a', 'à', 'ả', 'ã', 'á', 'ạ',
+    	'ă', 'ằ', 'ẳ', 'ẵ', 'ắ', 'ặ',
+    	'â', 'ầ', 'ẩ', 'ẫ', 'ấ', 'ậ',
+    	'b', 'c', 'd', 'đ',
+    	'e', 'è', 'ẻ', 'ẽ', 'é', 'ẹ',
+    	'ê', 'ề', 'ể', 'ễ', 'ế', 'ệ',
+        'f', 'g', 'h',
+    	'i', 'ì', 'ỉ', 'ĩ', 'í', 'ị',
+    	'j', 'k', 'l', 'm', 'n',
+    	'o', 'ò', 'ỏ', 'õ', 'ó', 'ọ',
+    	'ô', 'ồ', 'ổ', 'ỗ', 'ố', 'ộ',
+    	'ơ', 'ờ', 'ở', 'ỡ', 'ớ', 'ợ',
+    	'p', 'q', 'r', 's', 't',
+     	'u', 'ù', 'ủ', 'ũ', 'ú', 'ụ',
+    	'ư', 'ừ', 'ử', 'ữ', 'ứ', 'ự',
+    	'v', 'w', 'x',
+    	'y', 'ỳ', 'ỷ', 'ỹ', 'ý', 'ỵ',
+    	'z');
+
+    private static $tblAllLettersUpper = Array (
+    	'A', 'À', 'Ả', 'Ã', 'Á', 'Ạ',
+    	'Ă', 'Ầ', 'Ẳ', 'Ẵ', 'Ắ', 'Ặ',
+    	'Â', 'Ầ', 'Ẩ', 'Ẫ', 'Ấ', 'Ậ',
+    	'B', 'C', 'D', 'Đ',
+    	'E', 'È', 'Ẻ', 'Ẽ', 'É', 'Ẹ',
+    	'Ê', 'Ề', 'Ể', 'Ễ', 'Ế', 'Ệ',
+        'F', 'G', 'H',
+    	'I', 'Ì', 'Ỉ', 'Ĩ', 'Í', 'Ị',
+    	'J', 'K', 'L', 'M', 'N',
+    	'O', 'Ò', 'Ỏ', 'Õ', 'Ó', 'Ọ',
+    	'Ô', 'Ồ', 'Ổ', 'Ỗ', 'Ố', 'Ộ',
+    	'Ơ', 'Ờ', 'Ở', 'Ỡ', 'Ớ', 'Ợ',
+    	'P', 'Q', 'R', 'S', 'T',
+     	'U', 'Ù', 'Ủ', 'Ũ', 'Ú', 'Ụ',
+    	'Ư', 'Ừ', 'Ử', 'Ữ', 'Ứ', 'Ự',
+    	'V', 'W', 'Z',
+    	'Y', 'Ỳ', 'Ỷ', 'Ỹ', 'Ý', 'Ỵ',
+    	'Z');
+
     private static $toneMarkRemovalSearches = NULL;
     private static $toneMarkRemovalReplaces = NULL;
     private static $tblToneMarkRemoval = Array(
@@ -225,6 +265,32 @@ class Ddth_Vnvi_Utf8 {
         }
         return str_replace(self::$toneMarkRemovalSearches,
         self::$toneMarkRemovalReplaces, $str);
+    }
+
+    /**
+     * Makes a string lower-case.
+     *
+     * @param string
+     * @return string the string after lower-cased
+     */
+    public function toLower($str) {
+        if ( !is_string($str) ) {
+            return $str;
+        }
+        return str_replace(self::$tblAllLettersUpper, self::$tblAllLettersLower, $str);
+    }
+
+    /**
+     * Makes a string upper-case.
+     *
+     * @param string
+     * @return string the string after upper-cased
+     */
+    public function toUpper($str) {
+        if ( !is_string($str) ) {
+            return $str;
+        }
+        return str_replace(self::$tblAllLettersLower, self::$tblAllLettersUpper, $str);
     }
 }
 ?>
