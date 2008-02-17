@@ -2,7 +2,7 @@
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /* This file MUST be saved in UTF-8 character encoding! */
 /**
- * Utf8 support for vn_VI.
+ * Utf8 support for vi_VN.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -23,9 +23,9 @@
 require_once 'ClassConstants.php';
 
 /**
- * Utf8 support for vn_VI.
+ * Utf8 support for vi_VN.
  *
- * This class provides support for vn_VI with Utf8 character encoding.
+ * This class provides support for vi_VN with Utf8 character encoding.
  *
  * @package    	Vnvi
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>

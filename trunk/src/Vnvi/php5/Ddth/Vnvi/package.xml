@@ -5,9 +5,9 @@
 <package>
 	<name>Ddth::Vnvi</name>
 	<version>0.1</version>
-	<description>Library to support vn_VI locale.</description>
+	<description>Library to support vi_VN locale.</description>
 	<summary>
-		This library aims to provide support for vn_VI locale in PHP.
+		This library aims to provide support for vi_VN locale in PHP.
 	</summary>
 	<author>
 		<author-name>NGUYEN, Ba Thanh</author-name>
