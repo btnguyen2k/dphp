@@ -68,5 +68,12 @@ class Ddth_Xconfig {
             $this->strXml = NULL;
         }
     }
+    
+    public function getNodes($xpath) {
+        if ( $this->objSimpleXml == NULL ) {
+            return NULL;
+        }
+        return $this->objSimpleXml->xpath($xpath);
+    }
 }
 ?>
