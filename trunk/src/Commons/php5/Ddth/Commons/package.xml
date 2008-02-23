@@ -3,22 +3,28 @@
 	"-//dPHP Package Description DTD//EN"
 	"http://dphp.googlecode.com/svn/trunk/docs/package.dtd">
 <package>
-	<name>Ddth::Common</name>
+	<name>Ddth::Commons</name>
 	<version>0.1</version>
-	<description>Common classes for Ddth packages.</description>
+	<description>
+		Common interfaces and classes for Ddth packages.
+	</description>
 	<summary>
-		This packages contains common interfaces, classes and helpers which are heavily
-		used by other Ddth packages.
+		This packages contains common interfaces, classes and helpers
+		which are heavily used by other Ddth packages.
 	</summary>
 	<author>
 		<author-name>NGUYEN, Ba Thanh</author-name>
-		<author-email>btnguyen2k@gmail.com / nbthanh@vninformatics.com</author-email>
+		<author-email>
+			btnguyen2k@gmail.com / nbthanh@vninformatics.com
+		</author-email>
 	</author>
 	<dependencies>
 		<dependency>
 			<dependency-name>PHP</dependency-name>
 			<dependency-version>5.0+</dependency-version>
-			<dependency-description>PHP 5.0+ is needed for the new Object Model.</dependency-description>
+			<dependency-description>
+				PHP 5.0+ is needed for the new Object Model.
+			</dependency-description>
 		</dependency>
 	</dependencies>
 </package>
