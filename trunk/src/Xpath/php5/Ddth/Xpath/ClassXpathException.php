@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * XML to Xnode parser.
+ * Thrown to indicate that an error has occured.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -13,7 +13,7 @@
  * @package		Xpath
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
+ * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @id			$Id$
  * @since      	File available since v0.1
  */
@@ -33,45 +33,25 @@ if ( !function_exists('__autoload') ) {
 }
 
 /**
- * XML to Xnode parser.
- *
- * This class provides APIs to parse an XML document and convert it to a tree of
- * {@link Ddth_Xpath_Xnode Xnode}s.
+ * Thrown to indicate that an error has occured.
  *
  * @package    	Xpath
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1
+ * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-abstract class Ddth_Xpath_XmlParser {
-    private static $instance = NULL;
+class Ddth_Xpath_XpathException
+extends Ddth_Commons_Exceptions_AbstractException {
 
     /**
-     * Gets an instance of Ddth_Xpath_XmlParser.
+     * Constructs a new Ddth_Xpath_XpathException object.
      *
-     * @return Ddth_Xpath_XmlParser
+     * @param string exception message
+     * @param int user defined exception code
      */
-    public static function getInstance() {
-        if ( self::$instance == NULL ) {
-            self::$instance = new Ddth_Xpath_SimpleXml_XmlParser();
-        }
-        return self::$instance;
+    public function __construct($message = NULL, $code = 0) {
+        parent::__construct($message, $code);
     }
-
-    /**
-     * Constructs a new Ddth_Xpath_XmlParser object.
-     */
-    protected function __construct() {
-    }
-
-    /**
-     * Parses an XML document and returns the root node as a Xnode.
-     *
-     * @param string the XML document to parse
-     * @return Xnode
-     */
-    public abstract function parseXml($xml);
 }
 ?>

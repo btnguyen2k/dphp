@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * XML to Xnode parser.
+ * Implementation of IXnode.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -11,6 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Xpath
+ * @subpackage	SimpleXml
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
@@ -33,45 +34,49 @@ if ( !function_exists('__autoload') ) {
 }
 
 /**
- * XML to Xnode parser.
+ * Implementation of IXnode.
  *
- * This class provides APIs to parse an XML document and convert it to a tree of
- * {@link Ddth_Xpath_Xnode Xnode}s.
+ * This implementation of {@link Ddth_Xpath_IXnode IXnode} interface is a
+ * "generic" XML node.
  *
  * @package    	Xpath
+ * @subpackage	SimpleXml
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-abstract class Ddth_Xpath_XmlParser {
-    private static $instance = NULL;
+class Ddth_Xpath_SimpleXml_Xnode implements Ddth_Xpath_IXnode {
+    
+    private $name;
+    
+    private $parent;
+    
+    private $path;
 
+    private $simpleXml;
+    
     /**
-     * Gets an instance of Ddth_Xpath_XmlParser.
-     *
-     * @return Ddth_Xpath_XmlParser
+     * Constructs a new Ddth_Xpath_SimpleXml_Xnode object.
+     * 
+     * @param SimpleXML the SimpleXML object holding data for this node
+     * @param Ddth_Xpath_IXnode the parent node
+     * @throws {@link Ddth_Xpath_XpathException XpathException} 
      */
-    public static function getInstance() {
-        if ( self::$instance == NULL ) {
-            self::$instance = new Ddth_Xpath_SimpleXml_XmlParser();
+    public function __construct($simpleXml, $parent=NULL) {
+        if ( $simpleXml==NULL || !($simpleXml instanceof SimpleXML) ) {
+            $msg = "[$simpleXml] is not an instance of SimpleXML!";
+            throw new Ddth_Xpath_XpathException($msg);
         }
-        return self::$instance;
+        if ( $parent!=NULL && !($parent instanceof Ddth_Xpath_IXnode) ) {
+            $msg = "Parent is not an instance of Ddth_Xpath_IXnode!";
+            throw new Ddth_Xpath_XpathException($msg);
+        }
+        
+        $this->simpleXml = $simpleXml;
+        $this->parent = $parent;
+        $this->name = $simpleXml->getName();
     }
-
-    /**
-     * Constructs a new Ddth_Xpath_XmlParser object.
-     */
-    protected function __construct() {
-    }
-
-    /**
-     * Parses an XML document and returns the root node as a Xnode.
-     *
-     * @param string the XML document to parse
-     * @return Xnode
-     */
-    public abstract function parseXml($xml);
 }
 ?>
