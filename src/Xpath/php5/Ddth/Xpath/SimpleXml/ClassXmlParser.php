@@ -11,6 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Xpath
+ * @subpackage	SimpleXml
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
@@ -18,8 +19,19 @@
  * @since      	File available since v0.1
  */
 
-/** */
-require_once 'ClassXmlParser.php';
+if ( !function_exists('__autoload') ) {
+    /**
+     * Automatically loads class source file when used.
+     *
+     * @param string
+     */
+    function __autoload($className) {
+        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
+        require_once 'Ddth/Commons/ClassLoader.php';
+        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
+        Ddth_Commons_Loader::loadClass($className, $translator);
+    }
+}
 
 /**
  * XML to Xnode parser using SimpleXML.
@@ -28,15 +40,16 @@ require_once 'ClassXmlParser.php';
  * using {@link http://php.net/simplexml SimpleXML} extension.
  *
  * @package    	Xpath
+ * @subpackage	SimpleXml
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-class Ddth_Xpath_SimpleXmlParser extends Ddth_Xpath_XmlParser {
+class Ddth_Xpath_SimpleXml_XmlParser extends Ddth_Xpath_XmlParser {
     /**
-     * Constructs a new Ddth_Xpath_SimpleXmlParser object.
+     * Constructs a new Ddth_Xpath_SimpleXml_XmlParser object.
      */
     protected function __construct() {
         parent::__construct();
@@ -47,6 +60,13 @@ class Ddth_Xpath_SimpleXmlParser extends Ddth_Xpath_XmlParser {
      * @return Xnode
      */
     public function parseXml($xml) {
+        @$simpleXML = simplexml_load_string($xml);
+        if ( $simpleXML === false ) return NULL;
+        @$nodes = $simpleXML->xpath('/*');
+        if ( $nodes === false ) {
+            return NULL; 
+        }
+        return $nodes[0];
     }
 }
 ?>
