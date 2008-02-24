@@ -22,7 +22,7 @@
  * Main class of Ddth::Xpath package.
  *
  * Xconfig is a library that provides a light-weight mechanism to access data
- * stored in a XML file. This library was created with the purpose to read
+ * stored in an XML file. This library was created with the purpose to read
  * application's configuration data stored in XML format; hence the name Xconfig.
  *
  * @package    	Xconfig
