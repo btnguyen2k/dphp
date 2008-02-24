@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * An XML node.
+ * XML to Xnode parser using SimpleXML.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -18,10 +18,14 @@
  * @since      	File available since v0.1
  */
 
+/** */
+require_once 'ClassXmlParser.php';
+
 /**
- * An XML node.
+ * XML to Xnode parser using SimpleXML.
  *
- * This class represents an XML node.
+ * This implementation of {@link Ddth_Xpath_XmlParser XmlParser} parses an XML document
+ * using {@link http://php.net/simplexml SimpleXML} extension.
  *
  * @package    	Xpath
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -30,17 +34,19 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-abstract class Ddth_Xpath_Xnode {
-    //the parent node
-    private $parent;
-
-    //the path to this node
-    private $path;
+class Ddth_Xpath_SimpleXmlParser extends Ddth_Xpath_XmlParser {
+    /**
+     * Constructs a new Ddth_Xpath_SimpleXmlParser object.
+     */
+    protected function __construct() {
+        parent::__construct();
+    }
 
     /**
-     * Constructs a new Ddth_Xpath_Xnode object.
+     * @param string
+     * @return Xnode
      */
-    protected function __construct() {        
+    public function parseXml($xml) {
     }
 }
 ?>

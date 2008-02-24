@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * A XML node.
+ * XML to Xnode parser.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -18,10 +18,14 @@
  * @since      	File available since v0.1
  */
 
+/** */
+require_once 'ClassSimpleXmlParser.php';
+
 /**
- * A XML node.
+ * XML to Xnode parser.
  *
- * This class represents a XML node.
+ * This class provides APIs to parse an XML document and convert it to a tree of
+ * {@link Ddth_Xpath_Xnode Xnode}s.
  *
  * @package    	Xpath
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -30,17 +34,33 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-abstract class Ddth_Xpath_Xnode {
-    //the parent node
-    private $parent;
-
-    //the path to this node
-    private $path;
+abstract class Ddth_Xpath_XmlParser {
+    private static $instance = NULL;
 
     /**
-     * Constructs a new Ddth_Xpath_Xnode object.
+     * Gets an instance of Ddth_Xpath_XmlParser.
+     *
+     * @return Ddth_Xpath_XmlParser
      */
-    protected function __construct() {        
+    public static function getInstance() {
+        if ( self::$instance == NULL ) {
+            self::$instance = new Ddth_Xpath_SimpleXmlParser();
+        }
+        return self::$instance;
     }
+
+    /**
+     * Constructs a new Ddth_Xpath_XmlParser object.
+     */
+    protected function __construct() {
+    }
+
+    /**
+     * Parses an XML document and returns the root node as a Xnode.
+     *
+     * @param string the XML document to parse
+     * @return Xnode
+     */
+    public abstract function parseXml($xml);
 }
 ?>
