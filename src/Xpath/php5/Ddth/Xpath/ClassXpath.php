@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Main class of Ddth::Xconfig package.
+ * Main class of Ddth::Xpath package.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -10,16 +10,16 @@
  * please send a note to gnu@gnu.org, or send an email to any of the file's authors
  * so we can email you a copy.
  *
- * @package		Xconfig
+ * @package		Xpath
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id$
+ * @id			$Id:ClassXpath.php 122 2008-02-23 23:20:11Z btnguyen2k@gmail.com $
  * @since      	File available since v0.1
  */
 
 /**
- * Main class of Ddth::Xconfig package.
+ * Main class of Ddth::Xpath package.
  *
  * Xconfig is a library that provides a light-weight mechanism to access data
  * stored in a XML file. This library was created with the purpose to read
@@ -32,7 +32,7 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-class Ddth_Xconfig {
+class Ddth_XPath {
     private $strXml;
     private $objSimpleXml;
 
