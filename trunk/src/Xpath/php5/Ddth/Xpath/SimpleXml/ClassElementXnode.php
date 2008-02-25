@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Generic node.
+ * Element node.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -34,10 +34,9 @@ if ( !function_exists('__autoload') ) {
 }
 
 /**
- * Generic Xnode.
+ * Element node.
  *
- * This abstract implementation of {@link Ddth_Xpath_IXnode IXnode} interface
- * is a "generic" XML node.
+ * This class represent an XML element node.
  *
  * @package    	Xpath
  * @subpackage	SimpleXml
@@ -47,82 +46,57 @@ if ( !function_exists('__autoload') ) {
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-abstract class Ddth_Xpath_SimpleXml_Xnode implements Ddth_Xpath_IXnode {
+class Ddth_Xpath_SimpleXml_ElementXnode extends Ddth_Xpath_SimpleXml_Xnode {
 
-    private $name;
-
-    private $simpleXml;
-
+    private $attributes = Array();
+    
+    private $value = NULL;
+    
     /**
-     * Creates a new node from a SimpleXMLElement object.
-     * 
-     * @param $simpleXml
-     * @return Ddth_Xpath_SimpleXml_Xnode
-     * @throws {@link Ddth_Xpath_XpathException XpathException}
-     */
-    public static function createNode($simpleXml) {        
-        if ( $simpleXml==NULL || !($simpleXml instanceof SimpleXMLElement ) ) {
-            $msg = "[$simpleXml] is not an instance of SimpleXMLElement!";
-            throw new Ddth_Xpath_XpathException($msg);
-        }                
-        if ( $simpleXml->attributes() == NULL ) {
-            return new Ddth_Xpath_SimpleXml_AttributeXnode($simpleXml);
-        } else {
-            return new Ddth_Xpath_SimpleXml_ElementXnode($simpleXml);            
-        }        
-    }
-
-    /**
-     * Constructs a new Ddth_Xpath_SimpleXml_Xnode object.
+     * Constructs a new Ddth_Xpath_SimpleXml_ElementXnode object.
      *
      * @param SimpleXML the SimpleXML object holding data for this node
      * @throws {@link Ddth_Xpath_XpathException XpathException}
      */
     protected function __construct($simpleXml) {
-        if ( $simpleXml==NULL || !($simpleXml instanceof SimpleXMLElement ) ) {
-            $msg = "[$simpleXml] is not an instance of SimpleXMLElement!";
-            throw new Ddth_Xpath_XpathException($msg);
+        parent::__construct($simpleXml);
+        foreach ( $simpleXml->attributes() as $name => $value ) {
+            $value = sprintf("%s", $value);
+            $this->attributes[$name] = trim($value);        
         }
-
-        $this->simpleXml = $simpleXml;
-        $this->name = $simpleXml->getName();
+        $this->value = trim(sprintf("%s", $simpleXml));
     }
-
-    /**
-     * Gets the associated SimpleXMLElement object.
-     * 
-     * @return SimpleXMLElement
-     */
-    protected function getSimpleXmlObj() {
-        return $this->simpleXml;
-    }
-
+    
     public function getAllAttributes() {
-        return NULL;
+        return $this->attributes;
     }
-
+    
     public function getAttribute($name) {
-        return NULL;
+        return isset($this->attributes[$name]) ? $this->attributes[$name] : NULL;  
     }
-
+    
     public function getChildren() {
-        return NULL;
-    }
-
-    public function getName() {
-        return $this->name;
+        return $this->xpath("/*");
     }
     
     public function getValue() {
-        return NULL;
-    }
-    
-    public function toXml() {
-        return "";
+        return $this->value;
     }
 
-    public function xpath($path) {
-        return NULL;        
+    public function toXml() {
+        return $this->getSimpleXmlObj()->asXML();
+    }
+    
+    public function xpath($path) {        
+        $simpleXmlNodes = $this->getSimpleXmlObj()->xpath($path);
+        if ( $simpleXmlNodes === false ) {           
+            return NULL;
+        }        
+        $result = Array();        
+        foreach ( $simpleXmlNodes as $node ) {
+            $result[] = Ddth_Xpath_SimpleXml_Xnode::createNode($node);
+        }                
+        return $result;
     }
 }
 ?>
