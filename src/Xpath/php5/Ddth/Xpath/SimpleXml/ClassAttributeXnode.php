@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * XML to Xnode parser using SimpleXML.
+ * Attribute node.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -34,10 +34,9 @@ if ( !function_exists('__autoload') ) {
 }
 
 /**
- * XML to Xnode parser using SimpleXML.
+ * Attribute node.
  *
- * This implementation of {@link Ddth_Xpath_XmlParser XmlParser} parses an XML document
- * using {@link http://php.net/simplexml SimpleXML} extension.
+ * This class represent an XML attribute node.
  *
  * @package    	Xpath
  * @subpackage	SimpleXml
@@ -47,24 +46,23 @@ if ( !function_exists('__autoload') ) {
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-class Ddth_Xpath_SimpleXml_XmlParser extends Ddth_Xpath_XmlParser {
-    /**
-     * Constructs a new Ddth_Xpath_SimpleXml_XmlParser object.
-     */
-    protected function __construct() {
-        parent::__construct();
-    }
+class Ddth_Xpath_SimpleXml_AttributeXnode extends Ddth_Xpath_SimpleXml_Xnode {
+
+    private $value;
 
     /**
-     * @param string
-     * @return Xnode
+     * Constructs a new Ddth_Xpath_SimpleXml_AttributeXnode object.
+     *
+     * @param SimpleXML the SimpleXML object holding data for this node
+     * @throws {@link Ddth_Xpath_XpathException XpathException}
      */
-    public function parseXml($xml) {
-        @$simpleXML = simplexml_load_string($xml);        
-        if ( $simpleXML === false ) {
-            return NULL;
-        }
-        return Ddth_Xpath_SimpleXml_Xnode::createNode($simpleXML);
+    protected function __construct($simpleXml) {
+        parent::__construct($simpleXml);        
+        $this->value = trim(sprintf("%s", $simpleXml));        
+    }
+    
+    public function getValue() {
+        return $this->value;
     }
 }
 ?>

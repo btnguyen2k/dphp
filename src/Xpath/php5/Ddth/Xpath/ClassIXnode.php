@@ -64,12 +64,30 @@ interface Ddth_Xpath_IXnode {
      * @return string the node's name
      */
     public function getName();
+    
+    /**
+     * Gets node's text value.
+     * 
+     * @return string if node is an attribute node, the attribute's value is
+     * returned; if node is an element node that contains *only one* text child
+     * the child's text is returned; undetermined value is returned in any other cases 
+     */
+    public function getValue();
+    
+    /**
+     * Returns the node as an XML document.
+     * 
+     * @return string
+     */
+    public function toXml();
 
     /**
-     * Gets the parent node.
-     *
-     * @return Ddth_Xpath_IXnode
+     * Runs an XPath query and returns the result.
+     * 
+     * @param string an XPath path
+     * @return Array() an array of {@link Ddth_Xpath_IXnode IXnode}s.
+     * @throws {@link Ddth_Xpath_XpathException XpathException}
      */
-    public function getParent();
+    public function xpath($path);
 }
 ?>
