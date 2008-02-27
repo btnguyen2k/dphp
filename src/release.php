@@ -93,7 +93,7 @@ function performZipDir($parent, $dir, $zip) {
         while ( $file = readdir($source_dh) ) {
             //if ( $file != "." && $file != ".." ) {
             if ( $file[0] != "." ) {
-                $realFile = $dir."/".$file; 
+                $realFile = $dir."/".$file;
                 $zipEntry = substr($realFile, strlen($parent));
                 if ( is_dir($realFile) ) {
                     $zip->addEmptyDir($zipEntry);
@@ -131,6 +131,10 @@ if ( !is_dir($DIR_PACKAGE_RELEASE) ) {
 }
 copyDir($DIR_PACKAGE_SOURCE, $DIR_PACKAGE_RELEASE);
 copyFile("license.txt", $DIR_RELEASE.$PATH_SEPARATOR.$PACKAGE.$PATH_SEPARATOR."license.txt");
+$CHANGELOG_FILE = $PACKAGE.$PATH_SEPARATOR.$PACKAGE_PHP_VERSION.$PATH_SEPARATOR."ChangeLog.txt";
+if ( is_file($CHANGELOG_FILE) ) {
+    copyFile($CHANGELOG_FILE, $DIR_RELEASE.$PATH_SEPARATOR.$PACKAGE.$PATH_SEPARATOR."ChangeLog.txt");
+}
 
 $includePath = ".";
 $includePath .= PATH_SEPARATOR."Commons/php5";
