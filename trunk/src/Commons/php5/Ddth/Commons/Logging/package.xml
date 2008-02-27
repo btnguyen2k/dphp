@@ -24,9 +24,7 @@
 		<dependency>
 			<dependency-name>PHP</dependency-name>
 			<dependency-version>5.0+</dependency-version>
-			<dependency-description>
-				PHP 5.0+ is needed for the new Object Model.
-			</dependency-description>
+			<dependency-description></dependency-description>
 		</dependency>
 		<dependency>
 			<dependency-name>Ddth::Commons</dependency-name>

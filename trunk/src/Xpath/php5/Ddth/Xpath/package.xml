@@ -23,7 +23,7 @@
 			<dependency-name>PHP</dependency-name>
 			<dependency-version>5.0+</dependency-version>
 			<dependency-description>
-				PHP 5.0+ is needed for SimpleXML
+				PHP 5.0+ is needed for SimpleXML. 
 			</dependency-description>
 		</dependency>
 	</dependencies>
