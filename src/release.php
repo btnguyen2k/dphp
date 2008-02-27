@@ -70,6 +70,43 @@ function copyFile($source, $dest) {
     copy($source, $dest);
 }
 
+function zipDir($dir, $filename) {
+    $zip = new ZipArchive();
+
+    if ( $zip->open($filename, ZIPARCHIVE::CREATE)!==TRUE ) {
+        error("cannot open <$filename>\n");
+    }
+
+    performZipDir($dir, $dir, $zip);
+
+    echo "Number of Files: " . $zip->numFiles . "\n";
+    echo "Status:" . $zip->status . "\n";
+    $zip->close();
+}
+
+function performZipDir($parent, $dir, $zip) {
+    if ( !is_dir($dir) ) {
+        error("$source is not a directory or does not exists!");
+    }
+
+    if ( $source_dh = opendir($dir) ) {
+        while ( $file = readdir($source_dh) ) {
+            //if ( $file != "." && $file != ".." ) {
+            if ( $file[0] != "." ) {
+                $realFile = $dir."/".$file; 
+                $zipEntry = substr($realFile, strlen($parent));
+                if ( is_dir($realFile) ) {
+                    $zip->addEmptyDir($zipEntry);
+                    performZipDir($parent, $realFile, $zip);
+                } else {
+                    $zip->addFile($realFile, $zipEntry);
+                }
+            }
+        }
+        closedir($source_dh);
+    }
+}
+
 $DIR_RELEASE = "release";
 if ( !is_dir($DIR_RELEASE) ) {
     mkdir($DIR_RELEASE);
@@ -86,12 +123,39 @@ $DIR_PACKAGE_SOURCE = $PACKAGE.$PATH_SEPARATOR.$PACKAGE_PHP_VERSION.$PATH_SEPARA
 if ( !is_dir($DIR_PACKAGE_SOURCE) ) {
     error("$DIR_PACKAGE_SOURCE is not a directory or does not exists!");
 }
-$DIR_PACKAGE_RELEASE = $DIR_RELEASE.$PATH_SEPARATOR.$PACKAGE.$PATH_SEPARATOR.$PACKAGE_PHP_VERSION.$PATH_SEPARATOR.'Ddth'.$PATH_SEPARATOR.$PACKAGE;
-removeTree($DIR_PACKAGE_RELEASE, true);
+$DIR_PACKAGE_RELEASE = $DIR_RELEASE.$PATH_SEPARATOR.$PACKAGE.$PATH_SEPARATOR.'Ddth'.$PATH_SEPARATOR.$PACKAGE;
+removeTree($DIR_RELEASE.$PATH_SEPARATOR.$PACKAGE, true);
 mkdir($DIR_PACKAGE_RELEASE, 0755, true);
 if ( !is_dir($DIR_PACKAGE_RELEASE) ) {
     error("$DIR_PACKAGE_RELEASE is not a directory or does not exists!");
 }
-
 copyDir($DIR_PACKAGE_SOURCE, $DIR_PACKAGE_RELEASE);
+copyFile("license.txt", $DIR_RELEASE.$PATH_SEPARATOR.$PACKAGE.$PATH_SEPARATOR."license.txt");
+
+$includePath = ".";
+$includePath .= PATH_SEPARATOR."Commons/php5";
+$includePath .= PATH_SEPARATOR."Xpath/php5";
+ini_set("include_path", $includePath);
+
+if ( !function_exists('__autoload') ) {
+    function __autoload($className) {
+        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
+        require_once 'Ddth/Commons/ClassLoader.php';
+        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
+        Ddth_Commons_Loader::loadClass($className, $translator);
+    }
+}
+
+$xml = Ddth_Commons_Loader::loadFileContent($DIR_PACKAGE_SOURCE.'/package.xml');
+$xpath = Ddth_Xpath_XmlParser::getInstance();
+$xnode = $xpath->parseXml($xml);
+$xnodes = $xnode->xpath("/package/version");
+$VERSION = $xnodes[0]->getValue();
+
+$t = date("Ymd");
+$ZIPFILE = "$PACKAGE-$PACKAGE_PHP_VERSION-$VERSION-$t.zip";
+$ZIPFILE = strtolower($ZIPFILE);
+$ZIPFILE = $DIR_RELEASE.$PATH_SEPARATOR.$ZIPFILE;
+@unlink($ZIPFILE);
+zipDir($DIR_RELEASE.$PATH_SEPARATOR.$PACKAGE, $ZIPFILE);
 ?>
