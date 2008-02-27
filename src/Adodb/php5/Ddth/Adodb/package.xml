@@ -3,11 +3,11 @@
 	"-//dPHP Package Description DTD//EN"
 	"http://dphp.googlecode.com/svn/trunk/docs/package.dtd">
 <package>
-	<name>Ddth::Vnvi</name>
+	<name>Ddth::Adodb</name>
 	<version>0.1</version>
-	<description>Library to support vi_VN locale.</description>
+	<description>An ADOdb factory.</description>
 	<summary>
-		This library aims to provide support for vi_VN locale in PHP.
+		This library provides a uniform way to manage ADOdb connections.
 	</summary>
 	<author>
 		<author-name>NGUYEN, Ba Thanh</author-name>
@@ -20,12 +20,6 @@
 			<dependency-name>PHP</dependency-name>
 			<dependency-version>5.0+</dependency-version>
 			<dependency-description></dependency-description>
-		</dependency>
-		<dependency>
-			<dependency-name>PHP-mbstring</dependency-name>
-			<dependency-description>
-				PHP must be compiled with --enable-mbstring.
-			</dependency-description>
 		</dependency>
 	</dependencies>
 </package>
