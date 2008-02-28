@@ -115,7 +115,7 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
     }
 
     /**
-     * Closes ab ADOConnection
+     * Closes an ADOConnection
      *
      * @param ADOConnection
      * @param bool
