@@ -48,9 +48,9 @@ class Ddth_Adodb_AdodbConfig {
 
     const PROPERTY_URL = "adodb.url";
 
-    const PROPERTY_USER = "adodb.user";
-
-    const PROPERTY_PASSWORD = "adodb.password";
+    //    const PROPERTY_USER = "adodb.user";
+    //
+    //    const PROPERTY_PASSWORD = "adodb.password";
 
     /**
      * Loads configurations from file and encapsulates them inside a
@@ -98,14 +98,14 @@ class Ddth_Adodb_AdodbConfig {
         return $this->properties;
     }
 
-    /**
-     * Gets the password configuration setting.
-     *
-     * @return string
-     */
-    public function getPassword() {
-        return $this->properties->getProperty(self::PROPERTY_PASSWORD);
-    }
+    //    /**
+    //     * Gets the password configuration setting.
+    //     *
+    //     * @return string
+    //     */
+    //    public function getPassword() {
+    //        return $this->properties->getProperty(self::PROPERTY_PASSWORD);
+    //    }
 
     /**
      * Gets the connection url configuration setting.
@@ -116,13 +116,13 @@ class Ddth_Adodb_AdodbConfig {
         return $this->properties->getProperty(self::PROPERTY_URL);
     }
 
-    /**
-     * Gets the user name configuration setting.
-     *
-     * @return string
-     */
-    public function getUser() {
-        return $this->properties->getProperty(self::PROPERTY_USER);
-    }
+    //    /**
+    //     * Gets the user name configuration setting.
+    //     *
+    //     * @return string
+    //     */
+    //    public function getUser() {
+    //        return $this->properties->getProperty(self::PROPERTY_USER);
+    //    }
 }
 ?>
