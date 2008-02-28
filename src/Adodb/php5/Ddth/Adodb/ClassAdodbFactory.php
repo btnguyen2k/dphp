@@ -39,9 +39,6 @@ if ( !function_exists('__autoload') ) {
 /**
  * ADOdb connection factory.
  *
- * This factory provides APIs create and dispose
- * {@link http://adodb.sourceforge.net/ ADOdb} connections.
- *
  * @package    	Adodb
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
@@ -49,9 +46,7 @@ if ( !function_exists('__autoload') ) {
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-class Ddth_Adodb_AdodbFactory {
-    const DEFAULT_CONFIG_FILE = "adodb.properties";
-
+class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
     private static $cacheInstances = Array();
 
     /**
