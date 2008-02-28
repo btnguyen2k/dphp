@@ -18,6 +18,10 @@
  * @since      	File available since v0.1
  */
 
+/** */
+require_once 'adodb-exceptions.inc.php';
+require_once 'adodb.inc.php';
+
 if ( !function_exists('__autoload') ) {
     /**
      * Automatically loads class source file when used.
@@ -72,11 +76,62 @@ class Ddth_Adodb_AdodbFactory {
     }
 
     /**
+     * Holds an instance of Ddth_Adodb_AdodbConfig.
+     *
+     * @var Ddth_Adodb_AdodbConfig
+     */
+    private $config = NULL;
+
+    /**
      * Constructs a new Ddth_Adodb_AdodbFactory object.
      *
      * @param Ddth_Adodb_AdodbConfig
      */
     protected function __construct($config) {
+        $this->config = $config;
+    }
+
+    /**
+     * Gets configuration object.
+     *
+     * @return Ddth_Adodb_AdodbConfig
+     */
+    protected function getConfig() {
+        return $this->config;
+    }
+
+    /**
+     * Gets an ADOdb connection.
+     *
+     * @param bool indicates that if a transaction is automatically started
+     * @return ADOConnection an instance of ADOConnection, NULL is returned if
+     * the connection can not be created
+     */
+    public function getConnection($startTransaction=false) {
+        $dsn = $this->config->getUrl();
+        $conn = NewADOConnection($dsn);
+        if ( $conn === false ) {
+            return NULL;
+        }
+        if ( $startTransaction ) {
+            $conn->StartTrans();
+        }
+        return $conn;
+    }
+
+    /**
+     * Closes ab ADOConnection
+     *
+     * @param ADOConnection
+     * @param bool
+     */
+    public function closeConnection($conn, $hasError=false) {
+        if ( $conn != NULL ) {
+            if ( $hasError ) {
+                $conn->CompleteTrans($hasError);
+            }
+            $conn->close();
+        }
     }
 }
 ?>

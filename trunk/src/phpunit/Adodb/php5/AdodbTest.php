@@ -35,6 +35,7 @@ $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.PACKAGE.'/'.PACKAGE_PHP_VERSION;
 foreach ( $REQUIRED_PACKAGES as $package ) {
     $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.$package.'/'.PACKAGE_PHP_VERSION;
 }
+$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/libs/AdoDb5-5.0.4';
 ini_set('include_path', $INCLUDE_PATH);
 
 require_once 'PHPUnit/Framework.php';
@@ -47,9 +48,29 @@ class AdodbTest extends PHPUnit_Framework_TestCase {
     public function testObjCreation() {
         $obj1 = Ddth_Adodb_AdodbFactory::getInstance();
         $this->assertNotNull($obj1, "Can not create Ddth::Adodb::AdodbFactory object!");
-        
+
         $obj2 = Ddth_Adodb_AdodbFactory::getInstance();
         $this->assertTrue($obj1===$obj2);
+    }
+
+    /**
+     * Tests creation of ADOConnection.
+     */
+    public function testConnCreation() {
+        $obj = Ddth_Adodb_AdodbFactory::getInstance();
+        $this->assertNotNull($obj, "Can not create Ddth::Adodb::AdodbFactory object!");
+
+        /**
+         * @var ADOConnection
+         */
+        $conn = $obj->getConnection();
+
+        //        $tableName = "tbl".rand(0, time());
+        //        $conn->Execute("DROP TABLE IF EXISTS $tableName");
+        //        $conn->Execute("CREATE TABLE $tableName (id INTEGER AUTO_INCREMENT PRIMARY KEY, full_name VARCHAR(54))");
+        //        $conn->Execute("DROP TABLE IF EXISTS $tableName");
+
+        $obj->closeConnection($conn);
     }
 }
 ?>

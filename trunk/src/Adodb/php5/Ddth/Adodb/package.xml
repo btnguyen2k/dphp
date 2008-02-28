@@ -29,5 +29,12 @@
 				package.
 			</dependency-description>
 		</dependency>
+		<dependency>
+			<dependency-name>ADOdb</dependency-name>
+			<dependency-version>4.51+</dependency-version>
+			<dependency-description>
+				Ddth::Adodb requires ADOdb (http://adodb.sourceforge.net) version 4.51 or higher.
+			</dependency-description>
+		</dependency>
 	</dependencies>
 </package>
