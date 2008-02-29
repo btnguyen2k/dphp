@@ -10,7 +10,7 @@
  * please send a note to gnu@gnu.org, or send an email to any of the file's authors
  * so we can email you a copy.
  *
- * @package		Adodb
+ * @package		Mls
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
@@ -24,17 +24,17 @@ require_once 'Ddth/Commons/Exceptions/ClassAbstractException.php';
 /**
  * Thrown to indicate that an error has occurred.
  *
- * @package    	Adodb
+ * @package    	Mls
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-class Ddth_Adodb_AdodbException
+class Ddth_Mls_MlsException
 extends Ddth_Commons_Exceptions_AbstractException {
 
     /**
-     * Constructs a new Ddth_Adodb_AdodbException object.
+     * Constructs a new Ddth_Mls_MlsException object.
      *
      * @param string exception message
      * @param int user defined exception code

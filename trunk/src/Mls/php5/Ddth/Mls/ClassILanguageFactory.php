@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Represents a language pack.
+ * Factory interface to create language pack objects.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -19,9 +19,7 @@
  */
 
 /**
- * Represents a language pack.
- *
- * This interface represents a single language pack.
+ * Factory interface to create language pack objects.
  *
  * @package    	Mls
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -30,44 +28,28 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-interface Ddth_Mls_ILanguage {
+interface Ddth_Mls_ILanguageFactory {
+    const DEFAULT_CONFIG_FILE = "mls.properties";        
+    
     /**
-     * Gets a text message from this language.
+     * Gets a language pack.
      * 
-     * Note: the official type of the argument $replacements is an array.
-     * Implementations of this interface, however, can take advantage of PHP's
-     * variable arguments support to take in any number of single replacement.  
-     *
-     * @param string key of the text message to get
-     * @param Array() replacements for place-holders within the text message
-     * @return string
+     * @param string
+     * @return Ddth_Mls_ILanguage
+     * @throws Ddth_Mls_MlsException
      */
-    public function getMessage($key, $replacements=NULL);
-
-    /**
-     * Gets description of the language pack.
-     *
-     * @return string
-     */
-    public function getDescription();
+    public function getLanguage($name);
     
     /**
-     * Gets display name of the language pack.
-     *
-     * @return string
+     * Gets list of names of available languages.
+     * 
+     * @return Array()
      */
-    public function getDisplayName();
+    public function getLanguageNames();
     
     /**
-     * Gets name of the language pack.
-     *
-     * @return string
-     */
-    public function getName();
-
-    /**
-     * Initializes the language pack.
-     *
+     * Initializes the factory.
+     * 
      * @param Dddth_Commons_Properties
      * @throws Ddth_Mls_MlsException
      */

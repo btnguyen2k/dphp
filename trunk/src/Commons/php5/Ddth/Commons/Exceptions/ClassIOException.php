@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Thrown to indicate that an I/O error has occured.
+ * Thrown to indicate that an I/O error has occurred.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -23,7 +23,7 @@
 require_once 'ClassAbstractException.php';
 
 /**
- * Thrown to indicate that an I/O error has occured.
+ * Thrown to indicate that an I/O error has occurred.
  *
  * @package    	Commons
  * @subpackage	Exceptions
