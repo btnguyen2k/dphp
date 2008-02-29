@@ -69,8 +69,9 @@ if ( !function_exists('__autoload') ) {
  *
  * #other file.<name>.xxx properties are custom properties and will also be passed
  * #to the language pack's Ddth_Mls_ILanguage::init() method.
- * #also a property file.<name>.name which holds the language pack's name will
- * #be created.
+ * #also a property file.<name>.name which holds the language pack's name
+ * #and a property file.<name>.base.directory which is a copy of file.base.directory 
+ * #will be created.
  *
  * #file.<name>.xxx properties will be wrapped inside a Ddth_Commons_Properties
  * #object (the "file.<name>." part will be removed) and passed to the
@@ -241,7 +242,10 @@ class Ddth_Mls_FileLanguageFactory implements Ddth_Mls_ILanguageFactory {
                         }
                     }
                 }
-                $props->setProperty('name', $langName);
+                $key = Ddth_Mls_AbstractLanguage::PROPERTY_NAME;
+                $props->setProperty($key, $langName);
+                $key = Ddth_Mls_FileLanguage::PROPERTY_BASE_DIRECTORY;
+                $props->setProperty($key, $baseDirectory);
                 $language->init($props);
                 $this->registeredLanguages[$langName] = $language;
             } catch ( Exception $e ) {
