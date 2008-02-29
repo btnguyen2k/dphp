@@ -57,7 +57,9 @@ if ( !function_exists('__autoload') ) {
  * @since      	Class available since v0.1
  */
 class Ddth_Mls_LanguageFactory {
-    private static $cachedInstances = Array();
+    private static $cacheInstances = Array();
+    
+    const DEFAULT_CONFIG_FILE = "mls.properties";
     
     const DEFAULT_FACTORY_CLASS = 'Ddth_Mls_FileLanguageFactory';
     
