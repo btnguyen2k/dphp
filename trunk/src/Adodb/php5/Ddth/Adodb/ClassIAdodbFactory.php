@@ -32,7 +32,7 @@
  * @since      	Class available since v0.1
  */
 interface Ddth_Adodb_IAdodbFactory {
-    const DEFAULT_CONFIG_FILE = "adodb.properties";
+    const DEFAULT_CONFIG_FILE = "dphp-adodb.properties";
 
     /**
      * Gets an ADOdb connection.
