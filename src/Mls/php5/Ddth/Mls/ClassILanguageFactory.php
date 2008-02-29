@@ -28,8 +28,7 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-interface Ddth_Mls_ILanguageFactory {
-    const DEFAULT_CONFIG_FILE = "mls.properties";        
+interface Ddth_Mls_ILanguageFactory {            
     
     /**
      * Gets a language pack.

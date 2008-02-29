@@ -77,9 +77,9 @@ class Ddth_Mls_FileLanguage extends Ddth_Mls_AbstractLanguage {
      */
     protected function buildLanguageData() {
         $this->baseDirectory = trim($this->getSetting(self::PROPERTY_BASE_DIRECTORY));
-        $this->baseDirectory = preg_replace('/[\\\/]+/', '/', $this->baseDirectory);
+        $this->baseDirectory = preg_replace('/[\\/]+/', '/', $this->baseDirectory);
         $this->location = trim($this->getSetting(self::PROPERTY_LOCATION));
-        $this->location = preg_replace('/[\\\/]+/', '/', $this->location);
+        $this->location = preg_replace('/[\\/]+/', '/', $this->location);
         $dir = $this->baseDirectory . '/' . $this->location;
         if ( !is_dir($dir) ) {
             $msg = "[$dir] is not a directory!";

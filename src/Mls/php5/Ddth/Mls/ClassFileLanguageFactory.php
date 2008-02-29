@@ -230,13 +230,13 @@ class Ddth_Mls_FileLanguageFactory implements Ddth_Mls_ILanguageFactory {
                     throw new Ddth_Mls_MlsException($msg);
                 }
                 //set up configuration properties
-                $prefix = PROPERTY_PREFIX.$langName.".";
+                $prefix = self::PROPERTY_PREFIX.$langName.".";
                 $len = strlen($prefix);
                 $props = new Ddth_Commons_Properties();                
                 foreach ( $this->getSettings()->keys() as $key ) {
-                    if ( $prefix == substr($key, 0, $len) ) {
-                        $key = substr($key, $len);
+                    if ( $prefix == substr($key, 0, $len) ) {                        
                         $value = $this->getSetting($key);
+                        $key = substr($key, $len);
                         if ( $key != '' && $value != NULL ) {
                             $props->setProperty($key, $value);
                         }
