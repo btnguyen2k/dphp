@@ -129,7 +129,6 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
                 }
             }
         }
-
         $msg = $this->getLanguageData()->getProperty($key);
         return Ddth_Commons_MessageFormat::formatString($msg, $replacements);
     }

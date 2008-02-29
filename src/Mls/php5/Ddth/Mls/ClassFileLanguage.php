@@ -88,8 +88,10 @@ class Ddth_Mls_FileLanguage extends Ddth_Mls_AbstractLanguage {
         $languageData = new Ddth_Commons_Properties();
         if ( $dh = @opendir($dir) ) {
             while ( $file = @readdir($dh) ) {
-                if ( is_readable($file) && preg_match('/^.*\.properties/i', $file) ) {
+                if ( is_readable($dir.'/'.$file) && preg_match('/^.+\.properties$/i', $file) ) {
                     try {
+                        $msg = "Load language file [$dir/$file]...";
+                        $this->LOGGER->info($msg);
                         $languageData->load($dir.'/'.$file);
                     } catch ( Exception $e ) {
                         $msg = $e->getMessage();
