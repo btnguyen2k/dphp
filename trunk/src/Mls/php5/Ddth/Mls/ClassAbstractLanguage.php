@@ -59,17 +59,17 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
      * @var string
      */
     private $languageName = NULL;
-    
+
     /**
      * @var string
      */
     private $displayName = NULL;
-    
+
     /**
      * @var string
      */
     private $description = NULL;
-    
+
     /**
      * @var Ddth_Commons_Properties
      */
@@ -116,8 +116,22 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
      * {@see Ddth_Mls_ILanguage::getMessage()}
      */
     public function getMessage($key, $replacements=NULL) {
+        if ( $replacements == NULL ) {
+            $msg = $this->getLanguageData()->getProperty($key);
+            return $msg;
+        }
+        if ( !is_array($replacements) ) {
+            $replacements = Array();
+            for ( $i = 1, $n = func_num_args(); $i < $n; $i++ ) {
+                $t = func_get_arg($i);
+                if ( $t != NULL ) {
+                    $replacements[] = $t;
+                }
+            }
+        }
+
         $msg = $this->getLanguageData()->getProperty($key);
-        return $msg;
+        return Ddth_Commons_MessageFormat::formatString($msg, $replacements);
     }
 
     /**
@@ -126,14 +140,14 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
     public function getDescription() {
         return $this->description;
     }
-    
+
     /**
      * {@see Ddth_Mls_ILanguage::getDisplayName()}
      */
     public function getDisplayName() {
         return $this->displayName;
     }
-    
+
     /**
      * {@see Ddth_Mls_ILanguage::getName()}
      */
@@ -148,12 +162,21 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
         $this->setSettings($settings);
         $this->languageName = $this->getSetting(self::PROPERTY_NAME);
         $this->displayName = $this->getSetting(self::PROPERTY_DISPLAY_NAME);
-        $this->description = $this->getSetting(self::PROPERTY_DESCRIPTION); 
+        $this->description = $this->getSetting(self::PROPERTY_DESCRIPTION);
+        $this->buildLanguageData();
     }
     
     /**
-     * Sets language data.
+     * Loads and builds language data. Called by
+     * {@link Ddth_Mls_AbstractLanguage::init()} method.
      * 
+     * @throws Ddth_Mls_MlsException
+     */
+    protected abstract function buildLanguageData();
+
+    /**
+     * Sets language data.
+     *
      * @param Ddth_Commons_Properties
      */
     protected function setLanguageData($languageData) {
@@ -163,10 +186,10 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
             $this->languageData = $languageData;
         }
     }
-    
+
     /**
      * Gets language data.
-     * 
+     *
      * @return Ddth_Commons_Properties
      */
     protected function getLanguageData() {
