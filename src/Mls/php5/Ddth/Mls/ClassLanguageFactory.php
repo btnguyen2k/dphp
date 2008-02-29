@@ -46,7 +46,7 @@ if ( !function_exists('__autoload') ) {
  * #each concrete factory will have its own configuration properties
  * #see its phpDocs for details
  * </code>
- * The default configuration file is mls.properties located in
+ * The default configuration file is dphp-mls.properties located in
  * {@link http://www.php.net/manual/en/ini.core.php#ini.include-path include-path}. 
  *
  * @package    	Mls
@@ -59,7 +59,7 @@ if ( !function_exists('__autoload') ) {
 class Ddth_Mls_LanguageFactory {
     private static $cacheInstances = Array();
     
-    const DEFAULT_CONFIG_FILE = "mls.properties";
+    const DEFAULT_CONFIG_FILE = "dphp-mls.properties";
     
     const DEFAULT_FACTORY_CLASS = 'Ddth_Mls_FileLanguageFactory';
     
