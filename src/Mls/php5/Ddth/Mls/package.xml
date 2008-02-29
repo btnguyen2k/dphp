@@ -25,7 +25,7 @@
 			<dependency-name>Ddth::Commons</dependency-name>
 			<dependency-version>0.1+</dependency-version>
 			<dependency-description>
-				Ddth::Adodb uses several modules from Ddth::Commons
+				Ddth::Mls uses several modules from Ddth::Commons
 				package.
 			</dependency-description>
 		</dependency>

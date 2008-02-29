@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Thrown to indicate that an error has occured.
+ * Thrown to indicate that an error has occurred.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -33,7 +33,7 @@ if ( !function_exists('__autoload') ) {
 }
 
 /**
- * Thrown to indicate that an error has occured.
+ * Thrown to indicate that an error has occurred.
  *
  * @package    	Xpath
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
