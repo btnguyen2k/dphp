@@ -54,7 +54,7 @@ abstract class Ddth_Xpath_XmlParser {
      * @return Ddth_Xpath_XmlParser
      */
     public static function getInstance() {
-        if ( self::$instance == NULL ) {
+        if ( self::$instance === NULL ) {
             self::$instance = new Ddth_Xpath_SimpleXml_XmlParser();
         }
         return self::$instance;

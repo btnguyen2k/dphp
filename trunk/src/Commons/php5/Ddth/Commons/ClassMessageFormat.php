@@ -121,7 +121,7 @@ class Ddth_Commons_MessageFormat {
             $result .= $prefix;
             $text = substr($text, strlen($prefix));
 
-            if ( $pos == $pEsc ) {
+            if ( $pos === $pEsc ) {
                 //found escape character
                 if ( strlen($text) > 1 ) {
                     //take the next character

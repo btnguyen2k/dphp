@@ -130,13 +130,13 @@ extends Ddth_Commons_Logging_AbstractLog {
         $datetimeFormat = $prop->getProperty(self::SETTING_DATETIME_FORMAT);
         
         //setup log message format
-        if ( $logFormat == NULL || trim($logFormat) == "" ) {
+        if ( $logFormat === NULL || trim($logFormat) === "" ) {
             $logFormat = self::DEFAULT_LOG_FORMAT;
         }
         $this->logFormat = trim($logFormat);
         
         //setup date/time format
-        if ( $datetimeFormat == NULL || trim($datetimeFormat) == "" ) {
+        if ( $datetimeFormat === NULL || trim($datetimeFormat) === "" ) {
             $datetimeFormat = self::DEFAULT_DATETIME_FORMAT;
         }
         $this->datetimeFormat = trim($datetimeFormat);

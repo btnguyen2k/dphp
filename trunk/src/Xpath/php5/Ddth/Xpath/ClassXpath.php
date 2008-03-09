@@ -70,7 +70,7 @@ class Ddth_XPath {
     }
     
     public function getNodes($xpath) {
-        if ( $this->objSimpleXml == NULL ) {
+        if ( $this->objSimpleXml === NULL ) {
             return NULL;
         }
         return $this->objSimpleXml->xpath($xpath);

@@ -59,7 +59,7 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
      * @see {@link Ddth_Adodb_AdodbConfig configuration file format}.
      */
     public static function getInstance($configFile=NULL) {
-        if ( $configFile == NULL ) {
+        if ( $configFile === NULL ) {
             return self::getInstance(self::DEFAULT_CONFIG_FILE);
         }
         if ( !isset(self::$cacheInstances[$configFile]) ) {
@@ -108,6 +108,12 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
         if ( $conn === false ) {
             return NULL;
         }
+
+        foreach ( $this->config->getSetupSqls() as $sql ) {
+            //run setup sqls
+            $conn->Execute($sql);
+        }
+
         if ( $startTransaction ) {
             $conn->StartTrans();
         }
