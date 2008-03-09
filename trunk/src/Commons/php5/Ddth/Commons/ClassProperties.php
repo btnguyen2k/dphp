@@ -122,7 +122,7 @@ class Ddth_Commons_Properties {
         $result = "";
         foreach ( $this->properties as $key=>$node ) {                        
             $comment = count($node) > 1 ? $node[1] : NULL;
-            if ( $comment != NULL ) {
+            if ( $comment !== NULL ) {
                 $lines = explode("\n", $comment);
                 if ( $lines !== false ) {
                     foreach ( $lines as $line ) {
@@ -244,7 +244,7 @@ class Ddth_Commons_Properties {
                     break;
             }
         }
-        if ( $key!=NULL && $value!=NULL ) {
+        if ( $key!==(NULL) && $value!==NULL ) {
             $this->setProperty($key, $value, $comment);
         }
     }
@@ -257,7 +257,7 @@ class Ddth_Commons_Properties {
     }
 
     private function parseComment(&$state, &$comment, $input) {
-        if ( $comment != NULL ) {
+        if ( $comment !== NULL ) {
             $comment .= "\n" . $input;
         } else {
             $comment = $input;

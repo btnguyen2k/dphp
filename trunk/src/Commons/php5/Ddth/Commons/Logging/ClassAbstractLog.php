@@ -80,7 +80,7 @@ implements Ddth_Commons_Logging_ILog {
         if ( !is_string($this->className) ) {
             $this->className = NULL;
         }
-        if ( $this->className != NULL ) {
+        if ( $this->className !== NULL ) {
             $this->className = trim(str_replace('::', '_', $this->className));
         }
 
