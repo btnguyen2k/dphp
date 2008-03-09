@@ -187,7 +187,7 @@ class Ddth_Mls_FileLanguageFactory implements Ddth_Mls_ILanguageFactory {
 
         //set up base directory
         $baseDirectory = $this->getSetting(self::PROPERTY_BASE_DIRECTORY);
-        if ( $baseDirectory==NULL || trim($baseDirectory)=="" ) {
+        if ( $baseDirectory===NULL || trim($baseDirectory)==="" ) {
             $msg = 'Can not find base directory setting!';
             $this->LOGGER->fatal($msg);
             throw new Ddth_Mls_MlsException($msg);
@@ -201,7 +201,7 @@ class Ddth_Mls_FileLanguageFactory implements Ddth_Mls_ILanguageFactory {
 
         //set up language pack class
         $languageClass = $this->getSetting(self::PROPERTY_LANGUAGE_CLASS);
-        if ( $languageClass==NULL || trim($languageClass)=="" ) {
+        if ( $languageClass===NULL || trim($languageClass)==="" ) {
             $languageClass = self::DEFAULT_LANGUAGE_CLASS;
         } else {
             $languageClass = trim($languageClass);
@@ -212,7 +212,7 @@ class Ddth_Mls_FileLanguageFactory implements Ddth_Mls_ILanguageFactory {
         $languagePacks = trim(preg_replace('/[\s,;]+/', ' ', $languagePacks));
         $tokens = preg_split('/[\s,;]+/', trim($languagePacks));
         foreach ( $tokens as $langName ) {
-            if ( $langName=="" ) {
+            if ( $langName==="" ) {
                 continue;
             }
             $msg = "Loading language pack [$langName]...";
@@ -234,10 +234,10 @@ class Ddth_Mls_FileLanguageFactory implements Ddth_Mls_ILanguageFactory {
                 $len = strlen($prefix);
                 $props = new Ddth_Commons_Properties();                
                 foreach ( $this->getSettings()->keys() as $key ) {
-                    if ( $prefix == substr($key, 0, $len) ) {                        
+                    if ( $prefix === substr($key, 0, $len) ) {                        
                         $value = $this->getSetting($key);
                         $key = substr($key, $len);
-                        if ( $key != '' && $value !== NULL ) {
+                        if ( $key !== '' && $value !== NULL ) {
                             $props->setProperty($key, $value);
                         }
                     }
@@ -253,7 +253,7 @@ class Ddth_Mls_FileLanguageFactory implements Ddth_Mls_ILanguageFactory {
                 $this->LOGGER->error($msg, $e);
             }
         }
-        if ( count($this->registeredLanguages) == 0 ) {
+        if ( count($this->registeredLanguages) === 0 ) {
             $msg = "There is no registered language packs!";
             $this->LOGGER->warn($msg);
         }

@@ -61,11 +61,11 @@ abstract class Ddth_Xpath_SimpleXml_Xnode implements Ddth_Xpath_IXnode {
      * @throws {@link Ddth_Xpath_XpathException XpathException}
      */
     public static function createNode($simpleXml) {        
-        if ( $simpleXml==NULL || !($simpleXml instanceof SimpleXMLElement ) ) {
+        if ( $simpleXml===NULL || !($simpleXml instanceof SimpleXMLElement ) ) {
             $msg = "[$simpleXml] is not an instance of SimpleXMLElement!";
             throw new Ddth_Xpath_XpathException($msg);
         }                
-        if ( $simpleXml->attributes() == NULL ) {
+        if ( $simpleXml->attributes() === NULL ) {
             return new Ddth_Xpath_SimpleXml_AttributeXnode($simpleXml);
         } else {
             return new Ddth_Xpath_SimpleXml_ElementXnode($simpleXml);            
@@ -79,7 +79,7 @@ abstract class Ddth_Xpath_SimpleXml_Xnode implements Ddth_Xpath_IXnode {
      * @throws {@link Ddth_Xpath_XpathException XpathException}
      */
     protected function __construct($simpleXml) {
-        if ( $simpleXml==NULL || !($simpleXml instanceof SimpleXMLElement ) ) {
+        if ( $simpleXml===NULL || !($simpleXml instanceof SimpleXMLElement ) ) {
             $msg = "[$simpleXml] is not an instance of SimpleXMLElement!";
             throw new Ddth_Xpath_XpathException($msg);
         }

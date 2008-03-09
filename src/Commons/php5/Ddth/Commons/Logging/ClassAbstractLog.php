@@ -84,7 +84,7 @@ implements Ddth_Commons_Logging_ILog {
             $this->className = trim(str_replace('::', '_', $this->className));
         }
 
-        if ( $prop == NULL ) {
+        if ( $prop === NULL ) {
             $prop = new Ddth_Commons_Properties();
         }
         if ( !($prop instanceof Ddth_Commons_Properties) ) {
@@ -107,7 +107,7 @@ implements Ddth_Commons_Logging_ILog {
         $found = false;
         $level = NULL;
         foreach ( $loggerClazzs as $clazz ) {
-            if ( $this->className == $clazz ||
+            if ( $this->className === $clazz ||
             strpos($this->className, $clazz.'_')!==false ) {                
                 $key = Ddth_Commons_Logging_ILog::SETTING_PREFIX_LOGGER_CLASS.$clazz;
                 $level = trim(strtoupper($prop->getProperty($key)));

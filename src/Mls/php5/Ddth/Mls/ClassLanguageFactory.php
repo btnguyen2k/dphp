@@ -76,7 +76,7 @@ class Ddth_Mls_LanguageFactory {
      * @throws {@link Ddth_Mls_MlsException MlsException} 
      */
     public static function getInstance($configFile=NULL) {
-        if ( $configFile == NULL ) {
+        if ( $configFile === NULL ) {
             return self::getInstance(self::DEFAULT_CONFIG_FILE);
         }
         if ( !isset(self::$cacheInstances[$configFile]) ) {
@@ -88,7 +88,7 @@ class Ddth_Mls_LanguageFactory {
                 throw new Ddth_Mls_MlsException($msg);
             }
             $factoryClass = $prop->getProperty(self::PROPERTY_FACTORY_CLASS);
-            if ( $factoryClass==NULL || trim($factoryClass)=="" ) {
+            if ( $factoryClass===NULL || trim($factoryClass)==="" ) {
                 $factoryClass = self::DEFAULT_FACTORY_CLASS;
             } else {
                 $factoryClass = trim($factoryClass);

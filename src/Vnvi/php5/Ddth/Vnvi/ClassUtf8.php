@@ -361,7 +361,7 @@ class Ddth_Vnvi_Utf8 {
      * @return Ddth_Vnvi_Utf8
      */
     public static function getInstance() {
-        if ( self::$instance == NULL ) {
+        if ( self::$instance === NULL ) {
             self::$instance = new Ddth_Vnvi_Utf8();
         }
         return self::$instance;
@@ -441,7 +441,7 @@ class Ddth_Vnvi_Utf8 {
         $n2 = count($letters2);
         for ( $i = 0, $n = min(Array($n1, $n2)); $i < $n; $i++ ) {
             $result = $this->compareLetters($letters1[$i], $letters2[$i], $caseInsensitive);
-            if ( $result != 0 ) {
+            if ( $result !== 0 ) {
                 return $result;
             }
         }
@@ -474,7 +474,7 @@ class Ddth_Vnvi_Utf8 {
         $mark2 = $this->getWordToneMark($word2);
         $word2 = $this->removeToneMarks($word2);
         $result = $this->compareStrings($word1, $word2, $caseInsensitive);
-        if ( $result != 0 ) {
+        if ( $result !== 0 ) {
             //word ordering has higher priority than tone mark ordering
             return $result;
         }
@@ -526,7 +526,7 @@ class Ddth_Vnvi_Utf8 {
         while ( $len ) {
             $letter = mb_substr($word, 0, 1, self::ENCODING);
             $mark = $this->getLetterToneMark($letter);
-            if ( $mark != Ddth_Vnvi_Constants::MARK_NONE ) {
+            if ( $mark !== Ddth_Vnvi_Constants::MARK_NONE ) {
                 break;
             }
             $word = mb_substr($word, 1, $len, self::ENCODING);

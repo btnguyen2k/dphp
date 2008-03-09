@@ -50,7 +50,7 @@ require_once 'ClassDefaultClassNameTranslator.php';
  * @return bool true if success, false otherwise
  */
 function Ddth_Commons_Loader_loadClass($className, $classNameTranslator=NULL) {
-    if ( $classNameTranslator==NULL || !is_object($classNameTranslator)
+    if ( $classNameTranslator===NULL || !is_object($classNameTranslator)
     || !($classNameTranslator instanceof Ddth_Commons_IClassNameTranslator) ) {
         $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
         return Ddth_Commons_Loader::loadClass($className, $translator);

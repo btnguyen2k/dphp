@@ -116,7 +116,7 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
      * {@see Ddth_Mls_ILanguage::getMessage()}
      */
     public function getMessage($key, $replacements=NULL) {
-        if ( $replacements == NULL ) {
+        if ( $replacements === NULL ) {
             $msg = $this->getLanguageData()->getProperty($key);
             return $msg;
         }
@@ -179,7 +179,7 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
      * @param Ddth_Commons_Properties
      */
     protected function setLanguageData($languageData) {
-        if ( $languageData==NULL || !($languageData instanceof Ddth_Commons_Properties) ) {
+        if ( $languageData===NULL || !($languageData instanceof Ddth_Commons_Properties) ) {
             $this->languageData = new Ddth_Commons_Properties();
         } else {
             $this->languageData = $languageData;
