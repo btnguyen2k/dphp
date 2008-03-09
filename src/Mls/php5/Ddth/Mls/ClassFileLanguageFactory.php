@@ -237,7 +237,7 @@ class Ddth_Mls_FileLanguageFactory implements Ddth_Mls_ILanguageFactory {
                     if ( $prefix == substr($key, 0, $len) ) {                        
                         $value = $this->getSetting($key);
                         $key = substr($key, $len);
-                        if ( $key != '' && $value != NULL ) {
+                        if ( $key != '' && $value !== NULL ) {
                             $props->setProperty($key, $value);
                         }
                     }

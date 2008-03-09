@@ -121,7 +121,7 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
      * @param bool
      */
     public function closeConnection($conn, $hasError=false) {
-        if ( $conn != NULL ) {
+        if ( $conn !== NULL ) {
             if ( $hasError ) {
                 $conn->CompleteTrans($hasError);
             }

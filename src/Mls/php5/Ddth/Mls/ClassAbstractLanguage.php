@@ -124,7 +124,7 @@ abstract class Ddth_Mls_AbstractLanguage implements Ddth_Mls_ILanguage {
             $replacements = Array();
             for ( $i = 1, $n = func_num_args(); $i < $n; $i++ ) {
                 $t = func_get_arg($i);
-                if ( $t != NULL ) {
+                if ( $t !== NULL ) {
                     $replacements[] = $t;
                 }
             }

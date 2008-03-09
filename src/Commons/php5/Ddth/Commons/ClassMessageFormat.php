@@ -97,7 +97,7 @@ class Ddth_Commons_MessageFormat {
      */
     public function format($substitutes=Array()) {
         $result = "";
-        $text = $this->pattern != NULL ? $this->pattern : "";
+        $text = $this->pattern !== NULL ? $this->pattern : "";
         if ( !is_array($substitutes) ) {
             $substitutes = Array();
         }

@@ -145,9 +145,9 @@ extends Ddth_Commons_Logging_AbstractLog {
     private function buildLogMessage($level, $message, $e=NULL) {
         $datetime = date($this->datetimeFormat, time());
         $level = strtoupper($level);
-        $stacktrace = $e!=NULL ? $e->getTraceAsString() : NULL;
+        $stacktrace = $e!==NULL ? $e->getTraceAsString() : NULL;
         $msgAutoStacktrace = $message;
-        if ( $e != NULL ) {
+        if ( $e !== NULL ) {
             $msgAutoStacktrace .= '\n' . $e->getTraceAsString();
         }
         $msg = $this->logFormat;
@@ -156,7 +156,7 @@ extends Ddth_Commons_Logging_AbstractLog {
         $msg = str_ireplace(self::PLACE_HOLDER_LEVEL, strtoupper($level), $msg);
         $msg = str_ireplace(self::PLACE_HOLDER_MESSAGE, $message, $msg);
         $msg = str_ireplace(self::PLACE_HOLDER_MSG_AUTO_STACKTRACE, $msgAutoStacktrace, $msg);
-        if ( $stacktrace != NULL ) {
+        if ( $stacktrace !== NULL ) {
             $msg = str_ireplace(self::PLACE_HOLDER_STACKTRACE, $stacktrace, $msg);
         }
         return $msg; 
