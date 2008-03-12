@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Simple logger that sends log messages to PHP's system logger.
+ * A logger that prints log messages to console.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -35,10 +35,7 @@ if ( !function_exists('__autoload') ) {
 }
 
 /**
- * Simple logger that sends log messages to PHP's system logger.
- *
- * This logger uses {@link http://www.php.net/error_log error_log()}
- * function to send log messages to PHP's system logger.
+ * A logger that prints log messages to console.
  * 
  * This logger has several settings which can be set via log factory configuration file:
  * <code>
@@ -52,15 +49,13 @@ if ( !function_exists('__autoload') ) {
  * # - {message_auto_stacktrace}: log message, then if stacktrace exists, followed
  * #           by a newline chacter and the stacktrace                            
  * # - {nl}: newline character
- * logger.setting.simple.logFormat={level}: {message_auto_stacktrace}
+ * logger.setting.console.logFormat={level}: {message_auto_stacktrace}{nl}
  * 
  * # Date/time format (follow PHP's date() format, see http://www.php.net/date)
- * logger.setting.simple.datetimeFormat=Y-m-d H:i:s 
+ * logger.setting.console.datetimeFormat=Y-m-d H:i:s 
  * </code> 
  * 
- * Note: since PHP automatically adds timestamp to any log message, the default
- * log message format is "{level}: {message_auto_stacktrace}".
- * 
+ * Note: the default log message format is "{level}: {message_auto_stacktrace}{nl}".
  *
  * @package    	Commons
  * @subpackage	Logging
@@ -69,12 +64,12 @@ if ( !function_exists('__autoload') ) {
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
-class Ddth_Commons_Logging_SimpleLog
+class Ddth_Commons_Logging_ConsoleLog
 extends Ddth_Commons_Logging_AbstractLog {
     /**
      * Default log message format.
      */
-    const DEFAULT_LOG_FORMAT = '{level}: {message_auto_stacktrace}';
+    const DEFAULT_LOG_FORMAT = '{level}: {message_auto_stacktrace}{nl}';
     
     /**
      * Default date/time format
@@ -84,12 +79,12 @@ extends Ddth_Commons_Logging_AbstractLog {
     /**
      * Configuration etting key for log message format
      */
-    const SETTING_LOG_FORMAT = 'simple.logFormat';
+    const SETTING_LOG_FORMAT = 'console.logFormat';
     
     /**
      * Configuration etting key for date/time format
      */
-    const SETTING_DATETIME_FORMAT = 'simple.datetimeFormat';
+    const SETTING_DATETIME_FORMAT = 'console.datetimeFormat';
     
     const PLACE_HOLDER_NL                  = '{nl}';
     
@@ -171,7 +166,7 @@ extends Ddth_Commons_Logging_AbstractLog {
     public function debug($message, $e = NULL) {
         if ( !$this->isDebugEnabled() ) return;
         $msg = $this->buildLogMessage('DEBUG', $message, $e);
-        error_log($msg, 0 /* PHP's system logger */);
+        echo $msg;
     }
 
     /**
@@ -183,7 +178,7 @@ extends Ddth_Commons_Logging_AbstractLog {
     public function error($message, $e = NULL) {
         if ( !$this->isErrorEnabled() ) return;
         $msg = $this->buildLogMessage('ERROR', $message, $e);
-        error_log($msg, 0 /* PHP's system logger */);
+        echo $msg;
     }
 
     /**
@@ -195,7 +190,7 @@ extends Ddth_Commons_Logging_AbstractLog {
     public function fatal($message, $e = NULL) {
         if ( !$this->isFatalEnabled() ) return;
         $msg = $this->buildLogMessage('FATAL', $message, $e);
-        error_log($msg, 0 /* PHP's system logger */);
+        echo $msg;
     }
 
     /**
@@ -207,7 +202,7 @@ extends Ddth_Commons_Logging_AbstractLog {
     public function info($message, $e = NULL) {
         if ( !$this->isInfoEnabled() ) return;
         $msg = $this->buildLogMessage('INFO', $message, $e);
-        error_log($msg, 0 /* PHP's system logger */);
+        echo $msg;
     }
 
     /**
@@ -219,7 +214,7 @@ extends Ddth_Commons_Logging_AbstractLog {
     public function trace($message, $e = NULL) {
         if ( !$this->isTraceEnabled() ) return;
         $msg = $this->buildLogMessage('TRACE', $message, $e);
-        error_log($msg, 0 /* PHP's system logger */);
+        echo $msg;
     }
 
     /**
@@ -231,7 +226,7 @@ extends Ddth_Commons_Logging_AbstractLog {
     public function warn($message, $e = NULL) {
         if ( !$this->isWarnEnabled() ) return;
         $msg = $this->buildLogMessage('WARN', $message, $e);
-        error_log($msg, 0 /* PHP's system logger */);
+        echo $msg;
     }
 }
 ?>
