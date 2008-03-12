@@ -62,7 +62,7 @@ implements Ddth_Commons_IClassNameTranslator {
     }
 
     /**
-     * @see Ddth_Commons_IClassNameTranslator::translateClassNameToFileName()
+     * {@see Ddth_Commons_IClassNameTranslator::translateClassNameToFileName()}
      */
     public function translateClassNameToFileName($className) {
         $tokens = explode("_", $className);

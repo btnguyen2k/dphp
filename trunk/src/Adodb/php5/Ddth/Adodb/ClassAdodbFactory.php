@@ -51,12 +51,13 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
 
     /**
      * Gets an instance of Ddth_Adodb_AdodbFactory.
+     * 
+     * See: {@link Ddth_Adodb_AdodbConfig configuration file format}.
      *
      * @param string name of the configuration file (located in
      * {@link http://www.php.net/manual/en/ini.core.php#ini.include-path include-path})
      * @return Ddth_Adodb_AdodbFactory
-     * @throws {@link Ddth_Adodb_AdodbException AdodbException}
-     * @see {@link Ddth_Adodb_AdodbConfig configuration file format}.
+     * @throws {@link Ddth_Adodb_AdodbException AdodbException} 
      */
     public static function getInstance($configFile=NULL) {
         if ( $configFile === NULL ) {
