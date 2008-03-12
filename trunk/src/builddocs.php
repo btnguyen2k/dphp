@@ -57,6 +57,7 @@ if ( !is_dir($DIR_PACKAGE_SOURCE) ) {
     error("$DIR_PACKAGE_SOURCE is not a directory or does not exists!");
 }
 $DIR_PACKAGE_DOCS = $PACKAGE.$PATH_SEPARATOR.$PACKAGE_PHP_VERSION.$PATH_SEPARATOR.'phpDocs';
+@mkdir($DIR_PACKAGE_DOCS);
 if ( !is_dir($DIR_PACKAGE_DOCS) ) {
     error("$DIR_PACKAGE_DOCS is not a directory or does not exists!");
 }
