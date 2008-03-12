@@ -43,9 +43,11 @@ if ( !function_exists('__autoload') ) {
  * 
  * The factory configuration file has the following format:
  * <code>
- * ddth.commons.logging.Logger=class name of the logger (an implementation of ILog)
- * logger.setting.xxx=setting xxx for the underlying logger
+ * # Class name of the logger (an implementation of ILog)
+ * # Default value is Ddth_Commons_Logging_SimpleLog
+ * ddth.commons.logging.Logger=Ddth_Commons_Logging_SimpleLog
  * 
+ * # logger.setting.xxx=setting xxx for the underlying logger
  * logger.setting.default=default log level (TRACE, DEBUG, INFO, WARN, ERROR, or FATAL) 
  * 
  * # The following settings are used by class AbstractLog:
