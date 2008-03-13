@@ -135,25 +135,62 @@ class MemcacheTest extends PHPUnit_Framework_TestCase {
 
         $key = 'key1';
         $value = 'value1';
-        $cache->put($key, $value);        
+        $cache->put($key, $value);
         $value = $cache->get($key);
-        $this->assertEquals('value1', $value);        
-        
+        $this->assertEquals('value1', $value);
+
         sleep(2);
+
+        $key = 'key2';
+        $value = 'value2';
+        $cache->put($key, $value);
+        $value = $cache->get($key);
+        $this->assertEquals('value2', $value);
+
+        sleep(2);
+
+        $key = 'key3';
+        $value = 'value3';
+        $cache->put($key, $value);
+        $value = $cache->get($key);
+        $this->assertEquals('value3', $value);
+    }
+
+    /**
+     * Tests cache functionality.
+     */
+    public function testCacheDefault() {
+        $cm = Ddth_Cache_CacheFactory::getCacheManager();
+        $this->assertNotNull($cm, "Can not create cache manager object!");
+        $this->assertTrue($cm instanceof Ddth_Cache_Memcache_MemCacheManager);
+        $cm->clearCache('notspecify');
+
+        $cache = $cm->getCache('notspecify');
+        $this->assertNotNull($cache);
+        $this->assertTrue($cache instanceof Ddth_Cache_Memcache_MemCache);
+        $this->assertTrue($cache->getName() == 'notspecify');
+        $this->assertTrue($cache->getCapacity() == 1000);
+
+        $key = 'key1';
+        $value = 'value1';
+        $cache->put($key, $value);
+        $value = $cache->get($key);
+        $this->assertEquals('value1', $value);
+        $this->assertEquals(1, $cache->countElementsInMemory());
         
         $key = 'key2';
         $value = 'value2';
-        $cache->put($key, $value);        
+        $cache->put($key, $value);
         $value = $cache->get($key);
         $this->assertEquals('value2', $value);
-        
-        sleep(2);
+        $this->assertEquals(2, $cache->countElementsInMemory());
         
         $key = 'key3';
         $value = 'value3';
-        $cache->put($key, $value);        
+        $cache->put($key, $value);
         $value = $cache->get($key);
-        $this->assertEquals('value3', $value);       
+        $this->assertEquals('value3', $value);
+        $this->assertEquals(3, $cache->countElementsInMemory());
     }
 }
 ?>
