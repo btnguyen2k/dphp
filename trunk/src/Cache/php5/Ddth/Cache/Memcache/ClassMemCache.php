@@ -59,7 +59,7 @@ class Ddth_Cache_Memcache_MemCache extends Ddth_Cache_AbstractCache {
      * @var Array()
      */
     private $storage;
-    
+
     public function getStorage() {
         return $this->storage;
     }
@@ -74,7 +74,7 @@ class Ddth_Cache_Memcache_MemCache extends Ddth_Cache_AbstractCache {
      * {@see Ddth_Cache_ICache::init()}
      */
     public function init($config, $manager) {
-        $this->prefix = $config->getPrefix();        
+        $this->prefix = $config->getPrefix();
         if ( $this->prefix === NULL ) {
             $this->prefix = "";
         }
@@ -200,8 +200,8 @@ class Ddth_Cache_Memcache_MemCache extends Ddth_Cache_AbstractCache {
     public function get($key) {
         $this->syncStorage(self::SYNC_INCOMING);
         $key = $this->createKeyString($key);
-        $entry = $this->mcGet($key);        
-        if ( $entry !== NULL && $entry instanceof Ddth_Cache_CacheEntry ) {            
+        $entry = $this->mcGet($key);
+        if ( $entry !== NULL && $entry instanceof Ddth_Cache_CacheEntry ) {
             if ( !$entry->isExpired() ) {
                 $value = $entry->getValue();
                 $timeout = $this->getTimeout();
@@ -225,19 +225,14 @@ class Ddth_Cache_Memcache_MemCache extends Ddth_Cache_AbstractCache {
      */
     public function put($key, $value) {
         $this->syncStorage(self::SYNC_INCOMING);
-        $key = $this->createKeyString($key);        
+        $key = $this->createKeyString($key);
         $timeout = $this->getTimeout();
         $oldEntry = $this->mcGet($key);
-        $newEntry = new Ddth_Cache_CacheEntry($value, $timeout);        
+        $newEntry = new Ddth_Cache_CacheEntry($value, $timeout);
         $this->mcSet($key, $newEntry, MEMCACHE_COMPRESSED, $timeout);
         $this->storage[$key] = $newEntry->getLastAccessTimestamp();
-        asort($this->storage, SORT_NUMERIC);        
-        $capacity = $this->getCapacity();
-        if ( $capacity > 0 && $capacity < count($this->storage) ) {
-            while ( $capacity < count($this->storage) ) {
-                array_shift($this->storage);
-            }
-        }
+        asort($this->storage, SORT_NUMERIC);
+        $this->checkCapacity();
         $this->syncStorage(self::SYNC_OUTGOING);
         if ( $oldEntry !== NULL && $oldEntry instanceof Ddth_Cache_CacheEntry ) {
             if ( !$oldEntry->isExpired() ) {
@@ -245,6 +240,20 @@ class Ddth_Cache_Memcache_MemCache extends Ddth_Cache_AbstractCache {
             }
         }
         return NULL;
+    }
+
+    /**
+     * Re-validates this cache's capacity.
+     */
+    protected function checkCapacity() {
+        $capacity = $this->getCapacity();
+        while ( $capacity > 0 && $capacity < count($this->storage) ) {
+            foreach ( $this->storage as $key=>$value ) {
+                $this->mcDelete($key);
+                unset($this->storage[$key]);
+                break;
+            }
+        }
     }
 
     /**

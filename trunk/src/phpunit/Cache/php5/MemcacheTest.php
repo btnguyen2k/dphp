@@ -138,7 +138,6 @@ class MemcacheTest extends PHPUnit_Framework_TestCase {
         $cache->put($key, $value);        
         $value = $cache->get($key);
         $this->assertEquals('value1', $value);        
-        var_dump($cache->getStorage());
         
         sleep(2);
         
@@ -147,7 +146,6 @@ class MemcacheTest extends PHPUnit_Framework_TestCase {
         $cache->put($key, $value);        
         $value = $cache->get($key);
         $this->assertEquals('value2', $value);
-        var_dump($cache->getStorage());
         
         sleep(2);
         
@@ -155,8 +153,7 @@ class MemcacheTest extends PHPUnit_Framework_TestCase {
         $value = 'value3';
         $cache->put($key, $value);        
         $value = $cache->get($key);
-        $this->assertEquals('value3', $value);
-        var_dump($cache->getStorage());       
+        $this->assertEquals('value3', $value);       
     }
 }
 ?>
