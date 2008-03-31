@@ -39,12 +39,12 @@ if ( !function_exists('__autoload') ) {
  * Configuration file format: the configurations are stored in
  * .properties file; supported properties are:
  * <code>
- * #class name of the concrete factory.
- * #Default is Ddth_Mls_FileLanguageFactory
+ * # Class name of the concrete factory.
+ * # Default value is Ddth_Mls_FileLanguageFactory.
  * factory.class=Ddth_Mls_FileLanguageFactory
  * 
- * #each concrete factory will have its own configuration properties
- * #see its phpDocs for details
+ * # Each concrete factory will have its own configuration properties,
+ * # eee its phpDocs for details.
  * </code>
  * The default configuration file is dphp-mls.properties located in
  * {@link http://www.php.net/manual/en/ini.core.php#ini.include-path include-path}. 

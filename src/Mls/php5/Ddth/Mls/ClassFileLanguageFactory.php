@@ -40,42 +40,42 @@ if ( !function_exists('__autoload') ) {
  *
  * Configuration properties:
  * <code>
- * #points to the root directory where all language packs are located
+ * # Points to the root directory where all language packs are located.
  * file.base.directory=/path/to/languages/directory
  *
- * #names of registered language packs, separated by (,) or (;) or spaces
- * #language name should contain only lower-cased letters (a-z), digits (0-9)
- * #and underscores only!
+ * # Names of registered language packs, separated by (,) or (;) or spaces.
+ * # Language name should contain only lower-cased letters (a-z), digits (0-9)
+ * # and underscores only!
  * file.languages=default, en, vn
  *
- * #class name of the concrete language pack, it *must* implement interface
- * #Ddth_Mls_ILanguage and _should_ extends class Ddth_Mls_FileLanguage
- * #this property is optional, the default value is Ddth_Mls_FileLanguage
+ * # Class name of the concrete language pack, it *must* implement interface
+ * # Ddth_Mls_ILanguage and _should_ extends class Ddth_Mls_FileLanguage.
+ * # This property is optional, the default value is Ddth_Mls_FileLanguage.
  * file.language.class=Ddth_Mls_FileLanguage
  *
- * #file.<name>.display is the display name of the registered
- * #language <name>
- * #this property is optional
+ * # file.<name>.display is the display name of the registered
+ * # language <name>.
+ * # This property is optional.
  * file.default.display=Default
  *
- * #file.<name>.description is the short description of the registered
- * #language <name>
- * #this property is optional
+ * # file.<name>.description is the short description of the registered
+ * # language <name>.
+ * # This property is optional.
  * file.default.description=This is the default language pack
  *
- * #file.<name>.location points to a sub-directory, of the language factory's
- * #root directory, where files of this language pack are located
+ * # file.<name>.location points to a sub-directory, of the language factory's
+ * # root directory, where files of this language pack are located
  * file.default.location=default
  *
- * #other file.<name>.xxx properties are custom properties and will also be passed
- * #to the language pack's Ddth_Mls_ILanguage::init() method.
- * #also a property file.<name>.name which holds the language pack's name
- * #and a property file.<name>.base.directory which is a copy of file.base.directory 
- * #will be created.
+ * # Other file.<name>.xxx properties are custom properties and will also be passed
+ * # to the language pack's Ddth_Mls_ILanguage::init() method.
+ * # Also a property file.<name>.name which holds the language pack's name
+ * # and a property file.<name>.base.directory which is a copy of file.base.directory 
+ * # will be created.
  *
- * #file.<name>.xxx properties will be wrapped inside a Ddth_Commons_Properties
- * #object (the "file.<name>." part will be removed) and passed to the
- * #language pack's Ddth_Mls_ILanguage::init() method.
+ * # file.<name>.xxx properties will be wrapped inside a Ddth_Commons_Properties
+ * # object (the "file.<name>." part will be removed) and passed to the
+ * # language pack's Ddth_Mls_ILanguage::init() method.
  * </code>
  * See {@link Ddth_Mls_LanguageFactory configuration file format}.
  *
