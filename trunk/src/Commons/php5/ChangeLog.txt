@@ -1,3 +1,7 @@
+* 04-April-2008: version 0.1_6
+	- Introduce File module:
+		+ Class(es): File
+
 * 12-Mar-2008: version 0.1_5
 	- Upgraded Ddth_Commons_Logging to 0.1.1:
 		+ Class(es): ConsoleLog
