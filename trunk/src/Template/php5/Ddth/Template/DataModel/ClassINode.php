@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Represents a template page.
+ * Represents a data model node.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -11,6 +11,7 @@
  * so we can email you a copy.
  *
  * @package		Template
+ * @subpackage 	DataModel
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
@@ -19,38 +20,45 @@
  */
 
 /**
- * Represents a template page.
+ * Represents a data model node.
  *
- * This interface represents a single template page.
+ * This interface represents a single node in the template's data model.
  *
  * @package    	Template
+ * @subpackage  DataModel
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-interface Ddth_Template_IPage {
+interface Ddth_Template_DataModel_INode {
     /**
-     * Gets the template file associated with this page.
-     *
-     * @return string
-     */
-    public function getTemplateFile();
+	 * Converts the data model node to PHP data type.
+	 * 
+	 * @return mixed
+	 */
+	public function asPhpType();
 
-    /**
-     * Sets the data model for this page.
-     *
-     * @param Ddth_Template_DataModel_Node
-     */
-    public function setDataModel($root);
+	/**
+	 * Retrieves the node's name.
+	 * 
+	 * @return string
+	 */
+	public function getName();
+	
+	/**
+	 * Gets the node's value.
+	 * 
+	 * @return mixed
+	 */
+	public function getValue();
 
-    /**
-     * Renders the page.
-     *
-     * @param Ddth_Template_DataModel_Node
-     * @throws Ddth_Template_TemplateException
-     */
-    public function render($dataModel=NULL);
+	/**
+	 * Sets the node's value.
+	 * 
+	 * @param mixed
+	 */
+	public function setValue($value);
 }
 ?>

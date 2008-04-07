@@ -14,7 +14,7 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassFileLanguageFactory.php 147 2008-03-09 06:00:32Z nbthanh@vninformatics.com $
+ * @id			$Id$
  * @since      	File available since v0.1
  */
 
@@ -38,15 +38,15 @@ if ( !function_exists('__autoload') ) {
  *
  * This TemplateFactory loads template packs from files on disk.
  *
- * Configuration properties:
+ * Configuration properties (stored as .properties format):
  * <code>
  * # Points to the root directory where all template packs are located.
- * base.directory=/path/to/templates/directory
+ * baseDirectory=/path/to/templates/directory
  *
  * # Names of registered template packs, separated by (,) or (;) or spaces.
  * # Template name should contain only lower-cased letters (a-z), digits (0-9)
  * # and underscores only!
- * templates=default, en, vn
+ * templates=default, fancy
  *
  * # template.<name>.display is the display name of the registered
  * # template <name>.
@@ -65,16 +65,28 @@ if ( !function_exists('__autoload') ) {
  * # template.<name>.location points to a sub-directory, of the template factory's
  * # root directory, where files of this template pack are located.
  * template.default.location=default
+ * 
+ * # template.<name>.configFile is the name of the template pack configuration file.
+ * # This file is located under template.<name>.location
+ * template.default.configFile=config.properties
  *
  * # Other template.<name>.xxx properties are custom properties and will also be passed
  * # to the template pack's Ddth_Template_ITemplate::init() method.
  * # Also a property template.<name>.name which holds the template pack's name
- * # and a property template.<name>.base.directory which is a copy of base.directory
+ * # and a property template.<name>.baseDirectory which is a copy of baseDirectory
  * # will be created and passed to Ddth_Template_ITemplate::init() method.
  *
  * # template.<name>.xxx properties will be wrapped inside a Ddth_Commons_Properties
  * # object (the "template.<name>." part will be removed) and passed to the
  * # template pack's Ddth_Template_ITemplate::init() method.
+ * 
+ * # The following properties are for Smartyt-type template:
+ * # - name of the directory to store Smarty's cache files (located inside template.<name>.location)
+ * template.<name>.smarty.cache=cache
+ * # - name of the directory to store Smarty's compiled template files (located inside template.<name>.location)
+ * template.<name>.smarty.compile=templates_c
+ * # - name of the directory to store Smarty's configuration files (located inside template.<name>.location)
+ * template.<name>.smarty.configs=configs
  * </code>
  * See {@link Ddth_Template_TemplateFactory configuration file format}.
  *
@@ -88,10 +100,11 @@ if ( !function_exists('__autoload') ) {
 class Ddth_Template_DefaultTemplateFactory implements Ddth_Template_ITemplateFactory {
     const PROPERTY_PREFIX = 'template.';
 
-    const PROPERTY_BASE_DIRECTORY = 'base.directory';
+    const PROPERTY_BASE_DIRECTORY = 'baseDirectory';
 
     const PROPERTY_REGISTERED_TEMPLATES = 'templates';
 
+    /*
     const PROPERTY_TEMPLATE_DISPLAY_NAME = 'template.{0}.display';
 
     const PROPERTY_TEMPLATE_TYPE = 'template.{0}.type';
@@ -99,6 +112,7 @@ class Ddth_Template_DefaultTemplateFactory implements Ddth_Template_ITemplateFac
     const PROPERTY_TEMPLATE_DESCRIPTION = 'template.{0}.description';
 
     const PROPERTY_TEMPLATE_LOCATION = 'template.{0}.location';
+	*/
 
     /**
      * @var Ddth_Commons_Logging_ILog
@@ -229,21 +243,22 @@ class Ddth_Template_DefaultTemplateFactory implements Ddth_Template_ITemplateFac
                 $props->setProperty($key, $templateName);
                 $key = Ddth_Template_AbstractTemplate::PROPERTY_BASE_DIRECTORY;
                 $props->setProperty($key, $baseDirectory);
-
+                
                 //create the template pack instance
                 $key = Ddth_Template_AbstractTemplate::PROPERTY_TYPE;
+                $templateType = $props->getProperty($key);
                 $template = NULL;
-                if ( strtolower($key) === 'smarty' ) {
+                if ( strtolower($templateType) === 'smarty' ) {
                     $template = new Ddth_Template_Smarty_SmartyTemplate();
-                } elseif ( strtolower($key) === 'php' ) {
+                } elseif ( strtolower($templateType) === 'php' ) {
                     $template = new Ddth_Template_Php_PhpTemplate();
                 } else {
-                    $msg = "Template type [$key] is not supported!";
+                    $msg = "Template type [$templateType] is not supported!";
                     $this->LOGGER->warn($msg);
                     continue;
                 }
                 $template->init($props);
-                $this->registeredTemplate[$templateName] = $template;
+                $this->registeredTemplates[$templateName] = $template;
             } catch ( Exception $e ) {
                 $msg = $e->getMessage();
                 $this->LOGGER->error($msg, $e);
