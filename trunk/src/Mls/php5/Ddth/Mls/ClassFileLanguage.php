@@ -68,7 +68,7 @@ class Ddth_Mls_FileLanguage extends Ddth_Mls_AbstractLanguage {
      */
     public function __construct() {
         parent::__construct();
-        $clazz = 'Ddth_Mls_FileLanguage';
+        $clazz = __CLASS__;
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
     }
 

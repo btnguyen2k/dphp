@@ -44,7 +44,7 @@ class Ddth_Template_DataModel_Bean extends Ddth_Template_DataModel_AbstractNode 
      * @name object
      */
     public function __construct($name, $value=NULL) {
-        $clazz = 'Ddth_Template_DataModel_Bean';
+        $clazz = __CLASS__;
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
         parent::__construct($name, $value);
     }

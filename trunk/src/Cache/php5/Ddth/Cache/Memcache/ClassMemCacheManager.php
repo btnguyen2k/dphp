@@ -60,7 +60,7 @@ class Ddth_Cache_Memcache_MemCacheManager extends Ddth_Cache_AbstractCacheManage
      */
     public function __construct() {
         parent::__construct();
-        $clazz = 'Ddth_Cache_Memcache_MemCacheManager';
+        $clazz = __CLASS__;
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
     }
 

@@ -59,7 +59,7 @@ class Ddth_Template_DataModel_Map extends Ddth_Template_DataModel_AbstractNode {
      * @name Array
      */
     public function __construct($name, $value=Array()) {
-        $clazz = "Ddth_TempalteDataModel_Map";
+        $clazz = __CLASS__;
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
         parent::__construct($name, $value);
     }
