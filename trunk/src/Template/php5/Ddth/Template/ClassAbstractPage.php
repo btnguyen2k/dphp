@@ -57,7 +57,7 @@ abstract class Ddth_Template_AbstractPage implements Ddth_Template_IPage {
     private $templateFile = NULL;
 
     /**
-     * @var mixed
+     * @var Ddth_Template_DataModel_INode
      */
     private $dataModel = NULL;
 
@@ -141,7 +141,7 @@ abstract class Ddth_Template_AbstractPage implements Ddth_Template_IPage {
     /**
      * Gets page's data model.
      *
-     * @return mixed
+     * @return Ddth_Template_DataModel_INode
      */
     protected function getDataModel() {
         return $this->dataModel;

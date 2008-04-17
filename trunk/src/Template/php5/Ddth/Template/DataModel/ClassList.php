@@ -45,7 +45,7 @@ if ( !function_exists('__autoload') ) {
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-class Ddth_TempalteDataModel_List extends Ddth_Template_DataModel_AbstractNode {
+class Ddth_Template_DataModel_List extends Ddth_Template_DataModel_AbstractNode {
 
     /**
      * @var Ddth_Commons_Logging_ILog
@@ -53,7 +53,7 @@ class Ddth_TempalteDataModel_List extends Ddth_Template_DataModel_AbstractNode {
     private $LOGGER = NULL;
 
     /**
-     * Constructs a new Ddth_TempalteDataModel_List object.
+     * Constructs a new Ddth_Template_DataModel_List object.
      *
      * @param string
      * @name Array
@@ -126,6 +126,7 @@ class Ddth_TempalteDataModel_List extends Ddth_Template_DataModel_AbstractNode {
         $myValue = $this->getValue();
         if ( $child instanceof Ddth_Template_DataModel_INode ) {
             $myValue[] = $child;
+            parent::setValue($myValue);
         } elseif ( $child !== NULL ) {
             if ( is_object($child) ) {
                 $this->addChild(new Ddth_Template_DataModel_Bean('', $child));

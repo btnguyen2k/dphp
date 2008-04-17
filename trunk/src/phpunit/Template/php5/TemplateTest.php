@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * PHPUnit (http://www.phpunit.de/) test case for Mls.
+ * PHPUnit (http://www.phpunit.de/) test case for Template.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -90,62 +90,5 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
         $template = $factory->getTemplate($templateList[1]);
         $this->assertTrue($template instanceof Ddth_Template_Php_PhpTemplate);
     }
-
-//    /**
-//     * Tests creation of language packs
-//     */
-//    public function testGetLanguage() {
-//        $obj = Ddth_Mls_LanguageFactory::getInstance();
-//        $this->assertNotNull($obj, "Can not create language factory!");
-//        
-//        $lang = $obj->getLanguage('default');
-//        $this->assertNotNull($lang);
-//        $this->assertEquals('default', $lang->getName());
-//        $this->assertEquals('Default', $lang->getDisplayName());
-//
-//        $lang = $obj->getLanguage('vn');
-//        $this->assertNotNull($lang);
-//        $this->assertEquals('vn', $lang->getName());
-//        $this->assertEquals('Vietnamese', $lang->getDisplayName());
-//    }
-//
-//    /**
-//     * Tests default language pack
-//     */
-//    public function testLanguageDefault() {
-//        $obj = Ddth_Mls_LanguageFactory::getInstance();
-//        $this->assertNotNull($obj, "Can not create language factory!");
-//        
-//        $lang = $obj->getLanguage('default');
-//        $this->assertNotNull($lang);
-//        $this->assertEquals('default', $lang->getName());
-//        $this->assertEquals('Default', $lang->getDisplayName());
-//
-//        $this->assertEquals('Hello', $lang->getMessage('msg.hello'));
-//        $this->assertEquals('Error', $lang->getMessage('error.error'));
-//        $this->assertEquals('Hello {0}!', $lang->getMessage('msg.param1'));
-//        $this->assertEquals('Hello Bob!', $lang->getMessage('msg.param1', 'Bob'));
-//        $this->assertEquals('There are error A and B', $lang->getMessage('error.param2', 'A', 'B'));
-//        $this->assertEquals('There are error A and B', $lang->getMessage('error.param2', Array('A', 'B')));
-//    }
-//
-//    /**
-//     * Tests vn language pack
-//     */
-//    public function testLanguageVn() {
-//        $obj = Ddth_Mls_LanguageFactory::getInstance();
-//        $this->assertNotNull($obj, "Can not create language factory!");
-//        
-//        $lang = $obj->getLanguage('vn');
-//        $this->assertNotNull($lang);
-//        $this->assertEquals('vn', $lang->getName());
-//        $this->assertEquals('Vietnamese', $lang->getDisplayName());
-//
-//        $this->assertEquals('Xin chào!', $lang->getMessage('msg.hello'));
-//        $this->assertEquals('Có lỗi', $lang->getMessage('error.error'));
-//        $this->assertEquals('Xin chào {0}!', $lang->getMessage('msg.hello1'));
-//        $this->assertEquals('Xin chào Thành!', $lang->getMessage('msg.hello1', 'Thành'));
-//        $this->assertEquals('Xin chào Thành!', $lang->getMessage('msg.hello1', Array('Thành')));
-//    }
 }
 ?>
