@@ -127,7 +127,7 @@ class Ddth_Mls_FileLanguageFactory implements Ddth_Mls_ILanguageFactory {
      * Constructs a new Ddth_Mls_FileLanguageFactory object.
      */
     public function __construct() {
-        $clazz = 'Ddth_Mls_FileLanguageFactory';
+        $clazz = __CLASS__;
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
     }
 

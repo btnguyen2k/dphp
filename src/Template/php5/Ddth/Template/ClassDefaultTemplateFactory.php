@@ -138,7 +138,7 @@ class Ddth_Template_DefaultTemplateFactory implements Ddth_Template_ITemplateFac
      * Constructs a new Ddth_Template_DefaultTemplateFactory object.
      */
     public function __construct() {
-        $clazz = 'Ddth_Template_DefaultTemplateFactory';
+        $clazz = __CLASS__;
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
     }
 

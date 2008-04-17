@@ -57,7 +57,7 @@ abstract class Ddth_Cache_AbstractCacheManager implements Ddth_Cache_ICacheManag
      * Constructs a new Ddth_Cache_AbstractCacheManager object.
      */
     public function __construct() {
-        $clazz = 'Ddth_Cache_AbstractCacheManager';
+        $clazz = __CLASS__;
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
     }
 
