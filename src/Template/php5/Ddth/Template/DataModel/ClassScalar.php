@@ -45,10 +45,10 @@ if ( !function_exists('__autoload') ) {
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-class Ddth_TempalteDataModel_Scalar extends Ddth_Template_DataModel_AbstractNode {
+class Ddth_Template_DataModel_Scalar extends Ddth_Template_DataModel_AbstractNode {
 
     /**
-     * Constructs a new Ddth_TempalteDataModel_Scalar object.
+     * Constructs a new Ddth_Template_DataModel_Scalar object.
      *
      * @param string
      * @name scalar

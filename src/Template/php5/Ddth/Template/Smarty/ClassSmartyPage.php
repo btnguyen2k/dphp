@@ -90,7 +90,7 @@ class Ddth_Template_Smarty_SmartyPage extends Ddth_Template_AbstractPage {
         $smarty->config_dir = $configDir->getPathname();
 
         $dataModel = $this->getDataModel();
-        $smarty->assign($dataModel);
+        $smarty->assign($dataModel->asPhpType());
 
         $smarty->display($this->getTemplateFile());
     }

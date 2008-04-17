@@ -64,14 +64,15 @@ class Ddth_Template_Php_PhpPage extends Ddth_Template_AbstractPage {
         if ( $dataModel !== NULL ) {
             $this->setDataModel($dataModel);
         }
-        $key = Ddth_Template_Smarty_SmartyTemplate::PROPERTY_BASE_DIRECTORY;
+        $key = Ddth_Template_Php_PhpTemplate::PROPERTY_BASE_DIRECTORY;
         $baseDir = new Ddth_Commons_File($this->getTemplateProperty($key));
-        $key = Ddth_Template_Smarty_SmartyTemplate::PROPERTY_LOCATION;
+        $key = Ddth_Template_Php_PhpTemplate::PROPERTY_LOCATION;
         $location = new Ddth_Commons_File($this->getTemplateProperty($key), $baseDir);
         $templateFile = new Ddth_Commons_File($this->getTemplateFile(), $location);
 
         global $DATAMODEL;
         $DATAMODEL = $this->getDataModel();
+        $DATAMODEL = $DATAMODEL->asPhpType();
         include $templateFile->getPathname();
     }
 }

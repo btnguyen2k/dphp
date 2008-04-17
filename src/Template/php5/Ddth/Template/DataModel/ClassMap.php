@@ -45,15 +45,15 @@ if ( !function_exists('__autoload') ) {
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-class Ddth_TempalteDataModel_Map extends Ddth_Template_DataModel_AbstractNode {
-    
+class Ddth_Template_DataModel_Map extends Ddth_Template_DataModel_AbstractNode {
+
     /**
      * @var Ddth_Commons_Logging_ILog
      */
     private $LOGGER = NULL;
 
     /**
-     * Constructs a new Ddth_TempalteDataModel_Map object.
+     * Constructs a new Ddth_Template_DataModel_Map object.
      *
      * @param string
      * @name Array
@@ -97,11 +97,20 @@ class Ddth_TempalteDataModel_Map extends Ddth_Template_DataModel_AbstractNode {
     }
 
     /**
+     * Counts number of child nodes
+     *
+     * @return integer
+     */
+    public function countChildren() {
+        return count($this->getValue());
+    }
+
+    /**
      * Gets a child node by name.
      *
      * @return Ddth_Template_DataModel_INode
      */
-    public function getChildren($name) {
+    public function getChild($name) {
         $myValue = $this->getValue();
         if ( isset($myValue[$name]) ) {
             return $myValue[$name];
@@ -120,13 +129,14 @@ class Ddth_TempalteDataModel_Map extends Ddth_Template_DataModel_AbstractNode {
         $myValue = $this->getValue();
         if ( $child instanceof Ddth_Template_DataModel_INode ) {
             $myValue[$child->getName()] = $child;
+            parent::setValue($myValue);
         } elseif ( $name !== NULL && $child !== NULL ) {
             if ( is_object($child) ) {
-                $this->addChild(new Ddth_Template_DataModel_Bean($name, $child));
+                $this->addChild(NULL, new Ddth_Template_DataModel_Bean($name, $child));
             } elseif ( is_array($child) ) {
-                $this->addChild(new Ddth_Template_DataModel_Map($name, $child));
+                $this->addChild(NULL, new Ddth_Template_DataModel_Map($name, $child));
             } else {
-                $this->addChild(new Ddth_Template_DataModel_Scalar($name, $child));
+                $this->addChild(NULL, new Ddth_Template_DataModel_Scalar($name, $child));
             }
         } else {
             $msg = "Name is null!";

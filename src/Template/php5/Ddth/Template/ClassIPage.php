@@ -41,14 +41,14 @@ interface Ddth_Template_IPage {
     /**
      * Sets the data model for this page.
      *
-     * @param Ddth_Template_DataModel_Node
+     * @param Ddth_Template_DataModel_INode
      */
     public function setDataModel($root);
 
     /**
      * Renders the page.
      *
-     * @param Ddth_Template_DataModel_Node
+     * @param Ddth_Template_DataModel_INode
      * @throws Ddth_Template_TemplateException
      */
     public function render($dataModel=NULL);
