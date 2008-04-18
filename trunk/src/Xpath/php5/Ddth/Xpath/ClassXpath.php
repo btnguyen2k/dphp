@@ -33,15 +33,27 @@
  * @since      	Class available since v0.1
  */
 class Ddth_Xpath_Xpath {
+    /**
+     * @var string
+     */
     private $strXml;
+
+    /**
+     * @var SimpleXMLElement
+     */
     private $objSimpleXml;
 
     /**
      * Constructs a new Ddth_Xpath_Xpath object.
+     *
+     * @param string
      */
-    function __construct() {
+    function __construct($xml=NULL) {
         $this->strXml = NULL;
         $this->objSimpleXml = NULL;
+        if ( $xml !== NULL ) {
+            $this->setXmlConfig($xml);
+        }
     }
 
     /**
@@ -54,9 +66,9 @@ class Ddth_Xpath_Xpath {
 
     /**
      * Sets the XML configuration string.
-     * 
+     *
      * XML configuration string is set to NULL if the input xml string is not parsable.
-     * 
+     *
      * @param string $xml
      */
     public function setXmlConfig($xml="") {
@@ -68,7 +80,13 @@ class Ddth_Xpath_Xpath {
             $this->strXml = NULL;
         }
     }
-    
+
+    /**
+     * Retrieves nodes specified by a XPath expression.
+     *
+     * @param string
+     * @return Array()
+     */
     public function getNodes($xpath) {
         if ( $this->objSimpleXml === NULL ) {
             return NULL;

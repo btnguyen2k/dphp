@@ -19,29 +19,43 @@
 
 class XpathTest extends PHPUnit_Framework_TestCase {
     /**
-     * Tests creation of Ddth::Xpath::Xpath objects.
+     * Tests creation of Ddth_Xpath_Xpath objects.
      */
     public function testObjCreation() {
         $obj = new Ddth_Xpath_Xpath();
-        $this->assertNotNull($obj, "Can not create Ddth::Xpath::Xpath object!");
+        $this->assertNotNull($obj, "Can not create Ddth_Xpath_Xpath object!");
 
         $this->assertEquals("", $obj->getXmlConfig(), "XML configuration string is not empty!");
     }
     
     /**
-     * Sets function Ddth_Xpath::setXmlConfig().
+     * Tests function Ddth_Xpath_Xpath::setXmlConfig().
      */
     public function testSetXmlConfig() {        
         $obj = new Ddth_Xpath_Xpath();
-        $this->assertNotNull($obj, "Can not create Ddth::Xpath::Xpath object!");
+        $this->assertNotNull($obj, "Can not create Ddth_Xpath_Xpath object!");
         
         $xml = '<?xml version="1.0" encoding="UTF-8"?><author><name>NGUYEN, Ba Thanh</name></author>';
         $obj->setXmlConfig($xml);
-        $this->assertEquals($xml, $obj->getXmlConfig(), "XML configuration string does not match!");
+        $this->assertEquals($xml, $obj->getXmlConfig());
         
         $xml = '<?xml version="1.0"';
         $obj->setXmlConfig($xml);
-        $this->assertEquals(NULL, $obj->getXmlConfig(), "XML configuration string does not match!");
+        $this->assertEquals(NULL, $obj->getXmlConfig());
+    }
+    
+    /**
+     * Tests function Ddth_Xpath_Xpath::getNodes().
+     */
+    public function testGetNodes() {
+        $xml = Ddth_Commons_Loader::loadFileContent('test.xml');
+        $obj = new Ddth_Xpath_Xpath($xml);
+        $this->assertNotNull($obj);
+        
+        $nodes = $obj->getNodes('/action-mapping/*');
+        $this->assertEquals(5, count($nodes));
+        $nodes = $obj->getNodes('/action-mapping/handler');
+        $this->assertEquals(3, count($nodes));
     }
 }
 ?>
