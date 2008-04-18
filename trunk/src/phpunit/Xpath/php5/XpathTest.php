@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * PHPUnit (http://www.phpunit.de/) test case for Xconfig.
+ * PHPUnit (http://www.phpunit.de/) test case for Xpath.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -17,42 +17,23 @@
  * @since      	File available since v0.1
  */
 
-//initialization
-//defines package name and package php version
-if ( !defined('PACKAGE') ) {
-    define('PACKAGE', 'Xconfig');
-}
-if ( !defined('PACKAGE_PHP_VERSION') ) {
-    define('PACKAGE_PHP_VERSION', 'php5');
-}
-
-//setting up include path
-$dir = dirname(dirname(dirname(dirname(__FILE__))));
-$INCLUDE_PATH = '.';
-$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/libs/PHPUnit-3.2.9';
-$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.PACKAGE.'/'.PACKAGE_PHP_VERSION;
-ini_set('include_path', $INCLUDE_PATH);
-
-require_once 'PHPUnit/Framework.php';
-require_once 'Ddth/Xconfig/ClassXconfig.php';
-
-class XconfigTest extends PHPUnit_Framework_TestCase {
+class XpathTest extends PHPUnit_Framework_TestCase {
     /**
-     * Tests creation of Ddth::Xconfig objects.
+     * Tests creation of Ddth::Xpath::Xpath objects.
      */
     public function testObjCreation() {
-        $obj = new Ddth_Xconfig();
-        $this->assertNotNull($obj, "Can not create Ddth::Xconfig object!");
+        $obj = new Ddth_Xpath_Xpath();
+        $this->assertNotNull($obj, "Can not create Ddth::Xpath::Xpath object!");
 
         $this->assertEquals("", $obj->getXmlConfig(), "XML configuration string is not empty!");
     }
     
     /**
-     * Sets function Ddth_Xconfig::setXmlConfig().
+     * Sets function Ddth_Xpath::setXmlConfig().
      */
     public function testSetXmlConfig() {        
-        $obj = new Ddth_Xconfig();
-        $this->assertNotNull($obj, "Can not create Ddth::Xconfig object!");
+        $obj = new Ddth_Xpath_Xpath();
+        $this->assertNotNull($obj, "Can not create Ddth::Xpath::Xpath object!");
         
         $xml = '<?xml version="1.0" encoding="UTF-8"?><author><name>NGUYEN, Ba Thanh</name></author>';
         $obj->setXmlConfig($xml);
