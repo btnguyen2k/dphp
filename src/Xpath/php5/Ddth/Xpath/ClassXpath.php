@@ -32,12 +32,12 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-class Ddth_XPath {
+class Ddth_Xpath_Xpath {
     private $strXml;
     private $objSimpleXml;
 
     /**
-     * Constructs a new Ddth_Xconfig object.
+     * Constructs a new Ddth_Xpath_Xpath object.
      */
     function __construct() {
         $this->strXml = NULL;
