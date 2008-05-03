@@ -90,18 +90,27 @@ function performZipDir($parent, $dir, $zip) {
     }
 
     if ( $source_dh = opendir($dir) ) {
+        $isEmpty = true;
         while ( $file = readdir($source_dh) ) {
             //if ( $file != "." && $file != ".." ) {
             if ( $file[0] != "." ) {
-                $realFile = $dir."/".$file;
-                $zipEntry = substr($realFile, strlen($parent));
+                $isEmpty = false;
+                $realFile = $dir.DIRECTORY_SEPARATOR.$file;
+                $zipEntry = substr($realFile, strlen($parent)+1);
                 if ( is_dir($realFile) ) {
-                    $zip->addEmptyDir($zipEntry);
+                    //echo "Added dir:\t$zipEntry\n";
+                    //$zip->addEmptyDir($zipEntry);
                     performZipDir($parent, $realFile, $zip);
                 } else {
+                    echo "Added file:\t$zipEntry\n";
                     $zip->addFile($realFile, $zipEntry);
                 }
             }
+        }
+        if ( $isEmpty ) {
+            $zipEntry = substr($dir, strlen($parent)+1);
+            echo "Added dir:\t$zipEntry\n";
+            $zip->addEmptyDir($zipEntry);
         }
         closedir($source_dh);
     }
