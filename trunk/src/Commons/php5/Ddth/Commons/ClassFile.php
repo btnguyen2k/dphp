@@ -111,7 +111,7 @@ class Ddth_Commons_File {
     //    }
 
     /**
-     * Gets base filename of the file (i.e. /etc/test --> test.txt).
+     * Gets base filename of the file (i.e. /etc/test.txt --> test.txt).
      *
      * @see getPathname()
      * @return string
