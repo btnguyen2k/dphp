@@ -106,5 +106,9 @@ class XnodeTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('index', $child->getAttribute('action'));
         $this->assertEquals('Ddth_Dzit_IndexHandler', $child->getAttribute('class'));
     }
+    
+    public function testFail() {
+        $this->assertTrue(1==2);
+    }
 }
 ?>
