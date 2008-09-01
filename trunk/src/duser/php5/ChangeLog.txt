@@ -1,0 +1,2 @@
+* 01-Sep-2008: version 0.1 (initial version)
+	- Class(es): AdodbConfig, AdodbException, AdodbFactory
