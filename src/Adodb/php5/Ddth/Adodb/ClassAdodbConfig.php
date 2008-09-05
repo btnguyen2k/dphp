@@ -36,6 +36,34 @@ if ( !function_exists('__autoload') ) {
  * ADOdb configurations.
  *
  * This class encapsulates ADOdb's configuration settings.
+ * 
+ * Configuration file format: configurations are stored in
+ * .properties file; supported configuration properties as of 0.1.3:
+ * <code>
+ * # Connection string
+ * # If this property exists, it will be used and other connection-parameterized
+ * # properties will be ignored
+ * adodb.url=mysql://test:test@localhost/test
+ * 
+ * # ADOdb driver name (used when adodb.url does not exist)
+ * adodb.driver=ibase
+ * 
+ * # Database server address (used when adodb.url does not exist)
+ * adodb.host=adodbtest.gdb
+ * 
+ * # User name to connect (used when adodb.url does not exist)
+ * adodb.user=sysdba
+ * 
+ * # Password to connect (used when adodb.url does not exist)
+ * adodb.password=masterkey
+ * 
+ * # Database name to work on (used when adodb.url does not exist)
+ * adodb.database=
+ * 
+ * # "Setting up" queries, separated by character ; (these queries will be automatically executed
+ * # right after a new connection is requested)
+ * adodb.setup_sqls=SET NAMES 'utf8'
+ * </code>
  *
  * @package    	Adodb
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -46,15 +74,21 @@ if ( !function_exists('__autoload') ) {
  */
 class Ddth_Adodb_AdodbConfig {
 
-    const PROPERTY_URL = "adodb.url";
-    
-    const PROPERTY_SETUP_SQLS = "adodb.setup_sqls";
-    
-    private $setupSqls = NULL;
+    const PROPERTY_URL      = "adodb.url";
 
-    //    const PROPERTY_USER = "adodb.user";
-    //
-    //    const PROPERTY_PASSWORD = "adodb.password";
+    const PROPERTY_DRIVER   = "adodb.driver";
+
+    const PROPERTY_DATABASE = "adodb.database";
+
+    const PROPERTY_USER     = "adodb.user";
+
+    const PROPERTY_PASSWORD = "adodb.password";
+
+    const PROPERTY_HOST     = "adodb.host";
+
+    const PROPERTY_SETUP_SQLS = "adodb.setup_sqls";
+
+    private $setupSqls = NULL;
 
     /**
      * Loads configurations from file and encapsulates them inside a
@@ -102,18 +136,9 @@ class Ddth_Adodb_AdodbConfig {
         return $this->properties;
     }
 
-    //    /**
-    //     * Gets the password configuration setting.
-    //     *
-    //     * @return string
-    //     */
-    //    public function getPassword() {
-    //        return $this->properties->getProperty(self::PROPERTY_PASSWORD);
-    //    }
-
     /**
      * Gets the setup SQLs.
-     * 
+     *
      * @return Array()
      * @since Method available since v0.1.1
      */
@@ -133,7 +158,7 @@ class Ddth_Adodb_AdodbConfig {
         }
         return $this->setupSqls;
     }
-    
+
     /**
      * Gets the connection url configuration setting.
      *
@@ -143,13 +168,55 @@ class Ddth_Adodb_AdodbConfig {
         return $this->properties->getProperty(self::PROPERTY_URL);
     }
 
-    //    /**
-    //     * Gets the user name configuration setting.
-    //     *
-    //     * @return string
-    //     */
-    //    public function getUser() {
-    //        return $this->properties->getProperty(self::PROPERTY_USER);
-    //    }
+    /**
+     * Gets the database schema configuration setting.
+     *
+     * @return string
+     * @since Method available since v0.1.3
+     */
+    public function getDatabase() {
+        return $this->properties->getProperty(self::PROPERTY_DATABASE);
+    }
+
+    /**
+     * Gets the database driver configuration setting.
+     *
+     * @return string
+     * @since Method available since v0.1.3
+     */
+    public function getDriver() {
+        return $this->properties->getProperty(self::PROPERTY_DRIVER);
+    }
+
+    /**
+     * Gets the server host configuration setting.
+     *
+     * @return string
+     * @since Method available since v0.1.3
+     */
+    public function getHost() {
+        return $this->properties->getProperty(self::PROPERTY_HOST);
+    }
+
+    /**
+     * Gets the user name configuration setting.
+     *
+     * @return string
+     * @since Method available since v0.1.3
+     */
+    public function getUser() {
+        return $this->properties->getProperty(self::PROPERTY_USER);
+    }
+
+
+    /**
+     * Gets the password configuration setting.
+     *
+     * @return string
+     * @since Method available since v0.1.3
+     */
+    public function getPassword() {
+        return $this->properties->getProperty(self::PROPERTY_PASSWORD);
+    }
 }
 ?>

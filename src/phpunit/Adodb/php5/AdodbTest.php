@@ -42,6 +42,15 @@ require_once 'PHPUnit/Framework.php';
 require_once 'Ddth/Adodb/ClassAdodbFactory.php';
 
 class AdodbTest extends PHPUnit_Framework_TestCase {
+    protected function setup() {
+        parent::setUp();
+        $dir = '../../../tmp';
+        if ( !is_dir($dir) ) {
+            mkdir($dir);
+        }
+        copy('../../../firebirdembed/blankdb.gdb', '../../../tmp/adodbtest.gdb');
+    }
+
     /**
      * Tests creation of Ddth::Adodb::AdodbFactory objects.
      */
@@ -64,11 +73,81 @@ class AdodbTest extends PHPUnit_Framework_TestCase {
          * @var ADOConnection
          */
         $conn = $obj->getConnection();
+        $this->assertNotNull($conn);
+        $obj->closeConnection($conn);
+    }
 
-        //        $tableName = "tbl".rand(0, time());
-        //        $conn->Execute("DROP TABLE IF EXISTS $tableName");
-        //        $conn->Execute("CREATE TABLE $tableName (id INTEGER AUTO_INCREMENT PRIMARY KEY, full_name VARCHAR(54))");
-        //        $conn->Execute("DROP TABLE IF EXISTS $tableName");
+    /**
+     * Tests Creating database table.
+     */
+    public function testCreateTable() {
+        $obj = Ddth_Adodb_AdodbFactory::getInstance();
+        $this->assertNotNull($obj, "Can not create Ddth::Adodb::AdodbFactory object!");
+
+        /**
+         * @var ADOConnection
+         */
+        $conn = $obj->getConnection();
+        $this->assertNotNull($conn);
+
+        $sql = 'CREATE TABLE tblPerson (LastName VARCHAR(32), FirstName VARCHAR(32), Address VARCHAR(64), City VARCHAR(32))';
+        $conn->Execute($sql);
+
+        $obj->closeConnection($conn);
+    }
+
+    /**
+     * Tests Inserting some data.
+     */
+    public function testInsert() {
+        $this->testCreateTable();
+
+        $obj = Ddth_Adodb_AdodbFactory::getInstance();
+        $this->assertNotNull($obj, "Can not create Ddth::Adodb::AdodbFactory object!");
+
+        /**
+         * @var ADOConnection
+         */
+        $conn = $obj->getConnection();
+        $this->assertNotNull($conn);
+
+        $sql = 'INSERT INTO tblPerson (LastName, FirstName, Address, City) VALUES (?, ?, ?, ?)';
+        $conn->Execute($sql, Array('Hansen', 'Ola', 'Timoteivn 10', 'Sandnes'));
+        $conn->Execute($sql, Array('Svendson', 'Tove', 'Borgvn 23', 'Sandnes'));
+        $conn->Execute($sql, Array('Pettersen', 'Kari', 'Storgt 20', 'Stavanger'));
+
+        $obj->closeConnection($conn);
+    }
+
+    /**
+     * Tests Selecting some data from table.
+     */
+    public function testSelect() {
+        $this->testInsert();
+
+        $obj = Ddth_Adodb_AdodbFactory::getInstance();
+        $this->assertNotNull($obj, "Can not create Ddth::Adodb::AdodbFactory object!");
+
+        /**
+         * @var ADOConnection
+         */
+        $conn = $obj->getConnection();
+        $this->assertNotNull($conn);
+
+        $sql = 'SELECT count(*) FROM tblPerson';
+        $rs = $conn->Execute($sql);
+        $this->assertTrue($rs !== false);
+        $this->assertTrue($rs->fields[0] === 3);
+
+        $sql = "SELECT count(*) FROM tblPerson WHERE LastName='Hansen'";
+        $rs = $conn->Execute($sql);
+        $this->assertTrue($rs !== false);
+        $this->assertTrue($rs->fields[0] === 1);
+
+        $sql = "SELECT count(*) FROM tblPerson WHERE FirstName='Not Found'";
+        $rs = $conn->Execute($sql);
+        $this->assertTrue($rs !== false);
+        $this->assertTrue($rs->fields[0] === 0);
 
         $obj->closeConnection($conn);
     }
