@@ -51,13 +51,13 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
 
     /**
      * Gets an instance of Ddth_Adodb_AdodbFactory.
-     * 
+     *
      * See: {@link Ddth_Adodb_AdodbConfig configuration file format}.
      *
      * @param string name of the configuration file (located in
      * {@link http://www.php.net/manual/en/ini.core.php#ini.include-path include-path})
      * @return Ddth_Adodb_AdodbFactory
-     * @throws {@link Ddth_Adodb_AdodbException AdodbException} 
+     * @throws {@link Ddth_Adodb_AdodbException AdodbException}
      */
     public static function getInstance($configFile=NULL) {
         if ( $configFile === NULL ) {
@@ -105,8 +105,24 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
      */
     public function getConnection($startTransaction=false) {
         $dsn = $this->config->getUrl();
-        $conn = NewADOConnection($dsn);
-        if ( $conn === false ) {
+        $conn = NULL;
+        if ( $dsn !== NULL && $dsn !== '' ) {
+            $conn = NewADOConnection($dsn);
+        }
+        if ( $conn === NULL || $conn === false ) {
+            $driver = $this->config->getDriver();
+            $host = $this->config->getHost();
+            $user = $this->config->getUser();
+            $password = $this->config->getPassword();
+            $database = $this->config->getDatabase();
+            
+            $conn = NewADOConnection($driver);
+            if ( $conn !== NULL || $conn !== false ) {
+                $conn->connect($host, $user, $password, $database);
+            }
+        }
+
+        if ( $conn === NULL || $conn === false ) {
             return NULL;
         }
 
