@@ -38,7 +38,7 @@ if ( !function_exists('__autoload') ) {
  * This class encapsulates ADOdb's configuration settings.
  * 
  * Configuration file format: configurations are stored in
- * .properties file; supported configuration properties as of 0.1.3:
+ * .properties file; supported configuration properties as of v0.1.3:
  * <code>
  * # Connection string
  * # If this property exists, it will be used and other connection-parameterized
