@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * PHPUnit (http://www.phpunit.de/) test suite bootstrap for EhConfig.
+ * PHPUnit (http://www.phpunit.de/) test suite bootstrap for EhProperties.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -17,7 +17,7 @@
  * @since      	File available since v0.1
  */
 
-define('PACKAGE', 'EhConfig');
+define('PACKAGE', 'EhProperties');
 $REQUIRED_PACKAGES = Array('Commons');
 
 require '../../php5/Template_AllTest.php';
