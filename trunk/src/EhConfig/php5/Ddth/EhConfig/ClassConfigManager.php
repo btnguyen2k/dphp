@@ -27,6 +27,9 @@
  * # Name of the configuration manager class. Default value is
  * # Ddth_EhConfig_Adodb_ConfigManager
  * ehconfig.managerClass=Ddth_EhConfig_Adodb_ConfigManager
+ * 
+ * # Other configuration properties required by sub-classes
+ * # ...
  * </code>
  *
  * @package    	EhConfig
@@ -38,7 +41,7 @@
  */
 abstract class Ddth_EhConfig_ConfigManager {
 
-    const DEFAULT_CONFIG_FILE = 'ddth-ehconfig.properties';
+    const DEFAULT_CONFIG_FILE = 'dphp-ehconfig.properties';
 
     const PROPERTY_MANAGER_CLASS = 'ehconfig.managerClass';
 

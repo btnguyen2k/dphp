@@ -20,7 +20,7 @@
 //initialization
 //defines package name and package php version
 if ( !defined('PACKAGE') ) {
-    define('PACKAGE', 'EhConfig');
+    define('PACKAGE', 'EhProperties');
 }
 if ( !defined('PACKAGE_PHP_VERSION') ) {
     define('PACKAGE_PHP_VERSION', 'php5');
@@ -35,30 +35,50 @@ $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.PACKAGE.'/'.PACKAGE_PHP_VERSION;
 foreach ( $REQUIRED_PACKAGES as $package ) {
     $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.$package.'/'.PACKAGE_PHP_VERSION;
 }
-$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/libs/AdoDb5-5.0.4';
 ini_set('include_path', $INCLUDE_PATH);
 
 require_once 'PHPUnit/Framework.php';
 
-class EhConfigTest extends PHPUnit_Framework_TestCase {
-    protected function setup() {
-        parent::setUp();
-        $dir = '../../../tmp';
-        if ( !is_dir($dir) ) {
-            mkdir($dir);
-        }
-        copy('../../../firebirdembed/blankdb.gdb', '../../../tmp/ehconfigtest.gdb');
+class EhPropertiesTest extends PHPUnit_Framework_TestCase {
+    public function test1() {
+        $obj = new Ddth_EhProperties_EhProperties();
+        $this->assertNotNull($obj);
     }
 
-    /**
-     * Tests creation of Ddth::EhConfig::ConfigManager objects.
-     */
-    public function testObjCreation() {
-        $obj1 = Ddth_EhConfig_ConfigManager::getInstance();
-        $this->assertNotNull($obj1, "Can not create Ddth::EhConfig::ConfigManager object!");
+    public function test2() {
+        $obj = new Ddth_EhProperties_EhProperties();
+        $this->assertNotNull($obj);
+        $obj->load('test.properties');
 
-        $obj2 = Ddth_EhConfig_ConfigManager::getInstance();
-        $this->assertTrue($obj1===$obj2);
+        $value = $obj->getProperty('name');
+        $this->assertEquals('Thanh', $value);
+    }
+
+    public function test3() {
+        $obj = new Ddth_EhProperties_EhProperties();
+        $this->assertNotNull($obj);
+        $obj->load('test.properties');
+
+        $value = $obj->getProperty('hello');
+        $this->assertEquals('Hello Thanh! How are you Thanh?', $value);
+    }
+
+    public function test4() {
+        $obj = new Ddth_EhProperties_EhProperties();
+        $this->assertNotNull($obj);
+        $obj->load('test.properties');
+
+        $value = $obj->getProperty('hola');
+        $this->assertEquals('Hola !', $value);
+    }
+
+    public function test5() {
+        $obj = new Ddth_EhProperties_EhProperties();
+        $this->assertNotNull($obj);
+        $obj->load('test.properties');
+
+        $value = $obj->getProperty('greeting');
+        $this->assertEquals('Greeting! Hello Thanh! How are you Thanh?', $value);
     }
 }
 ?>
