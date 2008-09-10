@@ -32,5 +32,10 @@
 			<dependency-version>0.1+</dependency-version>
 			<dependency-description></dependency-description>
 		</dependency>
+		<dependency>
+			<dependency-name>Ddth::EhProperties</dependency-name>
+			<dependency-version>0.1+</dependency-version>
+			<dependency-description></dependency-description>
+		</dependency>
 	</dependencies>
 </package>

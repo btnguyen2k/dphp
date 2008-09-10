@@ -20,14 +20,14 @@
 
 /**
  * Configuration Manager.
- * 
+ *
  * Configuration file format: configurations are stored in
  * .properties file; supported configuration properties as of v0.1:
  * <code>
  * # Name of the configuration manager class. Default value is
  * # Ddth_EhConfig_Adodb_ConfigManager
  * ehconfig.managerClass=Ddth_EhConfig_Adodb_ConfigManager
- * 
+ *
  * # Other configuration properties required by sub-classes
  * # ...
  * </code>
@@ -42,12 +42,14 @@
 abstract class Ddth_EhConfig_ConfigManager {
 
     const DEFAULT_CONFIG_FILE = 'dphp-ehconfig.properties';
-
-    const PROPERTY_MANAGER_CLASS = 'ehconfig.managerClass';
-
+    
     const DEFAULT_MANAGER_CLASS = 'Ddth_EhConfig_Adodb_ConfigManager';
 
+    const PROPERTY_MANAGER_CLASS = 'ehconfig.managerClass';    
+
     private static $cacheInstances = Array();
+
+    private $props = NULL;
 
     /**
      * Gets an instance of Ddth_EhConfig_ConfigManager.
@@ -64,7 +66,7 @@ abstract class Ddth_EhConfig_ConfigManager {
             return self::getInstance(self::DEFAULT_CONFIG_FILE);
         }
         if ( !isset(self::$cacheInstances[$configFile]) ) {
-            $props = new Ddth_Commons_Properties();
+            $props = new Ddth_EhProperties_EhProperties();
             $props->import(Ddth_Commons_Loader::loadFileContent($configFile));
 
             $managerClass = $props->getProperty(self::PROPERTY_MANAGER_CLASS, self::DEFAULT_MANAGER_CLASS);
@@ -87,6 +89,28 @@ abstract class Ddth_EhConfig_ConfigManager {
      * @param Ddth_Commons_Properties
      * @throws {@link Ddth_EhConfig_EhConfigException EhConfigException}
      */
-    protected abstract function init($props);
+    protected function init($props) {
+        $this->props = $props;
+    }
+
+    /**
+     * Gets a configuration property.
+     *
+     * @param string
+     * @param string
+     * @return string
+     */
+    protected function getProperty($name, $defaultValue) {
+        return $this->props->getProperty($name, $defaultValue);
+    }
+
+    /**
+     * Gets a configuration by key
+     *
+     * @param Ddth_EhConfig_ConfigKey
+     * @return Ddth_EhConfig_Config
+     * @throws {@link Ddth_EhConfig_EhConfigException EhConfigException}
+     */
+    public abstract function getConfig($key);
 }
 ?>
