@@ -25,7 +25,7 @@ if ( !defined('PACKAGE') ) {
 if ( !defined('PACKAGE_PHP_VERSION') ) {
     define('PACKAGE_PHP_VERSION', 'php5');
 }
-$REQUIRED_PACKAGES = Array('Commons');
+$REQUIRED_PACKAGES = Array('Commons', 'Adodb', 'EhProperties');
 
 //setting up include path
 $dir = dirname(dirname(dirname(dirname(__FILE__))));

@@ -43,11 +43,13 @@ if ( !function_exists('__autoload') ) {
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1
+ * @version    	0.1.4
  * @since      	Class available since v0.1
  */
 class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
     private static $cacheInstances = Array();
+    
+    private $LOGGER;
 
     /**
      * Gets an instance of Ddth_Adodb_AdodbFactory.
@@ -83,7 +85,13 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
      *
      * @param Ddth_Adodb_AdodbConfig
      */
-    protected function __construct($config) {
+    public function __construct($config=NULL) {
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog('Ddth_Adodb_AdodbFactory');
+        if ( $config === NULL || $config instanceof Ddth_Adodb_AdodbConfig ) {
+            $msg = 'NULL configuration object or not an instance of Ddth_Adodb_AdodbConfig, load from default configuration file.';
+            $this->LOGGER->info($msg);
+            $config = Ddth_Adodb_AdodbConfig::loadConfig(self::DEFAULT_CONFIG_FILE);
+        }
         $this->config = $config;
     }
 

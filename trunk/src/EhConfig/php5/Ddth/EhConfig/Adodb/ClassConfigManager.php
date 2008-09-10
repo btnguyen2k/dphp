@@ -21,22 +21,26 @@
 
 /**
  * Adodb implementation of Configuration Manager.
- * 
+ *
  * Configuration file format: configurations are stored in
  * .properties file; supported configuration properties as of v0.1:
  * <code>
+ * # Name of the Adodb factory class where the configuration manager retrieves ADOdb connections
+ * # Default value is Ddth_Adodb_AdodbFactory
+ * ehconfig.adodb.factoryClass=Ddth_Adodb_AdodbFactory
+ *
  * # ADOdb-SQL to query a configuration by key (domain & name)
  * ehconfig.adodb.sql.getConfig=SELECT conf_value AS conf_value FROM tableName WHERE conf_domain=:domain AND conf_name=:name
- * 
+ *
  * # ADOdb-SQL to update a configuration by key (domain & name)
  * ehconfig.adodb.sql.updateConfig=UPDATE tableName SET conf_value=:value WHERE conf_domain=:domain AND conf_name=:name
- * 
+ *
  * # ADOdb-SQL to create a new configuration
  * ehconfig.adodb.sql.createConfig=INSERT INTO tableName (conf_domain, conf_name, conf_value) VALUES (:domain, :name, :value)
- * 
+ *
  * # ADOdb-SQL to delete a configuration by key (domain & name)
  * ehconfig.adodb.sql.createConfig=DELETE FROM tableName WHERE conf_domain=:domain AND conf_name=:name
- * 
+ *
  * # ADOdb-SQL to delete all configurations within a domain
  * ehconfig.adodb.sql.createConfig=DELETE FROM tableName WHERE conf_domain=:domain
  * </code>
@@ -50,6 +54,15 @@
  * @since      	Class available since v0.1
  */
 class Ddth_EhConfig_Adodb_ConfigManager extends Ddth_EhConfig_ConfigManager {
+
+    const DEFAULT_ADODB_MANAGER_CLASS = 'Ddth_Adodb_AdodbFactory';
+
+    const PROPERTY_ADODB_MANAGER_CLASS = 'ehconfig.adodb.factoryClass';
+
+    private $adodbFactory = NULL;
+
+    private $adodbConn = NULL;
+
     /**
      * Constructs a new Ddth_EhConfig_Adodb_ConfigManager object.
      */
@@ -61,6 +74,49 @@ class Ddth_EhConfig_Adodb_ConfigManager extends Ddth_EhConfig_ConfigManager {
      * {@see Ddth_EhConfig_ConfigManager::init()}
      */
     public function init($props) {
+        parent::init($props);
+    }
+
+    /**
+     * Gets ADOdb connection factory.
+     *
+     * @return Ddth_Adodb_IAdodbFactory
+     */
+    protected function getAdodbFactory() {
+        if ( $this->adodbFactory === NULL ) {
+            $clazz = $this->getProperty(self::PROPERTY_ADODB_MANAGER_CLASS, self::DEFAULT_ADODB_MANAGER_CLASS);
+            $this->adodbFactory = new $clazz();
+        }
+        return $this->adodbFactory;
+    }
+
+    /**
+     * Gets an ADOdb connection
+     *
+     * @return ADOConnection
+     */
+    protected function getAdodbConnection() {
+        if ( $this->adodbConn === NULL ) {
+            $this->adodbConn = $this->getAdodbFactory()->getConnection(true);
+        }
+        return $this->adodbConn;
+    }
+
+    /**
+     * Closes the ADOdb connection.
+     *
+     * @param ADOConnection
+     */
+    protected function closeAdodbConnection($conn=NULL) {
+        if ( $conn === NULL ) {
+            $conn = $this->adodbConn;
+        }
+        if ( $conn !== NULL ) {
+            $this->getAdodbFactory()->closeConnection($conn);
+            if ( $conn === $this->adodbConn ) {
+                $this->adodbConn = NULL;
+            }
+        }
     }
 }
 ?>

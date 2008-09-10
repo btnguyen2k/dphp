@@ -18,7 +18,7 @@
  */
 
 define('PACKAGE', 'EhConfig');
-$REQUIRED_PACKAGES = Array('Commons');
+$REQUIRED_PACKAGES = Array('Commons', 'Adodb', 'EhProperties');
 
 require '../../php5/Template_AllTest.php';
 ?>
