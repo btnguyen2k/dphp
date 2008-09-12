@@ -1,3 +1,6 @@
+* 12-Sep-2008: version 0.1.5
+	- Fix a bug in AdodbFactory::closeConnection(): not commit in transaction mode
+
 * 10-Sep-2008: version 0.1.4
 	- Make AdodbFactory's constructor public: if AdodbFactory is instanized with a NULL
 	  configuration object, it will load configurations from the default configuration file.
