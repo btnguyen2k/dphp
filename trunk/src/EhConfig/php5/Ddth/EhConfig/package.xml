@@ -29,7 +29,7 @@
 		</dependency>
 		<dependency>
 			<dependency-name>Ddth::Adodb</dependency-name>
-			<dependency-version>0.1+</dependency-version>
+			<dependency-version>0.1.5+</dependency-version>
 			<dependency-description></dependency-description>
 		</dependency>
 		<dependency>

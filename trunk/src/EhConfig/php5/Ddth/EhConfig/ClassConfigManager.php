@@ -100,10 +100,33 @@ abstract class Ddth_EhConfig_ConfigManager {
      * @param string
      * @return string
      */
-    protected function getProperty($name, $defaultValue) {
+    protected function getProperty($name, $defaultValue=NULL) {
         return $this->props->getProperty($name, $defaultValue);
     }
+    
+    /**
+     * Creates a configuration
+     *
+     * @param Ddth_EhConfig_Config
+     * @throws {@link Ddth_EhConfig_EhConfigException EhConfigException}
+     */
+    public abstract function createConfig($config);
 
+    /**
+     * Delets a configuration.
+     * 
+     * @param Ddth_EhConfig_ConfigKey
+     * @throws {@link Ddth_EhConfig_EhConfigException EhConfigException}
+     */
+    public abstract function deleteConfig($key);
+    
+    /**
+     * Deletes all configurations within a domain.
+     * 
+     * @param string
+     */
+    public abstract function deleteAllConfigsInDomain($domain);
+    
     /**
      * Gets a configuration by key
      *
