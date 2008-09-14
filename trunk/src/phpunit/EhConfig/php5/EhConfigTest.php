@@ -60,5 +60,98 @@ class EhConfigTest extends PHPUnit_Framework_TestCase {
         $obj2 = Ddth_EhConfig_ConfigManager::getInstance();
         $this->assertTrue($obj1===$obj2);
     }
+
+    /**
+     * Tests creation of database table to store configurations.
+     */
+    public function testCreateTable() {
+        $props = new Ddth_EhProperties_EhProperties();
+        $configFile = Ddth_EhConfig_ConfigManager::DEFAULT_CONFIG_FILE;
+        $props->import(Ddth_Commons_Loader::loadFileContent($configFile));
+        $clazz = $props->getProperty(Ddth_EhConfig_Adodb_ConfigManager::PROPERTY_ADODB_FACTORY_CLASS, Ddth_EhConfig_Adodb_ConfigManager::DEFAULT_ADODB_FACTORY_CLASS);
+        $adodbFactory = new $clazz();
+        $this->assertNotNull($adodbFactory);
+
+        $conn = $adodbFactory->getConnection(true);
+        $sql = 'CREATE TABLE tblConfig (conf_domain VARCHAR(32), conf_name VARCHAR(32), conf_value VARCHAR(255))';
+        $conn->Execute($sql);
+        $adodbFactory->closeConnection($conn);
+    }
+
+    /**
+     * Test createConfig function.
+     */
+    public function testCreateConfig() {
+        $this->testCreateTable();
+
+        $cm = Ddth_EhConfig_ConfigManager::getInstance();
+        $this->assertNotNull($cm, "Can not create Ddth::EhConfig::ConfigManager object!");
+
+        $key = new Ddth_EhConfig_ConfigKey('GLOBAL', 'CHARSET');
+        $value = 'UTF-8';
+        $config = new Ddth_EhConfig_Config($key, $value);
+        $cm->createConfig($config);
+
+        $key = new Ddth_EhConfig_ConfigKey('GLOBAL', 'NAME');
+        $value = 'ADOdb';
+        $config = new Ddth_EhConfig_Config($key, $value);
+        $cm->createConfig($config);
+    }
+
+    /**
+     * Test getConfig function.
+     */
+    public function testGetConfig() {
+        $this->testCreateConfig();
+
+        $cm = Ddth_EhConfig_ConfigManager::getInstance();
+        $this->assertNotNull($cm, "Can not create Ddth::EhConfig::ConfigManager object!");
+
+        $key = new Ddth_EhConfig_ConfigKey('GLOBAL', 'CHARSET');
+        $config = $cm->getConfig($key);
+        $this->assertNotNull($config);
+        $this->assertEquals($key, $config->getKey());
+        $this->assertEquals('UTF-8', $config->getValue());
+    }
+
+    /**
+     * Test deleteConfig function
+     */
+    public function testDeleteConfig() {
+        $this->testCreateConfig();
+
+        $cm = Ddth_EhConfig_ConfigManager::getInstance();
+        $this->assertNotNull($cm, "Can not create Ddth::EhConfig::ConfigManager object!");
+
+        $key = new Ddth_EhConfig_ConfigKey('GLOBAL', 'CHARSET');
+        $config = $cm->getConfig($key);
+        $this->assertNotNull($config);
+        $this->assertEquals($key, $config->getKey());
+        $this->assertEquals('UTF-8', $config->getValue());
+
+        $cm->deleteConfig($key);
+        $config = $cm->getConfig($key);
+        $this->assertNull($config);
+    }
+
+    /**
+     * Test deleteConfig function
+     */
+    public function deleteAllConfigsInDomain() {
+        $this->testCreateConfig();
+
+        $cm = Ddth_EhConfig_ConfigManager::getInstance();
+        $this->assertNotNull($cm, "Can not create Ddth::EhConfig::ConfigManager object!");
+
+        $key = new Ddth_EhConfig_ConfigKey('GLOBAL', 'CHARSET');
+        $config = $cm->getConfig($key);
+        $this->assertNotNull($config);
+        $this->assertEquals($key, $config->getKey());
+        $this->assertEquals('UTF-8', $config->getValue());
+
+        $cm->deleteAllConfigsInDomain($key->getDomain());
+        $config = $cm->getConfig($key);
+        $this->assertNull($config);
+    }
 }
 ?>

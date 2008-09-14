@@ -92,7 +92,6 @@ class AdodbTest extends PHPUnit_Framework_TestCase {
 
         $sql = 'CREATE TABLE tblPerson (LastName VARCHAR(32), FirstName VARCHAR(32), Address VARCHAR(64), City VARCHAR(32))';
         $conn->Execute($sql);
-
         $obj->closeConnection($conn);
     }
 
