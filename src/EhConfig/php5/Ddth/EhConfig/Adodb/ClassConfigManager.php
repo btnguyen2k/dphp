@@ -30,19 +30,24 @@
  * ehconfig.adodb.factoryClass=Ddth_Adodb_AdodbFactory
  *
  * # ADOdb-SQL to query a configuration by key (domain & name)
+ * # Binding order: domain, name
  * ehconfig.adodb.sql.getConfig=SELECT conf_value AS conf_value FROM tableName WHERE conf_domain=:domain AND conf_name=:name
  *
  * # ADOdb-SQL to update a configuration by key (domain & name)
+ * # Binding order: domain, name
  * ehconfig.adodb.sql.updateConfig=UPDATE tableName SET conf_value=:value WHERE conf_domain=:domain AND conf_name=:name
  *
  * # ADOdb-SQL to create a new configuration
+ * # Binding order: domain, name, value
  * ehconfig.adodb.sql.createConfig=INSERT INTO tableName (conf_domain, conf_name, conf_value) VALUES (:domain, :name, :value)
  *
  * # ADOdb-SQL to delete a configuration by key (domain & name)
- * ehconfig.adodb.sql.createConfig=DELETE FROM tableName WHERE conf_domain=:domain AND conf_name=:name
+ * # Binding order: domain, name
+ * ehconfig.adodb.sql.deleteConfig=DELETE FROM tableName WHERE conf_domain=:domain AND conf_name=:name
  *
  * # ADOdb-SQL to delete all configurations within a domain
- * ehconfig.adodb.sql.createConfig=DELETE FROM tableName WHERE conf_domain=:domain
+ * # Binding order: domain
+ * ehconfig.adodb.sql.deleteAllConfigsInDomain=DELETE FROM tableName WHERE conf_domain=:domain
  * </code>
  *
  * @package    	EhConfig
@@ -55,9 +60,17 @@
  */
 class Ddth_EhConfig_Adodb_ConfigManager extends Ddth_EhConfig_ConfigManager {
 
-    const DEFAULT_ADODB_MANAGER_CLASS = 'Ddth_Adodb_AdodbFactory';
+    const DEFAULT_ADODB_FACTORY_CLASS = 'Ddth_Adodb_AdodbFactory';
 
-    const PROPERTY_ADODB_MANAGER_CLASS = 'ehconfig.adodb.factoryClass';
+    const PROPERTY_ADODB_FACTORY_CLASS = 'ehconfig.adodb.factoryClass';
+
+    const PROPERTY_SQL_GET_CONFIG = 'ehconfig.adodb.sql.getConfig';
+
+    const PROPERTY_SQL_CREATE_CONFIG = 'ehconfig.adodb.sql.createConfig';
+
+    const PROPERTY_SQL_DELETE_CONFIG = 'ehconfig.adodb.sql.deleteConfig';
+
+    const PROPERTY_SQL_DELETE_ALL_CONFIGS_IN_DOMAIN = 'ehconfig.adodb.sql.deleteAllConfigsInDomain';
 
     private $adodbFactory = NULL;
 
@@ -78,13 +91,75 @@ class Ddth_EhConfig_Adodb_ConfigManager extends Ddth_EhConfig_ConfigManager {
     }
 
     /**
+     * {@see Ddth_EhConfig_ConfigManager::createConfig()}
+     */
+    public function createConfig($config) {
+        if ( $config === NULL || !($config instanceof Ddth_EhConfig_Config) ) {
+            return;
+        }
+        $conn = $this->getAdodbConnection();
+        $sql = $this->getProperty(self::PROPERTY_SQL_CREATE_CONFIG);
+        $params = Array($config->getKey()->getDomain(), $config->getKey()->getName(), $config->getValue());
+        $sql = str_replace(':domain', $conn->Param('domain'), $sql);
+        $sql = str_replace(':name', $conn->Param('name'), $sql);
+        $sql = str_replace(':value', $conn->Param('value'), $sql);
+        $conn->Execute($sql, $params);
+        $this->closeAdodbConnection($conn);
+    }
+
+    /**
+     * {@see Ddth_EhConfig_ConfigManager::deleteAllConfigsInDomain()}
+     */
+    public function deleteAllConfigsInDomain($domain) {
+        $conn = $this->getAdodbConnection();
+        $sql = $this->getProperty(self::PROPERTY_SQL_DELETE_ALL_CONFIGS_IN_DOMAIN);
+        $sql = str_replace(':domain', $conn->Param('domain'), $sql);
+        $rs = $conn->Execute($sql, Array($key->getDomain()));
+        $this->closeAdodbConnection($conn);
+    }
+
+    /**
+     * {@see Ddth_EhConfig_ConfigManager::deleteConfig()}
+     */
+    public function deleteConfig($key) {
+        if ( $key === NULL || !($key instanceof Ddth_EhConfig_ConfigKey ) ) {
+            return;
+        }
+        $conn = $this->getAdodbConnection();
+        $sql = $this->getProperty(self::PROPERTY_SQL_DELETE_CONFIG);
+        $sql = str_replace(':domain', $conn->Param('domain'), $sql);
+        $sql = str_replace(':name', $conn->Param('name'), $sql);
+        $rs = $conn->Execute($sql, Array($key->getDomain(), $key->getName()));
+        $this->closeAdodbConnection($conn);
+    }
+
+    /**
+     * {@see Ddth_EhConfig_ConfigManager::getConfig()}
+     */
+    public function getConfig($key) {
+        $conn = $this->getAdodbConnection();
+        $conn->SetFetchMode(ADODB_FETCH_NUM);
+        $sql = $this->getProperty(self::PROPERTY_SQL_GET_CONFIG);
+        $sql = str_replace(':domain', $conn->Param('domain'), $sql);
+        $sql = str_replace(':name', $conn->Param('name'), $sql);
+        $result = NULL;
+        $rs = $conn->Execute($sql, Array($key->getDomain(), $key->getName()));
+        if ( !$rs->EOF ) {
+            $value = $rs->fields[0];
+            $result = new Ddth_EhConfig_Config($key, $value);
+        }
+        $this->closeAdodbConnection($conn);
+        return $result;
+    }
+
+    /**
      * Gets ADOdb connection factory.
      *
      * @return Ddth_Adodb_IAdodbFactory
      */
     protected function getAdodbFactory() {
         if ( $this->adodbFactory === NULL ) {
-            $clazz = $this->getProperty(self::PROPERTY_ADODB_MANAGER_CLASS, self::DEFAULT_ADODB_MANAGER_CLASS);
+            $clazz = $this->getProperty(self::PROPERTY_ADODB_FACTORY_CLASS, self::DEFAULT_ADODB_FACTORY_CLASS);
             $this->adodbFactory = new $clazz();
         }
         return $this->adodbFactory;
