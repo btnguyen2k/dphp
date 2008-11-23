@@ -169,6 +169,7 @@ $t = date("Ymd");
 $ZIPFILE = "$PACKAGE-$PACKAGE_PHP_VERSION-$VERSION-$t.zip";
 $ZIPFILE = strtolower($ZIPFILE);
 $ZIPFILE = $DIR_RELEASE.$PATH_SEPARATOR.$ZIPFILE;
+echo "Zipping package to [$ZIPFILE]...\n";
 @unlink($ZIPFILE);
 zipDir($DIR_RELEASE.$PATH_SEPARATOR.$PACKAGE, $ZIPFILE);
 ?>
