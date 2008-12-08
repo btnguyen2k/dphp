@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Permission entity.
+ * User-Permission mapping.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -19,8 +19,7 @@
  */
 
 /**
- * This interface represents the Permission: pre-defined action that user can
- * perform within a context (aka domain).
+ * This class captures the user-permission mapping.
  *
  * @package    	Duser
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -29,26 +28,56 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-interface Ddth_Duser_IPermission {
-    /**
-     * Gets name of the domain context.
-     *
-     * @return string
-     */
-    public function getDomain();
-
-    /**
-     * Gets the action.
-     *
-     * @return string
-     */
-    public function getAction();
-    
-    /**
-     * Gets description of the permission.
-     * 
-     * @return string
-     */
-    public function getDescription();
+class Ddth_Duser_UserRule {
+	/**
+	 * @var Ddth_Duser_IUser
+	 */
+	private $user;
+	
+	/**
+	 * @var Ddth_Duser_IPermission
+	 */
+	private $permission;
+	
+	/**
+	 * @var boolean
+	 */
+	private $isGlobal;
+	
+	/**
+	 * Gets id of the user in the mapping.
+	 * 
+	 * @return mixed
+	 */
+	public function getUserId() {
+	    return $this->user !== NULL ? $this->user->getId() : NULL;
+	}
+	
+	/**
+	 * Gets the user in the mapping.
+	 * 
+	 * @return Ddth_Duser_IUser
+	 */
+	public function getUser() {
+		return $this->user;
+	}
+	
+	/**
+	 * Gets the permission in the mapping.
+	 * 
+	 * @return Ddth_Duser_IPermission
+	 */
+	public function getPermission() {
+		return $this->permission;
+	}
+	
+	/**
+	 * Gets 'isGlobal' attribute.
+	 * 
+	 * @return boolean
+	 */
+	public function isGlobal() {
+	    return $this->isGlobal;
+	}
 }
 ?>
