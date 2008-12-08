@@ -30,6 +30,6 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-interface Ddth_Duser_IAuthorityAgent {
+interface Ddth_Duser_IDataManipulator extends Ddth_Duser_IDataProvider {
 }
 ?>
