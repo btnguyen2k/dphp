@@ -7,9 +7,11 @@
 	<version>0.1</version>
 	<description>User management library.</description>
 	<summary>
-		This library provides a simple API for user-management. The API provides the access to the following functions:
+		This library provides a simple API for user-management. The
+		API provides the access to the following functions:
 		- Credentials
-		- Access Control
+		-
+		Access Control
 		- Profile Management
 	</summary>
 	<author>

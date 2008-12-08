@@ -30,6 +30,7 @@
  * @since      	Class available since v0.1
  */
 interface Ddth_Duser_IPermission {
+
     /**
      * Gets name of the domain context.
      *
@@ -43,7 +44,7 @@ interface Ddth_Duser_IPermission {
      * @return string
      */
     public function getAction();
-    
+
     /**
      * Gets description of the permission.
      * 

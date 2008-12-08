@@ -29,32 +29,33 @@
  * @since      	Class available since v0.1
  */
 class Ddth_Duser_Role {
-	/**
-	 * @var Ddth_Duser_IUser
-	 */
-	private $user;
-	
-	/**
-	 * @var Ddth_Duser_IGroup
-	 */
-	private $group;
-	
-	/**
-	 * Gets the user in the relationship.
-	 * 
-	 * @return Ddth_Duser_IUser
-	 */
-	public function getUser() {
-		return $this->user;
-	}
-	
-	/**
-	 * Gets the group in the relationship.
-	 * 
-	 * @return Ddth_Duser_IGroup
-	 */
-	public function getGroup() {
-		return $this->group;
-	}
+
+    /**
+     * @var Ddth_Duser_IUser
+     */
+    private $user;
+
+    /**
+     * @var Ddth_Duser_IGroup
+     */
+    private $group;
+
+    /**
+     * Gets the user in the relationship.
+     * 
+     * @return Ddth_Duser_IUser
+     */
+    public function getUser() {
+        return $this->user;
+    }
+
+    /**
+     * Gets the group in the relationship.
+     * 
+     * @return Ddth_Duser_IGroup
+     */
+    public function getGroup() {
+        return $this->group;
+    }
 }
 ?>
