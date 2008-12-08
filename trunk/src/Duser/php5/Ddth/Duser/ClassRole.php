@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Permission entity.
+ * User-Group relationship.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -19,8 +19,7 @@
  */
 
 /**
- * This interface represents the Permission: pre-defined action that user can
- * perform within a context (aka domain).
+ * This class captures the user-group relationship.
  *
  * @package    	Duser
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -29,26 +28,33 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-interface Ddth_Duser_IPermission {
-    /**
-     * Gets name of the domain context.
-     *
-     * @return string
-     */
-    public function getDomain();
-
-    /**
-     * Gets the action.
-     *
-     * @return string
-     */
-    public function getAction();
-    
-    /**
-     * Gets description of the permission.
-     * 
-     * @return string
-     */
-    public function getDescription();
+class Ddth_Duser_Role {
+	/**
+	 * @var Ddth_Duser_IUser
+	 */
+	private $user;
+	
+	/**
+	 * @var Ddth_Duser_IGroup
+	 */
+	private $group;
+	
+	/**
+	 * Gets the user in the relationship.
+	 * 
+	 * @return Ddth_Duser_IUser
+	 */
+	public function getUser() {
+		return $this->user;
+	}
+	
+	/**
+	 * Gets the group in the relationship.
+	 * 
+	 * @return Ddth_Duser_IGroup
+	 */
+	public function getGroup() {
+		return $this->group;
+	}
 }
 ?>
