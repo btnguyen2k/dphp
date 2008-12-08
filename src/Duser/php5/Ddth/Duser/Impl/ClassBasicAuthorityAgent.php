@@ -1,8 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Data Manipulator is responsible for manipulating data from external source
- * (e.g. database). It is a sub-interface of DataProvider.
+ * An implementation of AuthorityAgent.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -20,8 +19,7 @@
  */
 
 /**
- * Data Manipulator is responsible for manipulating data from external source
- * (e.g. database). It is a sub-interface of DataProvider.
+ * An implementation of AuthorityAgent.
  *
  * @package    	Duser
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -30,6 +28,6 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-interface Ddth_Duser_IAuthorityAgent {
+class Ddth_Duser_Impl_BasicIDataManipulator extends Ddth_Duser_IAuthorityAgent {
 }
 ?>
