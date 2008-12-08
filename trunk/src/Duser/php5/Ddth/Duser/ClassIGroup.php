@@ -29,6 +29,7 @@
  * @since      	Class available since v0.1
  */
 interface Ddth_Duser_IGroup {
+
     /**
      * Retrieves group's Id.
      *

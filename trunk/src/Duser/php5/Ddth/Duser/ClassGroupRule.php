@@ -29,55 +29,96 @@
  * @since      	Class available since v0.1
  */
 class Ddth_Duser_GroupRule {
-	/**
-	 * @var Ddth_Duser_IGroup
-	 */
-	private $group;
-	
-	/**
-	 * @var Ddth_Duser_IPermission
-	 */
-	private $permission;
-	
-	/**
-	 * @var boolean
-	 */
-	private $isGlobal;
-	
-	/**
-	 * Gets id of the group in the mapping.
-	 * 
-	 * @return mixed
-	 */
-	public function getGroupId() {
-	    return $this->group !== NULL ? $this->group->getId() : NULL;
-	}
-	
-	/**
-	 * Gets the group in the mapping.
-	 * 
-	 * @return Ddth_Duser_IGroup
-	 */
-	public function getGroup() {
-		return $this->group;
-	}
-	
-	/**
-	 * Gets the permission in the mapping.
-	 * 
-	 * @return Ddth_Duser_IPermission
-	 */
-	public function getPermission() {
-		return $this->permission;
-	}
-	
-	/**
-	 * Gets 'isGlobal' attribute.
-	 * 
-	 * @return boolean
-	 */
-	public function isGlobal() {
-	    return $this->isGlobal;
-	}
+
+    /**
+     * @var Ddth_Duser_IGroup
+     */
+    private $group;
+
+    /**
+     * @var Ddth_Duser_IPermission
+     */
+    private $permission;
+
+    /**
+     * @var boolean
+     */
+    private $isGlobal;
+
+    /**
+     * Constructs a new Ddth_Duser_GroupRule object.
+     * 
+     * @param Ddth_Duser_IGroup $group
+     * @param Ddth_Duser_IPermission $permission
+     * @param boolean $isGlobal
+     */
+    public function __construct($group = NULL, $permission = NULL, $isGlobal = false) {
+        $this->setGroup($group);
+        $this->setPermission($permission);
+        $this->setIsGlobal($isGlobal);
+    }
+
+    /**
+     * Gets id of the group in the mapping.
+     * 
+     * @return mixed
+     */
+    public function getGroupId() {
+        return $this->group !== NULL ? $this->group->getId() : NULL;
+    }
+
+    /**
+     * Gets the group in the mapping.
+     * 
+     * @return Ddth_Duser_IGroup
+     */
+    public function getGroup() {
+        return $this->group;
+    }
+
+    /**
+     * Sets the group in the mapping.
+     * 
+     * @param Ddth_Duser_IGroup $group
+     */
+    public function setGroup($group) {
+        $this->group = $group;
+    }
+
+    /**
+     * Gets the permission in the mapping.
+     * 
+     * @return Ddth_Duser_IPermission
+     */
+    public function getPermission() {
+        return $this->permission;
+    }
+
+    /**
+     * Sets the permission in the mapping.
+     * 
+     * @param Ddth_Duser_IPermission $permission
+     */
+    public function setPermission($permission) {
+        $this->permission = $permission;
+    }
+
+    /**
+     * Gets 'isGlobal' attribute.
+     * 
+     * @return boolean
+     */
+    public function isGlobal() {
+        return $this->isGlobal;
+    }
+
+    /**
+     * Sets 'isGlobal' attribute.
+     * 
+     * @param boolean $isGlobal
+     */
+    public function setIsGlobal($isGlobal) {
+        $this->isGlobal = $isGlobal;
+    }
 }
 ?>

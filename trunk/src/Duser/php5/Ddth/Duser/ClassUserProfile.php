@@ -29,111 +29,112 @@
  * @since      	Class available since v0.1
  */
 class Ddth_Duser_UserProfile {
-	/**
-	 * @var mixed
-	 */
-	private $userId;
-	
-	/**
-	 * @var string
-	 */
-	private $domain;
-	
-	/**
-	 * @var string
-	 */
-	private $name;
-	
-	/**
-	 * @var string
-	 */
-	private $data;
-	
-	/**
-	 * Constructs a new Ddth_Duser_UserProfile object.
-	 * 
-	 * @param mixed $userId
-	 * @param string $domain
-	 * @param string $name
-	 * @param string $data
-	 */
-	public function __construct($userId = NULL, $domain = NULL, $name = NULL, $data = NULL) {
-		$this->setUserId ( $userId );
-		$this->setDomain ( $domain );
-		$this->setName ( $name );
-		$this->setData ( $data );
-	}
-	
-	/**
-	 * Gets profile data.
-	 * 
-	 * @return string
-	 */
-	public function getData() {
-		return $this->data;
-	}
-	
-	/**
-	 * Gets profile domain.
-	 * 
-	 * @return string
-	 */
-	public function getDomain() {
-		return $this->domain;
-	}
-	
-	/**
-	 * Gets profile name
-	 * 
-	 * @return string
-	 */
-	public function getName() {
-		return $this->name;
-	}
-	
-	/**
-	 * Gets user id associated with the profile entry.
-	 * 
-	 * @return mixed
-	 */
-	public function getUserId() {
-		return $this->userId;
-	}
-	
-	/**
-	 * Sets profile data.
-	 * 
-	 * @param string $data
-	 */
-	public function setData($data) {
-		$this->data = $data;
-	}
-	
-	/**
-	 * Sets profile domain.
-	 * 
-	 * @param string $domain
-	 */
-	public function setDomain($domain) {
-		$this->domain = $domain;
-	}
-	
-	/**
-	 * Sets profile name.
-	 * 
-	 * @param string $name
-	 */
-	public function setName($name) {
-		$this->name = $name;
-	}
-	
-	/**
-	 * Sets user id associated with the profile entry.
-	 * 
-	 * @param mixed $userId
-	 */
-	public function setUserId($userId) {
-		$this->userId = $userId;
-	}
+
+    /**
+     * @var mixed
+     */
+    private $userId;
+
+    /**
+     * @var string
+     */
+    private $domain;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $data;
+
+    /**
+     * Constructs a new Ddth_Duser_UserProfile object.
+     * 
+     * @param mixed $userId
+     * @param string $domain
+     * @param string $name
+     * @param string $data
+     */
+    public function __construct($userId = NULL, $domain = NULL, $name = NULL, $data = NULL) {
+        $this->setUserId($userId);
+        $this->setDomain($domain);
+        $this->setName($name);
+        $this->setData($data);
+    }
+
+    /**
+     * Gets profile data.
+     * 
+     * @return string
+     */
+    public function getData() {
+        return $this->data;
+    }
+
+    /**
+     * Gets profile domain.
+     * 
+     * @return string
+     */
+    public function getDomain() {
+        return $this->domain;
+    }
+
+    /**
+     * Gets profile name
+     * 
+     * @return string
+     */
+    public function getName() {
+        return $this->name;
+    }
+
+    /**
+     * Gets user id associated with the profile entry.
+     * 
+     * @return mixed
+     */
+    public function getUserId() {
+        return $this->userId;
+    }
+
+    /**
+     * Sets profile data.
+     * 
+     * @param string $data
+     */
+    public function setData($data) {
+        $this->data = $data;
+    }
+
+    /**
+     * Sets profile domain.
+     * 
+     * @param string $domain
+     */
+    public function setDomain($domain) {
+        $this->domain = $domain;
+    }
+
+    /**
+     * Sets profile name.
+     * 
+     * @param string $name
+     */
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    /**
+     * Sets user id associated with the profile entry.
+     * 
+     * @param mixed $userId
+     */
+    public function setUserId($userId) {
+        $this->userId = $userId;
+    }
 }
 ?>
