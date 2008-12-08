@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Permission entity.
+ * Group-Resource mapping.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -19,8 +19,7 @@
  */
 
 /**
- * This interface represents the Permission: pre-defined action that user can
- * perform within a context (aka domain).
+ * This interface represents group-resource mapping.
  *
  * @package    	Duser
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -29,34 +28,20 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-interface Ddth_Duser_IPermission {
+interface Ddth_Duser_IGroupResourceMapping {
 
     /**
-     * Gets name of the domain context.
-     *
-     * @return string
-     */
-    public function getDomain();
-
-    /**
-     * Gets the action.
-     *
-     * @return string
-     */
-    public function getAction();
-
-    /**
-     * Gets description of the permission.
+     * Gets the group in the mapping.
      * 
-     * @return string
+     * @return Ddth_Duser_IGroup
      */
-    public function getDescription();
+    public function getGroup();
 
     /**
-     * Gets name of the passport class associated with the permission.
+     * Gets the resource in the mapping.
      * 
-     * @return string
+     * @return Ddth_Duser_IResource
      */
-    public function getPassportClassName();
+    public function getResource();
 }
 ?>
