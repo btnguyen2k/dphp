@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Represents a node in the hierarchy.
+ * PCR manager.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -19,7 +19,7 @@
  */
 
 /**
- * This interface represents a node in the hierarchy.
+ * PCR manager.
  *
  * @package    	Pcr
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
@@ -28,33 +28,13 @@
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-interface Ddth_Pcr_INode {
+interface Ddth_Pcr_IPcrManager {
     /**
-     * Gets node's id.
+     * Gets a node by id
      * 
-     * @return int
+     * @param int $id
+     * @return Ddth_Pcr_INode
      */
-    public function getId();
-    
-    /**
-     * Gets parent node's id.
-     * 
-     * @return int
-     */
-    public function getParentId();
-    
-    /**
-     * Gets left value of 'preorder tree traversal' algorithm.
-     * 
-     * @return int
-     */
-    public function getLeftValue();
-    
-    /**
-     * Gets right value of 'preorder tree traversal' algorithm.
-     * 
-     * @return int
-     */
-    public function getRightValue();
+    public function getNodeById($id);
 }
 ?>
