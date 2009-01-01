@@ -29,6 +29,7 @@
  * @since      	Class available since v0.1
  */
 interface Ddth_Dao_IBoManager {
+
     /**
      * Deletes a business object.
      * 
@@ -36,7 +37,7 @@ interface Ddth_Dao_IBoManager {
      * @throws {@link Ddth_Dao_DaoException DaoException}
      */
     public function delete($bo);
-    
+
     /**
      * Retrieves a business object from the persistent storage by id.
      * 
@@ -45,7 +46,7 @@ interface Ddth_Dao_IBoManager {
      * @throws {@link Ddth_Dao_DaoException DaoException}
      */
     public function get($id);
-    
+
     /**
      * Saves a new business object to the persistent storage.
      * 
@@ -54,7 +55,7 @@ interface Ddth_Dao_IBoManager {
      * @throws {@link Ddth_Dao_DaoException DaoException}
      */
     public function save($bo);
-    
+
     /**
      * Updates an existing business object in the persistent storage.
      * 
@@ -62,5 +63,12 @@ interface Ddth_Dao_IBoManager {
      * @throws {@link Ddth_Dao_DaoException DaoException}
      */
     public function update($bo);
+
+    /**
+     * Initializes the BO manager.
+     * 
+     * @param Ddth_Dao_DaoFactory
+     */
+    public function init($daoFactory);
 }
 ?>

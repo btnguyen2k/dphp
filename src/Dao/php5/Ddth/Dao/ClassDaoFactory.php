@@ -30,6 +30,8 @@
  */
 class Ddth_Dao_DaoFactory {
 
+    private static $cache = Array();
+
     const DEFAULT_CONFIG_FILE = "dphp-dao.properties";
 
     /**
@@ -49,6 +51,25 @@ class Ddth_Dao_DaoFactory {
      */
     public function __construct($configFile = NULL) {
         $this->init($configFile);
+    }
+
+    /**
+     * Gets an instance of DAO factory.
+     * 
+     * @param string path to the configuration file.
+     * @return Ddth_Dao_DaoFactory
+     * @throws {@link Ddth_Dao_DaoException DaoException}
+     */
+    public static function getInstance($configFile = NULL) {
+        if ( $configFile === NULL ) {
+            return self::getInstance(self::DEFAULT_CONFIG_FILE);
+        }
+        $obj = isset(self::$cache[$configFile]) ? self::$cache[$configFile] : NULL;
+        if ( $obj == null ) {
+            $obj = new Ddth_Dao_DaoFactory($configFile);
+            self::$cache[$configFile] = $obj;
+        }
+        return $obj;
     }
 
     /**
@@ -98,12 +119,38 @@ class Ddth_Dao_DaoFactory {
      */
     public function getDao($name) {
         $className = $this->getProperty($name);
-        if ( $className === NULL ) {
+        if ( $className === NULL || trim($className) === '' ) {
             return NULL;
         }
         $obj = new $className();
         $obj->init($this);
         return $obj;
+    }
+
+    /**
+     * Convenience method to retrieve a DAO by name following the convention:
+     * when method Ddth_Dao_DaoFactory::getXxxDao is called:
+     * - getDao('xxxDao') is called, if NULL is returned:
+     * - getDao('XxxDao') is called, if NULL is returned:
+     * - getDao('xxx') is called, if NULL is returned:
+     * - getDao('Xxx') is called
+     */
+    public function __call($name, $arguments = Array()) {
+        $matches = Array();
+        if ( preg_match('/get((\w+)Dao)/i', $name, $matches) ) {
+            $dao = $this->getDao($matches[1], $arguments);
+            if ( $dao === NULL ) {
+                $dao = $this->getDao(ucfirst($matches[1]), $arguments);
+            }
+            if ( $dao === NULL ) {
+                $dao = $this->getDao($matches[2], $arguments);
+            }
+            if ( $dao === NULL ) {
+                $dao = $this->getDao(ucfirst($matches[2]), $arguments);
+            }
+            return $dao;
+        }
+        return NULL;
     }
 }
 ?>
