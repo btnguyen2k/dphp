@@ -53,7 +53,7 @@ class Ddth_Adodb_AdodbHelper {
      * 
      * @param ADOConnection an active ADOdb connection
      * @param string the SQL statement
-     * @param Array list of named binding parameters (case-sensitive!)
+     * @param Array list of named binding parameters (case-sensitive! and in-order!!!)
      * @return string the prepared SQL statement
      * @since function available since v0.1.5.1
      */
