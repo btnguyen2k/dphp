@@ -1,5 +1,5 @@
-#Wed Dec 31 10:19:40 GMT 2008
+#Thu Jan 01 20:42:50 GMT 2009
 eclipse.preferences.version=1
 org.eclipse.php.core.contextRoot=
 org.eclipse.php.core.defaultEncoding=
-org.eclipse.php.core.includePath=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<includepath>\r\n\t<includepathentry kind\="lib" path\="D\:/Workspace/ZendStudio/dphp/libs/AdoDb5-5.0.4" createdReference\="false" contentKind\="source">\r\n</includepathentry>\r\n</includepath>\r\n
+org.eclipse.php.core.includePath=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<includepath>\r\n\t<includepathentry kind\="lib" path\="D\:/Workspace/ZendStudio/dphp/libs/AdoDb5-5.0.4" createdReference\="false" contentKind\="source">\r\n</includepathentry>\r\n<includepathentry kind\="lib" path\="D\:/Workspace/ZendStudio/dphp/libs/PHPUnit-3.2.9" createdReference\="false" contentKind\="source">\r\n</includepathentry>\r\n</includepath>\r\n
