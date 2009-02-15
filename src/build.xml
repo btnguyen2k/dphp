@@ -24,9 +24,9 @@
 			<arg value="-l" />
 			<fileset dir="${basedir}">
 				<include name="**/*.php" />
-				<exclude name="tmp/**/*.*"/>
-				<exclude name="release/**/*.*"/>
-				<exclude name="libs/**/*.*"/>
+				<exclude name="tmp/**/*.*" />
+				<exclude name="release/**/*.*" />
+				<exclude name="libs/**/*.*" />
 			</fileset>
 		</apply>
 	</target>
@@ -37,15 +37,22 @@
 
 		<!-- Update project source -->
 		<antcall target="update" />
-		
+
 		<!-- Check syntax -->
 		<antcall target="phplint" />
 	</target>
-	
+
+	<target name="makePhpDoc">
+		<exec dir="${basedir}" executable="phpdoc">
+			<arg
+				line="-t ${dir.phpDocs}/${dphpLib} -o &quot;HTML:Smarty:HandS&quot; -d ${dphpLib}/php5 -ti &quot;Adodb Documentation&quot;" />
+		</exec>
+	</target>
+
 	<target name="phpdoc">
 		<mkdir dir="${dir.phpDocs}" />
-        <exec dir="${basedir}" executable="phpdoc">
-            <arg line="-t ${dir.phpDocs}/adodb -o &quot;HTML:Smarty:HandS&quot; -d Adodb/php5 -ti &quot;Adodb Documentation&quot;" />
-        </exec>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="Adodb" />
+		</antcall>
 	</target>
 </project>
