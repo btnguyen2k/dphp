@@ -3,6 +3,7 @@
 
 	<property name="dir.tmp" value="tmp" />
 	<property name="dir.release" value="release" />
+	<property name="dir.phpDocs" value="phpDocs" />
 
 	<target name="update" description="Update from source">
 		<exec executable="svn" dir="${basedir}">
@@ -14,6 +15,7 @@
 		<delete includeemptydirs="true">
 			<fileset dir="${dir.tmp}/" includes="**/*" />
 			<fileset dir="${dir.release}/" includes="**/*" />
+			<fileset dir="${dir.phpDocs}/" includes="**/*" />
 		</delete>
 	</target>
 
@@ -38,5 +40,12 @@
 		
 		<!-- Check syntax -->
 		<antcall target="phplint" />
+	</target>
+	
+	<target name="phpdoc">
+		<mkdir dir="${dir.phpDocs}" />
+        <exec dir="${basedir}" executable="phpdoc">
+            <arg line="-t ${dir.phpDocs}/adodb -o &quot;HTML:Smarty:HandS&quot; -d Adodb/php5 -ti &quot;Adodb Documentation&quot;" />
+        </exec>
 	</target>
 </project>
