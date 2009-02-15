@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="dphp" basedir="." default="build">
+
+	<property name="dir.tmp" value="tmp" />
+	<property name="dir.release" value="release" />
+
+	<target name="update" description="Update from source">
+		<exec executable="svn" dir="${basedir}">
+			<arg line="up" />
+		</exec>
+	</target>
+
+	<target name="clean" description="Remove temp build files">
+		<delete includeemptydirs="true">
+			<fileset dir="${dir.tmp}/" includes="**/*" />
+			<fileset dir="${dir.release}/" includes="**/*" />
+		</delete>
+	</target>
+
+	<target name="phplint">
+		<apply executable="php" logerror="true" failonerror="true">
+			<arg value="-l" />
+			<fileset dir="${basedir}">
+				<include name="**/*.php" />
+				<exclude name="tmp/**/*.*"/>
+				<exclude name="release/**/*.*"/>
+				<exclude name="libs/**/*.*"/>
+			</fileset>
+		</apply>
+	</target>
+
+	<target name="build" description="Build project">
+		<!-- Clean previous build results -->
+		<antcall target="clean" />
+
+		<!-- Update project source -->
+		<antcall target="update" />
+		
+		<!-- Check syntax -->
+		<antcall target="phplint" />
+	</target>
+</project>

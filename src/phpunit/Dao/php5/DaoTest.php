@@ -47,7 +47,7 @@ class DaoTest extends PHPUnit_Framework_TestCase {
         if ( !is_dir($dir) ) {
             mkdir($dir);
         }
-        copy('../../../firebirdembed/blankdb.gdb', '../../../tmp/adodbtest.gdb');
+        copy('../../../firebirdembed/blankdb.gdb', '../../../tmp/daotest.gdb');
     }
 
     /**
@@ -59,6 +59,28 @@ class DaoTest extends PHPUnit_Framework_TestCase {
 
         $obj2 = Ddth_Dao_DaoFactory::getInstance();
         $this->assertTrue($obj1===$obj2);
+    }
+    
+    /**
+     * Tests getDao() method.
+     */
+    public function testGetDao() {
+        $obj = Ddth_Dao_DaoFactory::getInstance();
+        $this->assertNotNull($obj, "Can not create Ddth::Dao::DaoFactory object!");
+        
+        $userDao =$obj->getDao('UserDao');
+        $this->assertNotNull($userDao);
+    }
+    
+	/**
+     * Tests 'magic' methods to get DAO.
+     */
+    public function testGetDaoMagic() {
+        $obj = Ddth_Dao_DaoFactory::getInstance();
+        $this->assertNotNull($obj, "Can not create Ddth::Dao::DaoFactory object!");
+        
+        $userDao =$obj->getUserDao();
+        $this->assertNotNull($userDao);
     }
 }
 ?>

@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Adodb-aware BusinessObject manager.
+ * Abstract implementation of BusinessObject manager.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -11,25 +11,52 @@
  * so we can email you a copy.
  *
  * @package		Dao
- * @subpackage  Adodb
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id$
+ * @id			$Id: ClassIBoManager.php 207 2009-01-01 20:24:27Z btnguyen2k@gmail.com $
  * @since      	File available since v0.1
  */
 
 /**
- * Adodb-aware BusinessObject manager.
+ * Abstract BusinessObject manager.
  *
  * @package    	Dao
- * @subpackage  Adodb
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1
  * @since      	Class available since v0.1
  */
-interface Ddth_Dao_Adodb_IAdodbBoManager extends Ddth_Dao_IBoManager {
+abstract class Ddth_Dao_AbstractDao implements Ddth_Dao_IBoManager {
+
+    /**
+     * @var Ddth_Dao_DaoFactory
+     */
+    private $daoFactory;
+
+    /**
+     * Constructs a new Ddth_Dao_AbstractDao object,
+     */
+    public function __construct() {
+    }
+
+    /**
+     * Initializes the BO manager.
+     * 
+     * @param Ddth_Dao_DaoFactory
+     */
+    public function init($daoFactory) {
+        $this->daoFactory = $daoFactory;
+    }
+
+    /**
+     * Gets the DaoFactory instance.
+     * 
+     * @return Ddth_Dao_DaoFactory
+     */
+    protected function getDaoFactory() {
+        return $this->daoFactory;
+    }
 }
 ?>
