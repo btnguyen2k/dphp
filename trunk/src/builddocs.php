@@ -17,8 +17,8 @@ function error($str) {
 }
 
 function removeTree($dir, $removeCurrent = false) {
-    if ( $dir_handle = opendir($dir) ) {
-        while ( $file = readdir($dir_handle) ) {
+    if ( ($dir_handle = opendir($dir)) ) {
+        while ( ($file = readdir($dir_handle)) ) {
             if ( $file != "." && $file != ".." ) {
                 if ( is_dir($dir."/".$file) ) {
                     removeTree($dir."/".$file, true);
