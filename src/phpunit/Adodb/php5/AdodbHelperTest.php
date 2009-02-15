@@ -39,7 +39,6 @@ $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/libs/AdoDb5-5.0.4';
 ini_set('include_path', $INCLUDE_PATH);
 
 require_once 'PHPUnit/Framework.php';
-require_once 'Ddth/Adodb/ClassAdodbFactory.php';
 
 class AdodbHelperTest extends PHPUnit_Framework_TestCase {
     /**

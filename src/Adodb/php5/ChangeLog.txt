@@ -1,5 +1,8 @@
+* 15-Feb-2009: version 0.1.6
+	- Added class AdodbSqlStatement
+
 * 01-Jan-2008: version 0.1.5.1
-	- Added function Ddth_Adodb_AdodbHelper::prepareSql()
+	- Added function AdodbHelper::prepareSql()
 
 * 12-Sep-2008: version 0.1.5
 	- Fix a bug in AdodbFactory::closeConnection(): not commit in transaction mode
