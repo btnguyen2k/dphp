@@ -54,5 +54,41 @@
 		<antcall target="makePhpDoc">
 			<param name="dphpLib" value="Adodb" />
 		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="Cache" />
+		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="Commons" />
+		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="Dao" />
+		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="Duser" />
+		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="EhConfig" />
+		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="EhProperties" />
+		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="Mls" />
+		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="Pcr" />
+		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="Pdo" />
+		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="Template" />
+		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="Vnvi" />
+		</antcall>
+		<antcall target="makePhpDoc">
+			<param name="dphpLib" value="Xpath" />
+		</antcall>
 	</target>
 </project>
