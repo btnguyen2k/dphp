@@ -22,20 +22,6 @@
 require_once 'adodb-exceptions.inc.php';
 require_once 'adodb.inc.php';
 
-if ( !function_exists('__autoload') ) {
-    /**
-     * Automatically loads class source file when used.
-     *
-     * @param string
-     */
-    function __autoload($className) {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        require_once 'Ddth/Commons/ClassLoader.php';
-        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
-    }
-}
-
 /**
  * ADOdb connection factory.
  *
@@ -43,7 +29,6 @@ if ( !function_exists('__autoload') ) {
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1.4
  * @since      	Class available since v0.1
  */
 class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {

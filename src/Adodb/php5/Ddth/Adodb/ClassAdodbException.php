@@ -18,9 +18,6 @@
  * @since      	File available since v0.1
  */
 
-/** */
-require_once 'Ddth/Commons/Exceptions/ClassAbstractException.php';
-
 /**
  * Thrown to indicate that an error has occurred.
  *
