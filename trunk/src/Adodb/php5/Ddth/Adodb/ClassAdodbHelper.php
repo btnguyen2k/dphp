@@ -25,7 +25,6 @@
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1.2
  * @since      	Class available since v0.1.2
  */
 class Ddth_Adodb_AdodbHelper {

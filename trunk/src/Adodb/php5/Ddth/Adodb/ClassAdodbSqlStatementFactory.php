@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Factory interface to create and dispose ADOdb connections.
+ * Factory to create ADOdb SQL Statements.
  *
  * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
  * Public License that is available through the world-wide-web at the following URI:
@@ -14,40 +14,31 @@
  * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id$
- * @since      	File available since v0.1
+ * @id			$Id: ClassAdodbFactory.php 148 2008-03-12 05:38:09Z nbthanh@vninformatics.com $
+ * @since      	File available since v0.1.6
  */
 
 /**
- * Factory interface to create and dispose ADOdb connections.
- *
- * This factory interface provides APIs create and dispose
- * {@link http://adodb.sourceforge.net/ ADOdb} connections.
+ * Factory to create ADOdb SQL Statements.
  *
  * @package    	Adodb
  * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @since      	Class available since v0.1
+ * @since      	Class available since v0.1.6
  */
-interface Ddth_Adodb_IAdodbFactory {
-    const DEFAULT_CONFIG_FILE = "dphp-adodb.properties";
-
+class Ddth_Adodb_AdodbSqlStatementFactory {
+    
     /**
-     * Gets an ADOdb connection.
-     *
-     * @param bool indicates that if a transaction is automatically started
-     * @return ADOConnection an instance of ADOConnection, NULL is returned if
-     * the connection can not be created
+     * @var Ddth_Commons_Properties
      */
-    public function getConnection($startTransaction=false);
-
+    private $configurations;
+    
     /**
-     * Closes an ADOConnection
-     *
-     * @param ADOConnection
-     * @param bool
+     * Constructs a new Ddth_Adodb_AdodbSqlStatementFactory object.
      */
-    public function closeConnection($conn, $hasError=false);
+    protected function __construct() {
+        //empty
+    }
 }
 ?>
