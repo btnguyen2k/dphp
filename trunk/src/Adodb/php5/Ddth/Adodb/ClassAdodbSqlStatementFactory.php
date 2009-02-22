@@ -28,17 +28,63 @@
  * @since      	Class available since v0.1.6
  */
 class Ddth_Adodb_AdodbSqlStatementFactory {
-    
+
     /**
      * @var Ddth_Commons_Properties
      */
     private $configurations;
-    
+
+    private $cache = Array();
+
+    /**
+     * @var Ddth_Commons_Logging_ILog
+     */
+    private $LOGGER;
+
     /**
      * Constructs a new Ddth_Adodb_AdodbSqlStatementFactory object.
      */
     protected function __construct() {
-        //empty
+        $clazz = "Ddth_Adodb_AdodbSqlStatementFactory";
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
+    }
+
+    /**
+     * Gets an AdodbSqlStatement.
+     * 
+     * @param string
+     * @return Ddth_Adodb_AdodbSqlStatement
+     */
+    public function getSqlStatement($name) {
+        $stm = isset($this->cache[$name]) ? $this->cache[$name] : NULL;
+        if ( $stm === NULL ) {
+            $rawData = $this->configurations->getProperty($name);
+            if ( $rawData === NULl || $rawData === "" ) {
+                $msg = "SQL Statement Configuration not found [$name]!";
+                $this->LOGGER->warn($msg);
+                return NULL;
+            }
+            $tokens = split("[, ]+", $rawData, 2);
+            if ( count($tokens) < 2 || !is_int($tokens[0]) ) {
+                $msg = "Invalid SQL Statement Configuration [$rawData]!";
+                $this->LOGGER->error($msg);
+                return NULL;
+            }
+            $params = Array();
+            $sql = "";
+            if ( $tokens[0] > 0 ) {
+                $stmTokens = split("[, ]+", $tokens[1], $tokens[0] + 1);
+                for ( $i = 0, $n = count($stmTokens) - 1; $i < $n; $i++ ) {
+                    $params[] = $stmTokens[$i];
+                }
+                $sql = $stmTokens[count($stmTokens) - 1];
+            }
+            $stm = new Ddth_Adodb_AdodbSqlStatement();
+            $stm->setParams($params);
+            $stm->setSql($sql);
+            $this->cache[$name] = $stm;
+        }
+        return stm;
     }
 }
 ?>
