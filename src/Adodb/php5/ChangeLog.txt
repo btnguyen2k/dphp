@@ -1,5 +1,5 @@
 * 15-Feb-2009: version 0.1.6
-	- Added class AdodbSqlStatement
+	- Added classes AdodbSqlStatement, Ddth_Adodb_AdodbSqlStatementFactory
 
 * 01-Jan-2008: version 0.1.5.1
 	- Added function AdodbHelper::prepareSql()
