@@ -41,12 +41,49 @@ class Ddth_Adodb_AdodbSqlStatementFactory {
      */
     private $LOGGER;
 
+    private static $staticCache = Array();
+
+    /**
+     * Constructs a Ddth_Adodb_AdodbSqlStatementFactory object from a configuration file.
+     * 
+     * @param string
+     * @return Ddth_Adodb_AdodbSqlStatementFactory
+     */
+    public static function getInstance($configFile) {
+        $obj = isset(self::$staticCache[$configFile]) ? self::$staticCache[$configFile] : NULL;
+        if ( $obj === NULL ) {
+            $fileContent = Ddth_Commons_Loader::loadFileContent($configFile);
+            if ( $fileContent === NULL || $fileContent === "" ) {
+                return NULL;
+            }
+            $props = new Ddth_Commons_Properties();
+            $props->import($fileContent);
+            $obj = new Ddth_Adodb_AdodbSqlStatementFactory($props);
+            
+            self::$staticCache[$configFile] = $obj;
+        }
+        return $obj;
+    }
+
     /**
      * Constructs a new Ddth_Adodb_AdodbSqlStatementFactory object.
+     * 
+     * @param Ddth_Commons_Properties
      */
-    protected function __construct() {
+    protected function __construct($props) {
         $clazz = "Ddth_Adodb_AdodbSqlStatementFactory";
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
+        $this->setConfiguration($props);
+    }
+
+    /**
+     * Sets configurations.
+     * 
+     * @param Ddth_Commons_Properties
+     */
+    public function setConfiguration($props) {
+        $this->configurations = $props;
+        $this->cache = Array(); //clear cache
     }
 
     /**
