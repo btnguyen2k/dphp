@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<buildpath>
+	<buildpathentry kind="src" path=""/>
+	<buildpathentry kind="con" path="org.eclipse.php.core.LANGUAGE"/>
+	<buildpathentry kind="lib" path="D:/Workspace/ZendStudio/dphp/libs/AdoDb5-5.0.4"/>
+	<buildpathentry kind="lib" path="D:/Workspace/ZendStudio/dphp/libs/PHPUnit-3.2.9"/>
+</buildpath>
