@@ -49,7 +49,7 @@ if ( !is_readable($PHP_DOCUMENTOR) ) {
     error("$PHP_DOCUMENTOR is not readable!");
 }
 
-$PACKAGES = Array('Commons','Adodb');
+$PACKAGES = Array('Commons','Adodb','Dao');
 $PACKAGE_PHP_VERSION = $argv[3];
 $DIR_PACKAGE_SOURCE = '';
 foreach ( $PACKAGES as $PACKAGE ) {
@@ -101,7 +101,7 @@ if ( count($argv) == 5 ) {
     //$STYLE = "-o \"HTML:frames/Extjs:default\"";
     $STYLE = "-o \"HTML:Smarty/Evolve:default\"";
 }
-$CMD = "$PHP \"$PHP_DOCUMENTOR\" -t \"$DIR_PACKAGE_DOCS\" $STYLE -d \"$DIR_PACKAGE_SOURCE\" -ti \"dPHP Documentation\"";
+$CMD = "$PHP \"$PHP_DOCUMENTOR\" -t \"$DIR_PACKAGE_DOCS\" $STYLE -d \"$DIR_PACKAGE_SOURCE\" -dn \"dPHP\" -ti \"dPHP Documentation\"";
 echo $CMD, "\n";
 system($CMD);
 echo "==================================================\n";
