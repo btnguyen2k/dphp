@@ -11,10 +11,10 @@
  * so we can email you a copy.
  *
  * @package		EhProperties
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: ClassProperties.php 147 2008-03-09 06:00:32Z nbthanh@vninformatics.com $
+ * @version			$Id: ClassProperties.php 147 2008-03-09 06:00:32Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -22,7 +22,7 @@
  * This class enhanced Ddth::Commons::Properties with extra functionalities.
  *
  * @package    	EhProperties
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1

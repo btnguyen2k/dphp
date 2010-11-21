@@ -11,10 +11,10 @@
  * so we can email you a copy.
  *
  * @package		Vnvi
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id: ClassConstants.php 111 2008-02-16 00:28:53Z btnguyen2k@gmail.com $
+ * @version			$Id: ClassConstants.php 111 2008-02-16 00:28:53Z btnguyen2k@gmail.com $
  * @since      	File available since v0.1
  */
 
@@ -22,7 +22,7 @@
  * Defines global constants used by Dddth::Vnvi package.
  *
  * @package    	Vnvi
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1

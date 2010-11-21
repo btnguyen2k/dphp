@@ -62,7 +62,7 @@ if (!defined('ADODB_SYBASE_SQLANYWHERE')){
 	}
 
 	 function _insertid() {
-  	   return $this->GetOne('select @@identity');
+  	   return $this->GetOne('select @@versionentity');
 	 }
 
   function create_blobvar($blobVarName) {

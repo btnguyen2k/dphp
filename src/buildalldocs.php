@@ -1,11 +1,11 @@
 <?php
 /* Use phpDocumentor to build docs for php projects */
-if ( count($argv) != 5 && count($argv) != 6 ) {
+if ( count($argv) != 4 && count($argv) != 5 ) {
     echo "Usage:\n";
-    echo "\tphp builddocs.php <full_path_to_php_executable> <path_to_phpDocumentor> <package> <package_php_version>";
+    echo "\tphp builddocs.php <full_path_to_php_executable> <path_to_phpDocumentor> <package_php_version>";
     echo "\n";
     echo "Example:\n";
-    echo "\tphp builddocs.php /usr/bin/php /usr/phpDocumentor Commons php5";
+    echo "\tphp builddocs.php /usr/bin/php /usr/phpDocumentor php5";
     echo "\n";
     exit;
 }
@@ -49,14 +49,20 @@ if ( !is_readable($PHP_DOCUMENTOR) ) {
     error("$PHP_DOCUMENTOR is not readable!");
 }
 
-$PACKAGE = $argv[3];
-$PACKAGE_PHP_VERSION = $argv[4];
-$DIR_PACKAGE_SOURCE = $PACKAGE.$PATH_SEPARATOR.$PACKAGE_PHP_VERSION.$PATH_SEPARATOR.'Ddth'.$PATH_SEPARATOR.$PACKAGE;
-#$DIR_PACKAGE_SOURCE = $PACKAGE.$PATH_SEPARATOR.$PACKAGE_PHP_VERSION;
-if ( !is_dir($DIR_PACKAGE_SOURCE) ) {
-    error("$DIR_PACKAGE_SOURCE is not a directory or does not exists!");
+$PACKAGES = Array('Commons','Adodb');
+$PACKAGE_PHP_VERSION = $argv[3];
+$DIR_PACKAGE_SOURCE = '';
+foreach ( $PACKAGES as $PACKAGE ) {
+    $DIR_SOURCE = $PACKAGE.$PATH_SEPARATOR.$PACKAGE_PHP_VERSION.$PATH_SEPARATOR.'Ddth'.$PATH_SEPARATOR.$PACKAGE;
+	if ( !is_dir($DIR_SOURCE) ) {
+	    error("$DIR_SOURCE is not a directory or does not exists!");
+	}
+	if ( $DIR_PACKAGE_SOURCE != '' ) {
+	    $DIR_PACKAGE_SOURCE .= ',';
+	}
+    $DIR_PACKAGE_SOURCE .= $DIR_SOURCE;
 }
-$DIR_PACKAGE_DOCS = $PACKAGE.$PATH_SEPARATOR.$PACKAGE_PHP_VERSION.$PATH_SEPARATOR.'phpDocs';
+$DIR_PACKAGE_DOCS = 'phpDocs';
 @mkdir($DIR_PACKAGE_DOCS);
 if ( !is_dir($DIR_PACKAGE_DOCS) ) {
     error("$DIR_PACKAGE_DOCS is not a directory or does not exists!");
@@ -87,15 +93,15 @@ removeTree($DIR_PACKAGE_DOCS);
  *     for online pear.php.net documentation, 2nd revision 
  */
 $STYLE = "";
-if ( count($argv) == 6 ) {
-    $STYLE = "-o \"$argv[5]\"";
+if ( count($argv) == 5 ) {
+    $STYLE = "-o \"$argv[4]\"";
 } else {
     //default stype
     //$STYLE = "-o \"HTML:Smarty:HandS\"";
     //$STYLE = "-o \"HTML:frames/Extjs:default\"";
     $STYLE = "-o \"HTML:Smarty/Evolve:default\"";
 }
-$CMD = "$PHP \"$PHP_DOCUMENTOR\" -t \"$DIR_PACKAGE_DOCS\" $STYLE -d \"$DIR_PACKAGE_SOURCE\" -ti \"$PACKAGE Documentation\"";
+$CMD = "$PHP \"$PHP_DOCUMENTOR\" -t \"$DIR_PACKAGE_DOCS\" $STYLE -d \"$DIR_PACKAGE_SOURCE\" -ti \"dPHP Documentation\"";
 echo $CMD, "\n";
 system($CMD);
 echo "==================================================\n";
@@ -106,6 +112,5 @@ echo "PHP_DOCUMENTOR    : $PHP_DOCUMENTOR\n";
 echo "STYLE             : $STYLE\n";
 echo "DIR_OUTPUT        : $DIR_PACKAGE_DOCS\n";
 echo "DIR_PACKAGE_SOURCE: $DIR_PACKAGE_SOURCE\n";
-echo "PACKAGE           : $PACKAGE\n";
 echo "==================================================\n";
 ?>

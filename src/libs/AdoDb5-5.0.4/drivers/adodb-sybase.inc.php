@@ -47,7 +47,7 @@ class ADODB_sybase extends ADOConnection {
 	// might require begintrans -- committrans
 	function _insertid()
 	{
-		return $this->GetOne('select @@identity');
+		return $this->GetOne('select @@versionentity');
 	}
 	  // might require begintrans -- committrans
 	function _affectedrows()

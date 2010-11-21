@@ -11,10 +11,10 @@
  * so we can email you a copy.
  *
  * @package		Vnvi
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id$
+ * @version			$Id$
  * @since      	File available since v0.1
  */
 
@@ -22,7 +22,7 @@
  * Defines global constants used by Dddth::Vnvi package.
  *
  * @package    	Vnvi
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
