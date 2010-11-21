@@ -17,7 +17,7 @@ require_once 'ClassIClassNameTranslator.php';
 
 /**
  * Default implementation of {@link Ddth_Commons_IClassNameTranslator}.
- * 
+ *
  * LICENSE: See the included license.txt file for detail.
  *
  * This class implements interface {@link Ddth_Commons_IClassNameTranslator} with the
@@ -56,7 +56,7 @@ final class Ddth_Commons_DefaultClassNameTranslator implements Ddth_Commons_ICla
     }
 
     /**
-     * {@see Ddth_Commons_IClassNameTranslator::translateClassNameToFileName()}
+     * @see Ddth_Commons_IClassNameTranslator::translateClassNameToFileName()
      */
     public function translateClassNameToFileName($className) {
         $tokens = explode("_", $className);
