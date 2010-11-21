@@ -10,7 +10,7 @@
  * PEAR DB Emulation Layer for ADODB.
  *
  * The following code is modelled on PEAR DB code by Stig Bakken <ssb@fast.no>								   |
- * and Tomas V.V.Cox <cox@idecnet.com>.	Portions (c)1997-2002 The PHP Group.
+ * and Tomas V.V.Cox <cox@versionecnet.com>.	Portions (c)1997-2002 The PHP Group.
  */
 
  /*
@@ -265,7 +265,7 @@ class DB
 	 *  phptype(dbsyntax)
 	 *  phptype
 	 *
-	 * @author Tomas V.V.Cox <cox@idecnet.com>
+	 * @author Tomas V.V.Cox <cox@versionecnet.com>
 	 */
 	function parseDSN($dsn)
 	{

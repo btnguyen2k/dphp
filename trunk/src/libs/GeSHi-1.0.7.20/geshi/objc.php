@@ -92,7 +92,7 @@ $language_data = array (
 			'div_t', 'ldiv_t', 'clock_t', 'time_t', 'tm',
 			// OpenStep/GNUstep/Cocoa:
 			'SEL', 'id', 'NSRect', 'NSRange', 'NSPoint', 'NSZone', 'Class', 'IMP', 'BOOL',
-			// OpenStep/GNUstep/Cocoa @identifiers
+			// OpenStep/GNUstep/Cocoa @versionentifiers
 			'@selector', '@class', '@protocol', '@interface', '@implementation', '@end',
 			'@private', '@protected', '@public', '@try', '@throw', '@catch', '@finally',
 			'@encode', '@defs', '@synchronized'

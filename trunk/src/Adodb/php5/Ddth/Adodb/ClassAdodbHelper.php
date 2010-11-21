@@ -11,10 +11,10 @@
  * so we can email you a copy.
  *
  * @package		Adodb
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassAdodbFactory.php 148 2008-03-12 05:38:09Z nbthanh@vninformatics.com $
+ * @version			$Id: ClassAdodbFactory.php 148 2008-03-12 05:38:09Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1.2
  */
 
@@ -22,7 +22,7 @@
  * ADOdb helper class.
  *
  * @package    	Adodb
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @since      	Class available since v0.1.2

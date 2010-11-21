@@ -133,13 +133,13 @@ $language_data = array (
 			'APP_NAME','COLLATIONPROPERTY','@@ERROR','fn_helpcollations', 
 			'fn_servershareddrives','fn_virtualfilestats','FORMATMESSAGE', 
 			'GETANSINULL','HOST_ID','HOST_NAME','IDENT_CURRENT','IDENT_INCR', 
-			'IDENT_SEED','@@IDENTITY','ISDATE','ISNUMERIC','PARSENAME','PERMISSIONS', 
+			'IDENT_SEED','@@versionENTITY','ISDATE','ISNUMERIC','PARSENAME','PERMISSIONS', 
 			'@@ROWCOUNT','ROWCOUNT_BIG','SCOPE_IDENTITY','SERVERPROPERTY','SESSIONPROPERTY', 
 			'STATS_DATE','@@TRANCOUNT','USER_NAME',
 
 			//System Statistical Functions
 			'@@CONNECTIONS','@@PACK_RECEIVED','@@CPU_BUSY','@@PACK_SENT',
-			'fn_virtualfilestats','@@TIMETICKS','@@IDLE','@@TOTAL_ERRORS','@@IO_BUSY',
+			'fn_virtualfilestats','@@TIMETICKS','@@versionLE','@@TOTAL_ERRORS','@@IO_BUSY',
 			'@@TOTAL_READ','@@PACKET_ERRORS','@@TOTAL_WRITE',
 
 			//Text and Image Functions

@@ -11,10 +11,10 @@
  * so we can email you a copy.
  *
  * @package		Dao
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassIBoManager.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
+ * @version			$Id: ClassIBoManager.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
  * @since      	File available since v0.1
  */
 
@@ -22,7 +22,7 @@
  * DAO factory.
  *
  * @package    	Dao
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1

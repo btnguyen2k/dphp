@@ -11,10 +11,10 @@
  * so we can email you a copy.
  *
  * @package		Dao
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @id			$Id$
+ * @version			$Id$
  * @since      	File available since v0.1
  */
 
@@ -25,7 +25,7 @@ require_once 'Ddth/Commons/Exceptions/ClassAbstractException.php';
  * Thrown to indicate that an error has occurred.
  *
  * @package    	Dao
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1

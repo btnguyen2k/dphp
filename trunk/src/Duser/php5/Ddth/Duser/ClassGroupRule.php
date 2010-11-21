@@ -11,10 +11,10 @@
  * so we can email you a copy.
  *
  * @package		Duser
- * @author		NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @id			$Id: ClassIAdodbFactory.php 144 2008-02-29 15:34:04Z btnguyen2k@gmail.com $
+ * @version			$Id: ClassIAdodbFactory.php 144 2008-02-29 15:34:04Z btnguyen2k@gmail.com $
  * @since      	File available since v0.1
  */
 
@@ -22,7 +22,7 @@
  * This class captures the group-permission mapping.
  *
  * @package    	Duser
- * @author     	NGUYEN, Ba Thanh <btnguyen2k@gmail.com>
+ * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @version    	0.1
