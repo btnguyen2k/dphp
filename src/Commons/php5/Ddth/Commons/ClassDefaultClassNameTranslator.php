@@ -4,10 +4,11 @@
  * Default implementation of {@link Ddth_Commons_IClassNameTranslator}.
  *
  * LICENSE: See the included license.txt file for detail.
+ * 
+ * COPYRIGHT: See the included copyright.txt file for detail.
  *
  * @package     Commons
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright   2008 DDTH.ORG
  * @version     $Id$
  * @since       File available since v0.1
  */
@@ -32,7 +33,6 @@ require_once 'ClassIClassNameTranslator.php';
  *
  * @package     Commons
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright   2008 DDTH.ORG
  * @since       Class available since v0.1
  */
 final class Ddth_Commons_DefaultClassNameTranslator implements Ddth_Commons_IClassNameTranslator {
