@@ -4,10 +4,11 @@
  * Abstract representation of file and directory pathnames.
  *
  * LICENSE: See the included license.txt file for detail.
+ * 
+ * COPYRIGHT: See the included copyright.txt file for detail.
  *
  * @package     Commons
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright   2008 DDTH.ORG
  * @version     $Id$
  * @since      	File available since v0.1
  */
@@ -17,7 +18,6 @@
  *
  * @package    	Commons
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since      	Class available since v0.1
  */
