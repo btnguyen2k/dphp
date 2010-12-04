@@ -42,8 +42,7 @@
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since       Class available since v0.1
  */
-class Ddth_Commons_Logging_ConsoleLog
-extends Ddth_Commons_Logging_AbstractLog {
+class Ddth_Commons_Logging_ConsoleLog extends Ddth_Commons_Logging_AbstractLog {
     /**
      * Default log message format.
      */

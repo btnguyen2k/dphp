@@ -25,8 +25,7 @@ require_once 'ClassAbstractException.php';
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since       Class available since v0.1
  */
-class Ddth_Commons_Exceptions_IllegalStateException
-extends Ddth_Commons_Exceptions_AbstractException {
+class Ddth_Commons_Exceptions_IllegalStateException extends Ddth_Commons_Exceptions_AbstractException {
 
     /**
      * Constructs a new Ddth_Commons_Exceptions_IllegalStateException object.
