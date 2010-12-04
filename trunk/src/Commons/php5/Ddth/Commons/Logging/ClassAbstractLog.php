@@ -25,8 +25,7 @@
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since       Class available since v0.1
  */
-abstract class Ddth_Commons_Logging_AbstractLog
-implements Ddth_Commons_Logging_ILog {
+abstract class Ddth_Commons_Logging_AbstractLog implements Ddth_Commons_Logging_ILog {
     private $className;
 
     private $settings;

@@ -26,8 +26,7 @@ require_once 'ClassAbstractException.php';
  * @license     http://www.gnu.org/licenses/lgpl.html LGPL 3.0
  * @since       Class available since v0.1
  */
-class Ddth_Commons_Exceptions_IOException
-extends Ddth_Commons_Exceptions_AbstractException {
+class Ddth_Commons_Exceptions_IOException extends Ddth_Commons_Exceptions_AbstractException {
 
     /**
      * Constructs a new Ddth_Commons_Exceptions_IOException object.
