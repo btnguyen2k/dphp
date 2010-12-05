@@ -49,7 +49,7 @@ if ( !is_readable($PHP_DOCUMENTOR) ) {
     error("$PHP_DOCUMENTOR is not readable!");
 }
 
-$PACKAGES = Array('Commons','Adodb','Dao');
+$PACKAGES = Array('Commons','Adodb','Dao','Mls','Template');
 $PACKAGE_PHP_VERSION = $argv[3];
 $DIR_PACKAGE_SOURCE = '';
 foreach ( $PACKAGES as $PACKAGE ) {
