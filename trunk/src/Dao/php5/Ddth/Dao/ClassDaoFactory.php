@@ -1,36 +1,29 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * DAO factory.
+ * Factory to create {@link Ddth_Dao_IDao} objects.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Dao
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version			$Id: ClassIBoManager.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
- * @since      	File available since v0.1
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Dao
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassIBoManager.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
+ * @since       File available since v0.1
  */
 
 /**
- * DAO factory.
+ * Factory to create {@link Ddth_Dao_IDao} objects.
  *
- * @package    	Dao
+ * @package     Dao
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version    	0.1
  * @since      	Class available since v0.1
  */
-class Ddth_Dao_DaoFactory {
+class Ddth_Dao_DaoFactory implements Ddth_Dao_IDaoFactory {
 
     private static $cache = Array();
+    private $daoCache = Array();
 
     const DEFAULT_CONFIG_FILE = "dphp-dao.properties";
 
@@ -42,11 +35,11 @@ class Ddth_Dao_DaoFactory {
     /**
      * @var Ddth_Commons_Properties
      */
-    private $props;
+    private $props = NULL;
 
     /**
      * Constructs a new Ddth_Dao_DaoFactory object.
-     * 
+     *
      * @param string $configFile
      */
     public function __construct($configFile = NULL) {
@@ -55,17 +48,17 @@ class Ddth_Dao_DaoFactory {
 
     /**
      * Gets an instance of DAO factory.
-     * 
+     *
      * @param string path to the configuration file.
      * @return Ddth_Dao_DaoFactory
-     * @throws {@link Ddth_Dao_DaoException DaoException}
+     * @throws {@link Ddth_Dao_DaoException}
      */
     public static function getInstance($configFile = NULL) {
         if ( $configFile === NULL ) {
             return self::getInstance(self::DEFAULT_CONFIG_FILE);
         }
         $obj = isset(self::$cache[$configFile]) ? self::$cache[$configFile] : NULL;
-        if ( $obj == null ) {
+        if ( $obj === NULL ) {
             $obj = new Ddth_Dao_DaoFactory($configFile);
             self::$cache[$configFile] = $obj;
         }
@@ -73,10 +66,10 @@ class Ddth_Dao_DaoFactory {
     }
 
     /**
-     * Initializes DaoFactory
-     * 
+     * Initializes DAO factory
+     *
      * @param string $configFile
-     * @throws {@link Ddth_Dao_DaoException DaoException}
+     * @throws {@link Ddth_Dao_DaoException}
      */
     public function init($configFile = NULL) {
         if ( $this->initialized ) {
@@ -102,7 +95,7 @@ class Ddth_Dao_DaoFactory {
 
     /**
      * Gets a property.
-     * 
+     *
      * @param string $name
      * @return string
      */
@@ -111,8 +104,8 @@ class Ddth_Dao_DaoFactory {
     }
 
     /**
-     * Gets a DAO instance.
-     * 
+     * Gets a DAO by name.
+     *
      * @param string $name
      * @return {@link Ddth_Dao_IBoManager IBoManager}
      * @throws {@link Ddth_Dao_DaoException DaoException}
@@ -122,9 +115,19 @@ class Ddth_Dao_DaoFactory {
         if ( $className === NULL || trim($className) === '' ) {
             return NULL;
         }
-        $obj = new $className();
-        $obj->init($this);
-        return $obj;
+        $dao = isset($this->daoCache[$name])?$this->daoCache[$name]:NULL;
+        if ( !($dao instanceof Ddth_Dao_IDao) ) {
+            $dao = NULL;
+        }
+        if ( $dao === NULL ) {
+            $dao = new $className();
+            if ( $dao instanceof Ddth_Dao_IDao ) {
+                $dao->init($this);
+            } else {
+                $dao = NULL;
+            }
+        }
+        return $dao;
     }
 
     /**
