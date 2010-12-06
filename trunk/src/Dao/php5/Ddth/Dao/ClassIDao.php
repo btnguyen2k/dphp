@@ -4,7 +4,7 @@
  * Represents a DAO (business object manager).
  *
  * LICENSE: See the included license.txt file for detail.
- * 
+ *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
  * @package     Dao
@@ -23,16 +23,32 @@
 interface Ddth_Dao_IDao {
 
     /**
+     * Gets a connection to persistent storage.
+     *
+     * @param bool $startTransaction indicates that if a transaction is automatically started
+     * @return mixed the connection, or NULL if the connection can not be created
+     */
+    public function getConnection($startTransaction=false);
+    
+    /**
+     * Closes an existing connection.
+     *
+     * @param mixed $conn the existing connection to close
+     * @param bool $hasError indicates that an error has occurred during the usage of the connection
+     */
+    public function closeConnection($conn, $hasError=false);
+
+    /**
      * Gets the DAO factory instance.
-     * 
+     *
      * @return Ddth_Dao_IDaoFactory
      */
     public function getDaoFactory();
 
     /**
      * Initializes the DAO.
-     * 
-     * @param Ddth_Dao_IDaoFactory
+     *
+     * @param Ddth_Dao_IDaoFactory $daoFactory
      */
     public function init($daoFactory);
 }

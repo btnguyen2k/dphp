@@ -27,5 +27,12 @@ interface Ddth_Dao_IDaoFactory {
      * @param Ddth_Dao_IDao $name
      */
     public function getDao($name);
+    
+    /**
+     * Initializes the DAO factory.
+     *
+     * @param Ddth_Commons_Properties $props
+     */
+    public function init($props);
 }
 ?>
