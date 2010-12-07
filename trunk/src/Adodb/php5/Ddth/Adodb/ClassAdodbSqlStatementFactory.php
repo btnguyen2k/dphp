@@ -1,30 +1,23 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Factory to create ADOdb SQL Statements.
+ * Factory to create {@link Ddth_Adodb_AdodbSqlStatement} objects.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Adodb
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version			$Id: ClassAdodbFactory.php 148 2008-03-12 05:38:09Z nbthanh@vninformatics.com $
- * @since      	File available since v0.1.6
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Adodb
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassAdodbFactory.php 148 2008-03-12 05:38:09Z nbthanh@vninformatics.com $
+ * @since       File available since v0.1.6
  */
 
 /**
- * Factory to create ADOdb SQL Statements.
+ * Factory to create {@link Ddth_Adodb_AdodbSqlStatement} objects.
  *
- * @package    	Adodb
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
+ * @package     Adodb
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since      	Class available since v0.1.6
  */
 class Ddth_Adodb_AdodbSqlStatementFactory {
@@ -71,8 +64,9 @@ class Ddth_Adodb_AdodbSqlStatementFactory {
      * @param Ddth_Commons_Properties
      */
     protected function __construct($props) {
-        $clazz = "Ddth_Adodb_AdodbSqlStatementFactory";
-        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
+        //$clazz = "Ddth_Adodb_AdodbSqlStatementFactory";
+        //$this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog($clazz);
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
         $this->setConfiguration($props);
     }
 

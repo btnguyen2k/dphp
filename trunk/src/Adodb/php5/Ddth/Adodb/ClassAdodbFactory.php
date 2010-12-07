@@ -3,19 +3,14 @@
 /**
  * ADOdb connection factory.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Adodb
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version			$Id$
- * @since      	File available since v0.1
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Adodb
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id$
+ * @since       File available since v0.1
  */
 
 /** */
@@ -27,14 +22,22 @@ require_once 'adodb.inc.php';
  *
  * @package    	Adodb
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @since      	Class available since v0.1
  */
 class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
     private static $cacheInstances = Array();
-    
+
+    /**
+     * @var Ddth_Commons_ILog
+     */
     private $LOGGER;
+
+    /**
+     * Holds an instance of Ddth_Adodb_AdodbConfig.
+     *
+     * @var Ddth_Adodb_AdodbConfig
+     */
+    private $config = NULL;
 
     /**
      * Gets an instance of Ddth_Adodb_AdodbFactory.
@@ -59,19 +62,12 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
     }
 
     /**
-     * Holds an instance of Ddth_Adodb_AdodbConfig.
-     *
-     * @var Ddth_Adodb_AdodbConfig
-     */
-    private $config = NULL;
-
-    /**
      * Constructs a new Ddth_Adodb_AdodbFactory object.
      *
      * @param Ddth_Adodb_AdodbConfig
      */
     public function __construct($config=NULL) {
-        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog('Ddth_Adodb_AdodbFactory');
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
         if ( $config === NULL || $config instanceof Ddth_Adodb_AdodbConfig ) {
             $msg = 'NULL configuration object or not an instance of Ddth_Adodb_AdodbConfig, load from default configuration file.';
             $this->LOGGER->info($msg);
@@ -108,7 +104,7 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
             $user = $this->config->getUser();
             $password = $this->config->getPassword();
             $database = $this->config->getDatabase();
-            
+
             $conn = NewADOConnection($driver);
             if ( $conn !== NULL || $conn !== false ) {
                 $conn->connect($host, $user, $password, $database);
@@ -133,8 +129,8 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
     /**
      * Closes an ADOConnection
      *
-     * @param ADOConnection
-     * @param bool
+     * @param ADOConnection $conn
+     * @param bool $hasError
      */
     public function closeConnection($conn, $hasError=false) {
         if ( $conn !== NULL ) {
