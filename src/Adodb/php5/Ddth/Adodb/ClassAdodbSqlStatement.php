@@ -3,19 +3,14 @@
 /**
  * An ADOdb SQL Statement.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @package		Adodb
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
- * @version			$Id: ClassAdodbFactory.php 148 2008-03-12 05:38:09Z nbthanh@vninformatics.com $
- * @since      	File available since v0.1.6
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @package     Adodb
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: ClassAdodbFactory.php 148 2008-03-12 05:38:09Z nbthanh@vninformatics.com $
+ * @since       File available since v0.1.6
  */
 
 /**
@@ -23,8 +18,6 @@
  *
  * @package    	Adodb
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html  LGPL 3.0
  * @since      	Class available since v0.1.6
  */
 class Ddth_Adodb_AdodbSqlStatement {
@@ -35,9 +28,13 @@ class Ddth_Adodb_AdodbSqlStatement {
     
     /**
      * Constructs a new Ddth_Adodb_AdodbSqlStatement object.
+     * 
+     * @param string $sql
+     * @param Array $params
      */
-    public function __construct() {
-        //empty
+    public function __construct($sql='', $params=Array()) {
+        $this->setSql($sql);
+        $this->setParams($params);
     }
     
     /**
