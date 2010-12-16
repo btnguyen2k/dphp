@@ -10,7 +10,7 @@
  * @package     Commons
  * @subpackage  Logging
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
+ * @version     $Id: ClassLogFactory.php 224 2010-12-04 16:13:21Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
