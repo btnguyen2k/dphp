@@ -9,7 +9,7 @@
  *
  * @package     Template
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
+ * @version     $Id: ClassDefaultTemplateFactory.php 227 2010-12-05 06:57:50Z btnguyen2k@gmail.com $
  * @since       File available since v0.1
  */
 
