@@ -1,94 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="dphp" basedir="." default="build">
-
-	<property name="dir.tmp" value="tmp" />
-	<property name="dir.release" value="release" />
-	<property name="dir.phpDocs" value="phpDocs" />
-
-	<target name="update" description="Update from source">
-		<exec executable="svn" dir="${basedir}">
-			<arg line="up" />
-		</exec>
-	</target>
-
-	<target name="clean" description="Remove temp build files">
-		<delete includeemptydirs="true">
-			<fileset dir="${dir.tmp}/" includes="**/*" />
-			<fileset dir="${dir.release}/" includes="**/*" />
-			<fileset dir="${dir.phpDocs}/" includes="**/*" />
-		</delete>
-	</target>
-
-	<target name="phplint">
-		<apply executable="php" logerror="true" failonerror="true">
-			<arg value="-l" />
-			<fileset dir="${basedir}">
-				<include name="**/*.php" />
-				<exclude name="tmp/**/*.*" />
-				<exclude name="release/**/*.*" />
-				<exclude name="libs/**/*.*" />
-			</fileset>
-		</apply>
-	</target>
-
-	<target name="build" description="Build project">
-		<!-- Clean previous build results -->
-		<antcall target="clean" />
-
-		<!-- Update project source -->
-		<antcall target="update" />
-
-		<!-- Check syntax -->
-		<antcall target="phplint" />
-	</target>
-
-	<target name="makePhpDoc">
-		<exec dir="${basedir}" executable="phpdoc">
-			<arg
-				line="-t ${dir.phpDocs}/${dphpLib} -o &quot;HTML:Smarty:HandS&quot; -d ${dphpLib}/php5 -ti &quot;Adodb Documentation&quot;" />
-		</exec>
-	</target>
-
-	<target name="phpdoc">
-		<mkdir dir="${dir.phpDocs}" />
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="Adodb" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="Cache" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="Commons" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="Dao" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="Duser" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="EhConfig" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="EhProperties" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="Mls" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="Pcr" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="Pdo" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="Template" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="Vnvi" />
-		</antcall>
-		<antcall target="makePhpDoc">
-			<param name="dphpLib" value="Xpath" />
-		</antcall>
-	</target>
+    
+    <property name="dir.tmp" value="tmp"/>
+    <property name="dir.release" value="release"/>
+    <property name="dir.phpDocs" value="phpDocs"/>
+    
+    <target name="update" description="Update from source">
+        <exec executable="svn" dir="${basedir}">
+            <arg line="update"/>
+        </exec>
+    </target>
+    
+    <target name="clean" description="Remove temp build files">
+        <delete includeemptydirs="true">
+            <fileset dir="${dir.tmp}/" includes="**/*"/>
+            <!--
+            <fileset dir="${dir.release}/" includes="**/*" />
+            <fileset dir="${dir.phpDocs}/" includes="**/*" />
+            -->
+        </delete>
+    </target>
+    
+    <target name="phplint">
+        <apply executable="php" logerror="true" failonerror="true">
+            <arg value="-l"/>
+            <fileset dir="${basedir}">
+                <include name="**/*.php"/>
+                <exclude name="tmp/**/*.*"/>
+                <exclude name="release/**/*.*"/>
+                <exclude name="libs/**/*.*"/>
+            </fileset>
+        </apply>
+    </target>
+    
+    <target name="build" description="Build project">
+        <!-- Clean previous build results -->
+        <antcall target="clean"/>
+        
+        <!-- Update project source -->
+        <antcall target="update"/>
+        
+        <!-- Check syntax -->
+        <antcall target="phplint"/>
+    </target>
+    
+    <target name="makePhpDoc">
+        <exec dir="${basedir}" executable="phpdoc">
+            <arg
+             line="-t ${dir.phpDocs}/${dphpLib} -o &quot;HTML:Smarty:HandS&quot; -d ${dphpLib}/php5 -ti &quot;Adodb Documentation&quot;"/>
+        </exec>
+    </target>
+    
+    <target name="phpdoc">
+        <mkdir dir="${dir.phpDocs}"/>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="Adodb"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="Cache"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="Commons"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="Dao"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="Duser"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="EhConfig"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="EhProperties"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="Mls"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="Pcr"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="Pdo"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="Template"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="Vnvi"/>
+        </antcall>
+        <antcall target="makePhpDoc">
+            <param name="dphpLib" value="Xpath"/>
+        </antcall>
+    </target>
 </project>
