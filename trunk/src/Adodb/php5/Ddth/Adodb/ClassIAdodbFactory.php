@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Factory interface to create and dispose ADOdb connections.
+ * Factory to create and dispose ADOdb connections.
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -14,9 +14,9 @@
  */
 
 /**
- * Factory interface to create and dispose ADOdb connections.
+ * Factory to create and dispose ADOdb connections.
  *
- * This factory interface provides APIs create and dispose
+ * This interface provides APIs to create and dispose
  * {@link http://adodb.sourceforge.net/ ADOdb} connections.
  *
  * @package    	Adodb
@@ -24,11 +24,6 @@
  * @since      	Class available since v0.1
  */
 interface Ddth_Adodb_IAdodbFactory {
-    /**
-     * @var string
-     */
-    const DEFAULT_CONFIG_FILE = "dphp-adodb.properties";
-
     /**
      * Gets an ADOdb connection.
      *

@@ -3,18 +3,13 @@
 /**
  * PHPUnit (http://www.phpunit.de/) test case for Adodb.
  *
- * LICENSE: This source file is subject to version 3.0 of the GNU Lesser General
- * Public License that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/licenses/lgpl.html. If you did not receive a copy of
- * the GNU Lesser General Public License and are unable to obtain it through the web,
- * please send a note to gnu@gnu.org, or send an email to any of the file's authors
- * so we can email you a copy.
+ * LICENSE: See the included license.txt file for detail.
  *
- * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @copyright	2008 DDTH.ORG
- * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @version			$Id: AdodbTest.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
- * @since      	File available since v0.1
+ * COPYRIGHT: See the included copyright.txt file for detail.
+ *
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version     $Id: AdodbTest.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @since       File available since v0.1
  */
 
 //initialization
@@ -47,7 +42,25 @@ class AdodbTest extends PHPUnit_Framework_TestCase {
         if ( !is_dir($dir) ) {
             mkdir($dir);
         }
-        copy('../../../firebirdembed/blankdb.gdb', '../../../tmp/adodbtest.gdb');
+        @unlink('../../../tmp/adodbtest.db');
+        //copy('../../../firebirdembed/blankdb.gdb', '../../../tmp/adodbtest.gdb');
+
+        global $DPHP_ADODB_CONFIG;
+        $DPHP_ADODB_CONFIG = Array(
+            'adodb.driver'      => 'sqlite'
+            ,
+            'adodb.host'        => '../../../tmp/adodbtest.db'
+            ,
+            'adodb.user'        => ''
+            ,
+            'adodb.password'    => ''
+            ,
+            'adodb.database'    => 'adodbtest'
+            ,
+            #'adodb.url'         => 'mysql://test:test@localhost/test'
+            #,
+            #'adodb.setupSqls    => "SET NAMES 'utf8'"
+            );
     }
 
     /**
@@ -88,7 +101,6 @@ class AdodbTest extends PHPUnit_Framework_TestCase {
          */
         $conn = $obj->getConnection();
         $this->assertNotNull($conn);
-
         $sql = 'CREATE TABLE tblPerson (LastName VARCHAR(32), FirstName VARCHAR(32), Address VARCHAR(64), City VARCHAR(32))';
         $conn->Execute($sql);
         $obj->closeConnection($conn);
@@ -135,17 +147,17 @@ class AdodbTest extends PHPUnit_Framework_TestCase {
         $sql = 'SELECT count(*) FROM tblPerson';
         $rs = $conn->Execute($sql);
         $this->assertTrue($rs !== false);
-        $this->assertTrue($rs->fields[0] === 3);
+        $this->assertTrue($rs->fields[0] == 3); //$rs->fields[0] is a string, so do not use ===
 
         $sql = "SELECT count(*) FROM tblPerson WHERE LastName='Hansen'";
         $rs = $conn->Execute($sql);
         $this->assertTrue($rs !== false);
-        $this->assertTrue($rs->fields[0] === 1);
+        $this->assertTrue($rs->fields[0] == 1); //$rs->fields[0] is a string, so do not use ===
 
         $sql = "SELECT count(*) FROM tblPerson WHERE FirstName='Not Found'";
         $rs = $conn->Execute($sql);
         $this->assertTrue($rs !== false);
-        $this->assertTrue($rs->fields[0] === 0);
+        $this->assertTrue($rs->fields[0] == 0); //$rs->fields[0] is a string, so do not use ===
 
         $obj->closeConnection($conn);
     }
