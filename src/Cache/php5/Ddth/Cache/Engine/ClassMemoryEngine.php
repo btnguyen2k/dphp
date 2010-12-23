@@ -10,7 +10,7 @@
  * @package     Cache
  * @subpackage  Engine
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassMemCache.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 
@@ -27,22 +27,28 @@
  */
 class Ddth_Cache_Engine_MemoryEngine implements Ddth_Cache_ICacheEngine {
 
-    /**
-     * Removes all entries.
-     */
-    public function clear();
+    private $cache = Array();
 
     /**
-     * Clean-up method.
+     * @see Ddth_Cache_ICacheEngine::clear()
      */
-    public function destroy();
+    public function clear() {
+        $this->cache = Array();
+    }
 
     /**
-     * Initializing method.
-     *
-     * @param Array $config cache configuration
+     * @see Ddth_Cache_ICacheEngine::destroy()
      */
-    public function init($config);
+    public function destroy() {
+        //EMPTY
+    }
+
+    /**
+     * @see Ddth_Cache_ICacheEngine::init()
+     */
+    public function init($config) {
+        //EMPTY
+    }
 
     /**
      * Checks if an entry exists.
