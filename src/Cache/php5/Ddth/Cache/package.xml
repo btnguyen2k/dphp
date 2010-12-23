@@ -4,7 +4,7 @@
 	"http://dphp.googlecode.com/svn/trunk/docs/package.dtd">
 <package>
 	<name>Ddth::Cache</name>
-	<version>0.1</version>
+	<version>0.2</version>
 	<description>Abstract caching interface</description>
 	<summary>
 		This package provides a caching interface that is an independent

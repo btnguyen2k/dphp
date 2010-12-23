@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Representation of a cache.
+ * Representation of a cache engine.
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -10,19 +10,19 @@
  * @package     Cache
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @version     $Id$
- * @since       File available since v0.1
+ * @since       File available since v0.2
  */
 
 /**
- * Representation of a cache.
+ * Representation of a cache engine.
  *
  * @package     Cache
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.1
+ * @since      	Class available since v0.2
  */
-interface Ddth_Cache_ICache {
+interface Ddth_Cache_ICacheEngine {
     /**
-     * Removes all entries from this cache.
+     * Removes all entries.
      */
     public function clear();
 
@@ -34,14 +34,12 @@ interface Ddth_Cache_ICache {
     /**
      * Initializing method.
      *
-     * @param string $name cache's name
      * @param Array $config cache configuration
-     * @param Ddth_Cache_CacheManager $manager
      */
-    public function init($name, $config, $manager);
+    public function init($config);
 
     /**
-     * Checks if an entry exists in this cache.
+     * Checks if an entry exists.
      *
      * @param string $key
      * @return bool
@@ -49,7 +47,7 @@ interface Ddth_Cache_ICache {
     public function exists($key);
 
     /**
-     * Retrieves a cache entry from this cache.
+     * Retrieves a cache entry.
      *
      * @param string $key
      * @return mixed
@@ -57,42 +55,7 @@ interface Ddth_Cache_ICache {
     public function get($key);
 
     /**
-     * Gets cache's current size (number of elements).
-     *
-     * @return int
-     */
-    public function getSize();
-
-    /**
-     * Gets this cache's associated cache manager.
-     *
-     * @return Ddth_Cache_CacheManager
-     */
-    public function getCacheManager();
-
-    /**
-     * Gets this cache's name.
-     *
-     * @return string
-     */
-    public function getName();
-
-    /**
-     * Gets number of cache "hits".
-     *
-     * @return int
-     */
-    public function getNumHits();
-
-    /**
-     * Gets number of cache "misses".
-     *
-     * @return int
-     */
-    public function getNumMisses();
-
-    /**
-     * Puts an entry into this cache.
+     * Puts an entry into the cache.
      *
      * @param string $key
      * @param mixed $value
@@ -101,7 +64,7 @@ interface Ddth_Cache_ICache {
     public function put($key, $value);
 
     /**
-     * Removes an entry from this cache.
+     * Removes an entry.
      *
      * @param string $key
      * @return mixed existing entry associated with the key (if exists)
