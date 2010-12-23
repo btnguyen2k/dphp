@@ -29,7 +29,7 @@ require_once 'adodb.inc.php';
  * //...
  * $adodbFactory->closeConnection($conn);
  * </code>
- * See {@link Ddth_Adodb_AdodbFactory::getInstance()} for configufation details.
+ * See {@link Ddth_Adodb_AdodbFactory::getInstance()} for configuration details.
  *
  * @package    	Adodb
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
