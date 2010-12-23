@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * In-memory cache engine.
+ * Alternative PHP Cache (APC) cache engine.
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -15,25 +15,22 @@
  */
 
 /**
- * In-memory cache engine.
+ * Alternative PHP Cache (APC) cache engine.
  *
- * This cache engine stores PHP variables as-is in current process's memory space. Cache
- * entries will NOT be persisted between HTTP requests.
+ * This cache engine utilizes APC to store entries.
  *
  * @package     Cache
  * @subpackage  Engine
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since      	Class available since v0.2
  */
-class Ddth_Cache_Engine_MemoryEngine implements Ddth_Cache_ICacheEngine {
-
-    private $cache = Array();
+class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
 
     /**
      * @see Ddth_Cache_ICacheEngine::clear()
      */
     public function clear() {
-        $this->cache = Array();
+        apc_clear_cache();
     }
 
     /**
@@ -47,41 +44,46 @@ class Ddth_Cache_Engine_MemoryEngine implements Ddth_Cache_ICacheEngine {
      * @see Ddth_Cache_ICacheEngine::init()
      */
     public function init($config) {
-        //EMPTY
+        if ( !function_exists('apc_store') ) {
+            $msg = 'APC is not available!';
+            throw new Ddth_Cache_CacheException($msg);
+        }
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::exists()
      */
     public function exists($key) {
-        return isset($this->cache[$key]);
+        return apc_exists($key);
     }
 
     /**
-     * @see Ddth_Cache_ICacheEngine::get()
+     * @see Ddth_Cache_ICacheEngine::exists()
      */
     public function get($key) {
-        return isset($this->cache[$key])?$this->cache[$key]:NULL;
+        $result = apc_fetch($key, $success);
+        return $success?deserialize($result):NULL;
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::put()
      */
     public function put($key, $value) {
-        $result = isset($this->cache[$key])?$this->cache[$key]:NULL;
-        $this->cache[$key] = $value;
-        return $result;
+        $result = apc_fetch($key, $success);
+        $value = serialize($value);
+        apc_store($key, $value);
+        return $success?$result:NULL;
     }
 
     /**
-     * @see Ddth_Cache_ICacheEngine::remove()
+     * @see Ddth_Cache_ICacheEngine::put()
      */
     public function remove($key) {
-        $result = isset($this->cache[$key])?$this->cache[$key]:NULL;
-        if ( $result !== NULL ) {
-            unset($this->cache[$key]);
+        $result = apc_fetch($key, $success);
+        if ( $success ) {
+            apc_delete($key);
         }
-        return $result;
+        return $success?$result:NULL;
     }
 }
 ?>
