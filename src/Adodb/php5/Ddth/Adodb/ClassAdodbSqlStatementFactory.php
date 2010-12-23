@@ -9,7 +9,7 @@
  *
  * @package     Adodb
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassAdodbFactory.php 148 2008-03-12 05:38:09Z nbthanh@vninformatics.com $
+ * @version     $Id$
  * @since       File available since v0.1.6
  */
 
