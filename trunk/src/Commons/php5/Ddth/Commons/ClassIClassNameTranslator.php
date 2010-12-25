@@ -15,7 +15,7 @@
  *
  * @package     Commons
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIClassNameTranslator.php 224 2010-12-04 16:13:21Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1
  */
 

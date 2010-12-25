@@ -16,7 +16,7 @@
 /**
  * An engine-based cache.
  *
- * This cache implementation delegates functionality to a {@link Ddth_Cache_ICacheEngine}.
+ * This cache implementation delegates functionality to a wrapped {@link Ddth_Cache_ICacheEngine}.
  *
  * @package    	Cache
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
@@ -52,20 +52,24 @@ class Ddth_Cache_GenericCache extends Ddth_Cache_AbstractCache {
     protected function initCache() {
         $config = $this->getConfig();
         $engineClass = isset($config[self::CONF_ENGINE_CLASS])?$config[self::CONF_ENGINE_CLASS]:NULL;
-        if ( $engineClass === NULL ) {
+        if ( $engineClass !== NULL ) {
             if ( $this->LOGGER->isDebugEnabled() ) {
                 $this->LOGGER->debug("Found configuration engine class [$engineClass].");
             }
             $this->engine = new $engineClass;
         } else {
-            $cacheType = isset($config[self::CONF_CACHE_TYPE])?$config[self::CONF_CACHE_TYPE]:NULL;
+            $cacheType = isset($config[Ddth_Cache_CacheManager::CONF_CACHE_TYPE])?$config[Ddth_Cache_CacheManager::CONF_CACHE_TYPE]:NULL;
             switch ( $cacheType ) {
-                case (self::CACHE_TYPE_MEMCACHE): {
+                case (self::CACHE_TYPE_APC): {
+                    $this->engine = new Ddth_Cache_Engine_ApcEngine();
+                    break;
+                }
+                case (Ddth_Cache_ICache::CACHE_TYPE_MEMCACHE): {
                     $this->engine = new Ddth_Cache_Engine_MemcacheEngine();
                     break;
                 }
-                case (self::CACHE_TYPE_APC): {
-                    $this->engine = new Ddth_Cache_Engine_ApcEngine();
+                case (Ddth_Cache_ICache::CACHE_TYPE_MEMCACHED): {
+                    $this->engine = new Ddth_Cache_Engine_MemcachedEngine();
                     break;
                 }
                 default: {
@@ -90,14 +94,18 @@ class Ddth_Cache_GenericCache extends Ddth_Cache_AbstractCache {
      * @see Ddth_Cache_ICache::clear();
      */
     public function clear() {
-        $this->engine->clear();
-        $this->setSize(0);
+        $result = $this->engine->clear();
+        if ( $result ) {
+            $this->setSize(0);
+        }
+        return $result;
     }
 
     /**
      * @see Ddth_Cache_ICache::exists();
      */
     public function exists($key) {
+        $this->incNumGets();
         $result = $this->engine->exists($key);
         if ( $result ) {
             $this->incNumHits();
@@ -108,9 +116,34 @@ class Ddth_Cache_GenericCache extends Ddth_Cache_AbstractCache {
     }
 
     /**
+     * @see Ddth_Cache_ICache::getSize()
+     */
+    public function getSize() {
+        $result = $this->engine->getSize();
+        return ($result === FALSE || $result < 0)?parent::getSize():$result;
+    }
+
+    /**
+     * @see Ddth_Cache_ICache::getNumHits()
+     */
+    public function getNumHits() {
+        $result = $this->engine->getNumHits();
+        return ($result === FALSE || $result < 0)?parent::getNumHits():$result;
+    }
+
+    /**
+     * @see Ddth_Cache_ICache::getNumMisses()
+     */
+    public function getNumMisses() {
+        $result = $this->engine->getNumMisses();
+        return ($result === FALSE || $result < 0)?parent::getNumMisses():$result;
+    }
+
+    /**
      * @see Ddth_Cache_ICache::get();
      */
     public function get($key) {
+        $this->incNumGets();
         $result = $this->engine->get($key);
         if ( $result !== NULL ) {
             $this->incNumHits();
@@ -124,6 +157,7 @@ class Ddth_Cache_GenericCache extends Ddth_Cache_AbstractCache {
      * @see Ddth_Cache_ICache::get();
      */
     public function put($key, $value) {
+        $this->incNumPuts();
         $result = $this->engine->put($key, $value);
         if ( $result === NULL ) {
             //no existing entry, hence we should increase the number of entries count

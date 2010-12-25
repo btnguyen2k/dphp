@@ -21,18 +21,26 @@
  * @since      	Class available since v0.1
  */
 interface Ddth_Cache_ICache {
+
+    const CACHE_TYPE_MEMCACHE   = 'memcache';   //cache type: MemcacheD (use php-memcache APIs)
+    const CACHE_TYPE_MEMCACHED  = 'memcached';  //cache type: MemcacheD (use php-memcacheD APIs)
+    const CACHE_TYPE_APC        = 'apc';        //cache type: APC
+    const CACHE_TYPE_MEMORY     = 'memory';     //cache type: in-memory
+
     /**
      * Removes all entries from this cache.
+     *
+     * @return bool TRUE if successful, FALSE otherwise
      */
     public function clear();
 
     /**
-     * Clean-up method.
+     * Clean-up method. After this function is called, the cache is considered no longer usable.
      */
     public function destroy();
 
     /**
-     * Initializing method.
+     * Initializing method. The cache should not be used unless this function is called.
      *
      * @param string $name cache's name
      * @param Array $config cache configuration
@@ -44,7 +52,7 @@ interface Ddth_Cache_ICache {
      * Checks if an entry exists in this cache.
      *
      * @param string $key
-     * @return bool
+     * @return bool TRUE if exists, FALSE otherwise
      */
     public function exists($key);
 
@@ -52,14 +60,14 @@ interface Ddth_Cache_ICache {
      * Retrieves a cache entry from this cache.
      *
      * @param string $key
-     * @return mixed
+     * @return mixed the returned cache entry, NULL if not found
      */
     public function get($key);
 
     /**
      * Gets cache's current size (number of elements).
      *
-     * @return int
+     * @return int -1 or FALSE should be returned if getting cache size is not supported
      */
     public function getSize();
 
@@ -80,16 +88,30 @@ interface Ddth_Cache_ICache {
     /**
      * Gets number of cache "hits".
      *
-     * @return int
+     * @return int -1 or FALSE should be returned if getting cache hits is not supported
      */
     public function getNumHits();
 
     /**
      * Gets number of cache "misses".
      *
-     * @return int
+     * @return int -1 or FALSE should be returned if getting cache misses is not supported
      */
     public function getNumMisses();
+
+    /**
+     * Gets number of cache "get" requests.
+     *
+     * @return int -1 or FALSE should be returned if getting number of get requests is not supported
+     */
+    public function getNumGets();
+
+    /**
+     * Gets number of cache "put" requests.
+     *
+     * @return int -1 or FALSE should be returned if getting number of put requests is not supported
+     */
+    public function getNumPuts();
 
     /**
      * Puts an entry into this cache.

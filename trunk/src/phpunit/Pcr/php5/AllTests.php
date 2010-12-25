@@ -13,7 +13,7 @@
  * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @version			$Id: AllTests.php 163 2008-04-18 09:13:16Z btnguyen2k@gmail.com $
+ * @version			$Id$
  * @since      	File available since v0.1
  */
 

@@ -19,6 +19,17 @@
  * This class wraps a cache entry inside and also provides extra functionality such as
  * max idle time.
  *
+ * Usage:
+ * <code>
+ * $cacheEntry = new Ddth_Cache_CacheEntry($realValue, 3600); //max idle time = 3600 seconds
+ * //put $cacheEntry to cache
+ * $cache->put($key, $cacheEntry);
+ * //...
+ * //get $cacheEntry from cache
+ * $cacheEntry = $cache->get($key);
+ * $value = $cacheEntry!==NULL ? $cacheEntry->getValue() : NULL;
+ * </code>
+ *
  * @package    	Cache
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since      	Class available since v0.1

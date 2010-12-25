@@ -13,7 +13,7 @@
  * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @version			$Id: XnodeTest.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version			$Id$
  * @since      	File available since v0.1
  */
 

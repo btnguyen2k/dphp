@@ -32,32 +32,10 @@ class Ddth_Cache_CacheManager {
      */
     const DEFAULT_CACHE_NAME = 'default';
 
-    /**
-     * Cache type: memcache
-     */
-    const CACHE_TYPE_MEMCACHE = 'memcache';
-
-    /**
-     * Cache type: APC.
-     */
-    const CACHE_TYPE_APC = 'apc';
-
-    /**
-     * Cache type: in-memory object cache.
-     */
-    const CACHE_TYPE_MEMORY = 'memory';
-
-    /**
-     * Config key: type of cache
-     * @var string
-     */
     const CONF_CACHE_TYPE = 'cache.type';
-
-    /**
-     * Config key: cache's class name
-     * @var string
-     */
     const CONF_CACHE_CLASS = 'cache.class';
+
+    private static $cacheInstances = Array();
 
     /**
      * @var Array
@@ -74,12 +52,102 @@ class Ddth_Cache_CacheManager {
      */
     private $LOGGER;
 
+
+    /**
+     * Static function to get instances of {@link Ddth_Cache_CacheManager}.
+     *
+     * This function accept an associative array as parameter. If the argument is NULL,
+     * the global variable $DPHP_CACHE_CONFIG is used instead (if there is no global variable
+     * $DPHP_CACHE_CONFIG, the function fallbacks to use the global variable $DPHP_CACHE_CONF).
+     *
+     * Detailed specs of the configuration array:
+     * <code>
+     * Array(
+     *     'default' => Array(
+     *         #the 'default' cache (where 'default' is cache's name), required
+     *         'cache.type'         => 'type of cache, either: memcache, memcached, apc, or memory',
+     *         'cache.class'        => '(optional) name of the cache class,
+     *                                  must implement Ddth_Cache_ICache',
+     *         'cache.engine.class' => '(optional) name of the cache engine class (if Ddth_Cache_GenericCache
+     *                                  is used - which is the default), must implement Ddth_Cache_ICacheEngine',
+     *         'other configs'      => 'specified by each type of cache/engine'
+     *     ),
+     *     'memory' => Array(
+     *         #example of in-memory cache. Cache entries will NOT be persisted across HTTP requests!
+     *         'cache.type'         => 'memory'
+     *     ),
+     *     'apc' => Array(
+     *         #example of APC cache. Cache entries will be persisted across HTTP requests.
+     *         'cache.type'         => 'apc'
+     *     ),
+     *     'memcache' => Array(
+     *         #example of MemcacheD cache (use php-memcache APIs). Cache entries will be persisted across HTTP requests.
+     *         'cache.type'         => 'memcache',
+     *         'memcache.servers'   => Array(
+     *             #list of MemcacheD servers
+     *             Array(
+     *                 #see http://www.php.net/manual/en/memcache.addserver.php for more information
+     *                 'host'       => '192.168.0.1',
+     *                 'port'       => '(optional) 11211',
+     *                 'weight'     => '(optional) 1'
+     *             ),
+     *             Array(
+     *                 'host'       => 'unix:///path/to/memcached.sock',
+     *                 'port'       => 0, #must be 0 if using UNIX socket
+     *                 'weight'     => '(optional) 1'
+     *             )
+     *         )
+     *     ),
+     *     'memcached' => Array(
+     *         #example of MemcacheD cache (use php-memcached APIs). Cache entries will be persisted across HTTP requests.
+     *         'cache.type'         => 'memcached',
+     *         'memcached.servers'   => Array(
+     *             #list of MemcacheD servers
+     *             Array(
+     *                 #see http://www.php.net/manual/en/memcached.addserver.php for more information
+     *                 'host'       => '192.168.0.1',
+     *                 'port'       => '(optional) 11211',
+     *                 'weight'     => '(optional) 1'
+     *             ),
+     *             Array(
+     *                 'host'       => '192.168.0.2',
+     *                 'port'       => '(optional) 11211',
+     *                 'weight'     => '(optional) 1'
+     *             )
+     *         )
+     *     )
+     * );
+     * </code>
+     *
+     * @param Array $config the configuration array
+     * @return Ddth_Cache_CacheManager
+     */
+    public static function getInstance($config=NULL) {
+        if ( $config === NULL ) {
+            global $DPHP_CACHE_CONFIG;
+            $config = isset($DPHP_CACHE_CONFIG)?$DPHP_CACHE_CONFIG:NULL;
+        }
+        if ( $config === NULL ) {
+            global $DPHP_CACHE_CONF;
+            $config = isset($DPHP_CACHE_CONF)?$DPHP_CACHE_CONF:NULL;
+        }
+        if ( $config === NULL ) {
+            return NULL;
+        }
+        $hash = md5(serialize($config));
+        if ( !isset(self::$cacheInstances[$hash]) ) {
+            $instance = new Ddth_Cache_CacheManager($config);
+            self::$cacheInstances[$hash] = $instance;
+        }
+        return self::$cacheInstances[$hash];
+    }
+
     /**
      * Constructs a new Ddth_Cache_CacheManager object.
      *
-     * @param Array $config
+     * @param Array $config see {@link Ddth_Cache_CacheManager::getInstance()} for more information
      */
-    public function __construct($config) {
+    protected function __construct($config) {
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
         $this->config = $config;
     }
@@ -155,7 +223,7 @@ class Ddth_Cache_CacheManager {
          */
         $cache = NULL;
         $cacheClass = isset($cacheConfig[self::CONF_CACHE_CLASS])?$cacheConfig[self::CONF_CACHE_CLASS]:NULL;
-        if ( $cacheClass === NULL ) {
+        if ( $cacheClass !== NULL ) {
             if ( $this->LOGGER->isDebugEnabled() ) {
                 $this->LOGGER->debug("Found configuration cache class [$cacheClass].");
             }
@@ -166,22 +234,6 @@ class Ddth_Cache_CacheManager {
                 $this->LOGGER->debug("Creating a new cache of type [$cacheType].");
             }
             $cache = new Ddth_Cache_GenericCache();
-            /*
-             switch ( $cacheType ) {
-             case (self::CACHE_TYPE_MEMCACHE): {
-             $cache = new Ddth_Cache_MemcacheCache();
-             break;
-             }
-             case (self::CACHE_TYPE_APC): {
-             $cache = new Ddth_Cache_ApcCache();
-             break;
-             }
-             default: {
-             $cache = new Ddth_Cache_MemoryCache();
-             break;
-             }
-             }
-             */
         }
         if ( $cache !== NULL ) {
             $cache->init($name, $cacheConfig, $this);

@@ -13,7 +13,7 @@
  * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @version			$Id: AdodbTest.php 188 2008-09-14 09:26:59Z btnguyen2k@gmail.com $
+ * @version			$Id$
  * @since      	File available since v0.1
  */
 

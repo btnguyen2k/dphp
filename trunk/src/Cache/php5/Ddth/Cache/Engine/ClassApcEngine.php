@@ -17,7 +17,7 @@
 /**
  * Alternative PHP Cache (APC) cache engine.
  *
- * This cache engine utilizes APC to store entries.
+ * This cache engine utilizes php-apc APIs to store entries.
  *
  * @package     Cache
  * @subpackage  Engine
@@ -30,7 +30,7 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
      * @see Ddth_Cache_ICacheEngine::clear()
      */
     public function clear() {
-        apc_clear_cache();
+        return apc_clear_cache();
     }
 
     /**
@@ -58,7 +58,10 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
     }
 
     /**
-     * @see Ddth_Cache_ICacheEngine::exists()
+     * This function assumes the retrieved value is in serialized form. Hence it
+     * deserializes the value before returning it.
+     *
+     * @see Ddth_Cache_ICacheEngine::get()
      */
     public function get($key) {
         $result = apc_fetch($key, $success);
@@ -66,6 +69,8 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
     }
 
     /**
+     * This function serializes the cache value before putting into cache.
+     *
      * @see Ddth_Cache_ICacheEngine::put()
      */
     public function put($key, $value) {
@@ -84,6 +89,30 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
             apc_delete($key);
         }
         return $success?$result:NULL;
+    }
+
+    /**
+     * @see Ddth_Cache_ICacheEngine::getNumHits()
+     */
+    public function getNumHits() {
+        $result = apc_cache_info(FALSE, TRUE);
+        return $result!==FALSE?$result['num_hits']:-1;
+    }
+
+    /**
+     * @see Ddth_Cache_ICacheEngine::getNumMisses()
+     */
+    public function getNumMisses() {
+        $result = apc_cache_info(FALSE, TRUE);
+        return $result!==FALSE?$result['num_misses']:-1;
+    }
+
+    /**
+     * @see Ddth_Cache_ICacheEngine::getSize()
+     */
+    public function getSize() {
+        $result = apc_cache_info(FALSE, TRUE);
+        return $result!==FALSE?$result['num_slots']:-1;
     }
 }
 ?>

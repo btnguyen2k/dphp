@@ -13,7 +13,7 @@
  * @author		Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright	2008 DDTH.ORG
  * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @version			$Id: Template_AllTest.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version			$Id$
  * @since      	File available since v0.1
  */
 
@@ -25,6 +25,28 @@
  *
  * ===== Remember to define PACKAGE & $REQUIRED_PACKAGES *period to* including this file! =====
  */
+
+define('PACKAGE_PHP_VERSION', 'php5');
+
+//setting up include path
+$dir = dirname(dirname(dirname(__FILE__)));
+$INCLUDE_PATH = '.';
+$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/libs/PHPUnit-3.2.9';
+$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.PACKAGE.'/'.PACKAGE_PHP_VERSION;
+if ( !isset($REQUIRED_PACKAGES) ) {
+    $REQUIRED_PACKAGES = Array();
+}
+$REQUIRED_PACKAGES[] = 'Commons'; //the 'Commons' package is required by default
+foreach ( $REQUIRED_PACKAGES as $package ) {
+    $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.$package.'/'.PACKAGE_PHP_VERSION;
+}
+if ( !isset($EXTRA_INCLUDE_PATHS) ) {
+    $EXTRA_INCLUDE_PATHS = Array();
+}
+foreach ( $EXTRA_INCLUDE_PATHS as $path ) {
+    $INCLUDE_PATH .= PATH_SEPARATOR.$dir.$path;
+}
+ini_set('include_path', $INCLUDE_PATH);
 
 if ( !function_exists('__autoload') ) {
     /**
@@ -43,23 +65,7 @@ if ( !function_exists('__autoload') ) {
     }
 }
 
-//initialization
-if ( !defined('PHPUnit_MAIN_METHOD') ) {
-    define('PHPUnit_MAIN_METHOD', 'AllTests::main');
-}
-
-define('PACKAGE_PHP_VERSION', 'php5');
-
-//setting up include path
-$dir = dirname(dirname(dirname(__FILE__)));
-$INCLUDE_PATH = '.';
-$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/libs/PHPUnit-3.2.9';
-$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.PACKAGE.'/'.PACKAGE_PHP_VERSION;
-foreach ( $REQUIRED_PACKAGES as $package ) {
-    $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.$package.'/'.PACKAGE_PHP_VERSION;
-}
-ini_set('include_path', $INCLUDE_PATH);
-
+//the optional 1st command line argument is the name of the log file
 if ( count($argv) > 1 ) {
     $logFile = $argv[1];
     @unlink($logFile);
@@ -90,7 +96,5 @@ class AllTests {
     }
 }
 
-if ( PHPUnit_MAIN_METHOD == 'AllTests::main' ) {
-    AllTests::main();
-}
+AllTests::main();
 ?>
