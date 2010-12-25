@@ -7,7 +7,7 @@
  *
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @copyright   2008-2010 DDTH.ORG
- * @version     $Id: ClassDefaultClassNameTranslator.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id$
  */
 
 /**

@@ -49,7 +49,7 @@ if ( !is_readable($PHP_DOCUMENTOR) ) {
     error("$PHP_DOCUMENTOR is not readable!");
 }
 
-$PACKAGES = Array('Commons','Adodb','Dao','Mls','Template');
+$PACKAGES = Array('Commons','Adodb','Cache','Dao','Mls','Template');
 $PACKAGE_PHP_VERSION = $argv[3];
 $DIR_PACKAGE_SOURCE = '';
 foreach ( $PACKAGES as $PACKAGE ) {
@@ -90,7 +90,7 @@ removeTree($DIR_PACKAGE_DOCS);
  *   + PDF:default:default - standard, plain PDF formatting
  * - XML:DocBook:* - output is XML, in DocBook format
  *   + XML:DocBook/peardoc2:default - documentation ready for compiling into peardoc
- *     for online pear.php.net documentation, 2nd revision 
+ *     for online pear.php.net documentation, 2nd revision
  */
 $STYLE = "";
 if ( count($argv) == 5 ) {

@@ -18,7 +18,8 @@
  * In-memory cache engine.
  *
  * This cache engine stores PHP variables as-is in current process's memory space. Cache
- * entries will NOT be persisted between HTTP requests.
+ * entries have the scope of a HTTP request, which means they will NOT be persisted between
+ * HTTP requests.
  *
  * @package     Cache
  * @subpackage  Engine
@@ -34,6 +35,7 @@ class Ddth_Cache_Engine_MemoryEngine implements Ddth_Cache_ICacheEngine {
      */
     public function clear() {
         $this->cache = Array();
+        return TRUE;
     }
 
     /**
@@ -82,6 +84,27 @@ class Ddth_Cache_Engine_MemoryEngine implements Ddth_Cache_ICacheEngine {
             unset($this->cache[$key]);
         }
         return $result;
+    }
+
+    /**
+     * @see Ddth_Cache_ICacheEngine::getNumHits()
+     */
+    public function getNumHits() {
+        return FALSE;
+    }
+
+    /**
+     * @see Ddth_Cache_ICacheEngine::getNumMisses()
+     */
+    public function getNumMisses() {
+        return FALSE;
+    }
+
+    /**
+     * @see Ddth_Cache_ICacheEngine::getSize()
+     */
+    public function getSize() {
+        return count($this->cache);
     }
 }
 ?>

@@ -13,7 +13,8 @@
  */
 
 define('PACKAGE', 'Adodb');
-$REQUIRED_PACKAGES = Array('Commons');
+$REQUIRED_PACKAGES = Array();
+$EXTRA_INCLUDE_PATHS = Array('/libs/AdoDb5-5.0.4');
 
 require '../../php5/Template_AllTest.php';
 ?>

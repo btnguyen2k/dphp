@@ -37,19 +37,39 @@ abstract class Ddth_Cache_AbstractCache implements Ddth_Cache_ICache {
     private $cacheName = NULL;
 
     /**
+     * Number of current items in cache.
+     *
      * @var int
      */
     private $cacheSize = 0;
 
     /**
+     * Number of cache hits.
+     *
      * @var int
      */
     private $cacheHits = 0;
 
     /**
+     * Number of cache misses.
+     *
      * @var int
      */
     private $cacheMisses = 0;
+
+    /**
+     * Number of cache get requests.
+     *
+     * @var int
+     */
+    private $cacheGets = 0;
+
+    /**
+     * Number of cache put requests.
+     *
+     * @var int
+     */
+    private $cachePuts = 0;
 
     /**
      * Constructs a new Ddth_Cache_AbstractCache object.
@@ -168,6 +188,56 @@ abstract class Ddth_Cache_AbstractCache implements Ddth_Cache_ICache {
      */
     protected function incNumMisses($value=1) {
         $this->cacheMisses += $value;
+    }
+
+    /**
+     * @see Ddth_Cache_ICache::getNumGets()
+     */
+    public function getNumGets() {
+        return $this->cacheGets;
+    }
+
+    /**
+     * Sets number of cache get requests.
+     *
+     * @param int $gets
+     */
+    protected function setNumGets($gets) {
+        $this->cacheGets = $gets;
+    }
+
+    /**
+     * Increase number of cache get requests.
+     *
+     * @param int $value
+     */
+    protected function incNumGets($value=1) {
+        $this->cacheGets += $value;
+    }
+
+    /**
+     * @see Ddth_Cache_ICache::getNumPuts()
+     */
+    public function getNumPuts() {
+        return $this->cachePuts;
+    }
+
+    /**
+     * Sets number of cache put requests.
+     *
+     * @param int $puts
+     */
+    protected function setNumPuts($puts) {
+        $this->cachePuts = $puts;
+    }
+
+    /**
+     * Increase number of cache put requests.
+     *
+     * @param int $value
+     */
+    protected function incNumPuts($value=1) {
+        $this->cachePuts += $value;
     }
 }
 ?>

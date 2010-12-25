@@ -23,18 +23,20 @@
 interface Ddth_Cache_ICacheEngine {
     /**
      * Removes all entries.
+     *
+     * @return bool TRUE if successful, FALSE otherwise
      */
     public function clear();
 
     /**
-     * Clean-up method.
+     * Clean-up method. After this function is called, the cache engine is considered no longer usable.
      */
     public function destroy();
 
     /**
-     * Initializing method.
+     * Initializing method. The cache engine should not be used unless this function is called.
      *
-     * @param Array $config cache configuration
+     * @param Array $config cache configurations
      */
     public function init($config);
 
@@ -42,7 +44,7 @@ interface Ddth_Cache_ICacheEngine {
      * Checks if an entry exists.
      *
      * @param string $key
-     * @return bool
+     * @return bool TRUE if exists, FALSE otherwise
      */
     public function exists($key);
 
@@ -50,7 +52,7 @@ interface Ddth_Cache_ICacheEngine {
      * Retrieves a cache entry.
      *
      * @param string $key
-     * @return mixed
+     * @return mixed the returned cache entry, NULL if not found
      */
     public function get($key);
 
@@ -70,5 +72,26 @@ interface Ddth_Cache_ICacheEngine {
      * @return mixed existing entry associated with the key (if exists)
      */
     public function remove($key);
+
+    /**
+     * Gets number of cache "hits".
+     *
+     * @return int -1 or FALSE should be returned if getting cache hits is not supported
+     */
+    public function getNumHits();
+
+    /**
+     * Gets number of cache "misses".
+     *
+     * @return int -1 or FALSE should be returned if getting cache misses is not supported
+     */
+    public function getNumMisses();
+
+    /**
+     * Gets cache's current size (number of elements).
+     *
+     * @return int -1 or FALSE should be returned if getting cache size is not supported
+     */
+    public function getSize();
 }
 ?>
