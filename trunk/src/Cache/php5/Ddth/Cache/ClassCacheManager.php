@@ -132,6 +132,10 @@ class Ddth_Cache_CacheManager {
             $config = isset($DPHP_CACHE_CONF)?$DPHP_CACHE_CONF:NULL;
         }
         if ( $config === NULL ) {
+            global $DPHP_CACHE_CFG;
+            $config = isset($DPHP_CACHE_CFG)?$DPHP_CACHE_CFG:NULL;
+        }
+        if ( $config === NULL ) {
             return NULL;
         }
         $hash = md5(serialize($config));

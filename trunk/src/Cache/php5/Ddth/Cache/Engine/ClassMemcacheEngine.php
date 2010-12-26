@@ -96,9 +96,9 @@ class Ddth_Cache_Engine_MemcacheEngine implements Ddth_Cache_ICacheEngine {
         }
         $memcache = new Memcache();
         foreach ( $servers as $server ) {
-            $host = isset($server[self::CONF_SERVER_HOST])?$server[self::CONF_SERVER_HOST]:self::DEFAULT_SERVER_HOST;
-            $port = isset($server[self::CONF_SERVER_PORT])?$server[self::CONF_SERVER_PORT]:self::DEFAULT_SERVER_PORT;
-            $weight = isset($server[self::CONF_SERVER_WEIGHT])?$server[self::CONF_SERVER_WEIGHT]:self::DEFAULT_SERVER_WEIGHT;
+            $host = isset($server[self::CONF_SERVER_HOST])?($server[self::CONF_SERVER_HOST]):(self::DEFAULT_SERVER_HOST);
+            $port = isset($server[self::CONF_SERVER_PORT])?($server[self::CONF_SERVER_PORT]):(self::DEFAULT_SERVER_PORT);
+            $weight = isset($server[self::CONF_SERVER_WEIGHT])?($server[self::CONF_SERVER_WEIGHT]):(self::DEFAULT_SERVER_WEIGHT);
             $memcache->addServer($host, $port, TRUE, $weight);
         }
         $this->memcache = $memcache;

@@ -1,38 +1,44 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * PHPUnit (http://www.phpunit.de/) test case for in-memory cache engine.
+ * PHPUnit (http://www.phpunit.de/) test case for php-memcache cache engine.
  *
  * LICENSE: See the included license.txt file for detail.
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
+ * @version     $Id: MemoryCacheEngineTest.php 251 2010-12-25 19:21:35Z btnguyen2k@gmail.com $
  * @since       File available since v0.2
  */
 
 /**
  */
-class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
+class MemcacheCacheEngineTest extends PHPUnit_Framework_TestCase {
 
     protected function setup() {
         parent::setUp();
         global $DPHP_CACHE_CONFIG;
         $DPHP_CACHE_CONFIG = Array(
             'default' => Array(
-                'cache.type' => 'memory'
-                ),
-            'memory' => Array(
-                'cache.type' => 'memory'
-                )
-                );
+                'cache.type' => 'memcache',
+                'memcache.servers' => Array(Array('host' => 'localhost'))
+        ),
+            'memcache' => Array(
+                'cache.type' => 'memcache',
+                'memcache.servers' => Array(Array('host' => 'localhost'))
+        )
+        );
     }
 
     /**
      * Tests creation of cache manager objects.
      */
     public function testObjCreation() {
+        if ( !class_exists('Memcache', FALSE) ) {
+            echo "Warning: php-memcache is not available!\n";
+            return;
+        }
         $obj1 = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($obj1, "Can not create cache manager object!");
 
@@ -46,11 +52,15 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
      * Tests creation of cache instances.
      */
     public function testGetCache() {
+        if ( !class_exists('Memcache', FALSE) ) {
+            echo "Warning: php-memcache is not available!\n";
+            return;
+        }
         $cm = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($cm, "Can not create cache manager object!");
         $this->assertTrue($cm instanceof Ddth_Cache_CacheManager, "Object must be of type Ddth_Cache_CacheManager!");
 
-        $cacheName = 'memory';
+        $cacheName = 'memcache';
         $cache = $cm->getCache($cacheName);
         $this->assertNotNull($cache, "Can not get cache [$cacheName]!");
         $this->assertTrue($cache instanceof Ddth_Cache_ICache, "Object must be of type Ddth_Cache_ICache!");
@@ -61,6 +71,10 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
      * Tests creation of cache instances.
      */
     public function testGetCache2() {
+        if ( !class_exists('Memcache', FALSE) ) {
+            echo "Warning: php-memcache is not available!\n";
+            return;
+        }
         $cm = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($cm, "Can not create cache manager object!");
         $this->assertTrue($cm instanceof Ddth_Cache_CacheManager, "Object must be of type Ddth_Cache_CacheManager!");
@@ -76,11 +90,15 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
      * Tests cache functionality.
      */
     public function testCacheTest1() {
+        if ( !class_exists('Memcache', FALSE) ) {
+            echo "Warning: php-memcache is not available!\n";
+            return;
+        }
         $cm = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($cm, "Can not create cache manager object!");
         $this->assertTrue($cm instanceof Ddth_Cache_CacheManager, "Object must be of type Ddth_Cache_CacheManager!");
 
-        $cacheName = 'memory';
+        $cacheName = 'memcache';
         $cache = $cm->getCache($cacheName);
         $this->assertNotNull($cache, "Can not get cache [$cacheName]!");
         $this->assertTrue($cache instanceof Ddth_Cache_ICache, "Object must be of type Ddth_Cache_ICache!");
@@ -106,11 +124,15 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
      * Tests cache functionality.
      */
     public function testCacheTest2() {
+        if ( !class_exists('Memcache', FALSE) ) {
+            echo "Warning: php-memcache is not available!\n";
+            return;
+        }
         $cm = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($cm, "Can not create cache manager object!");
         $this->assertTrue($cm instanceof Ddth_Cache_CacheManager);
 
-        $cacheName = 'memory';
+        $cacheName = 'memcache';
         $cache = $cm->getCache($cacheName);
         $this->assertNotNull($cache, "Can not get cache [$cacheName]!");
         $this->assertTrue($cache instanceof Ddth_Cache_ICache, "Object must be of type Ddth_Cache_ICache!");
@@ -148,6 +170,10 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
      * Tests cache functionality.
      */
     public function testCacheTest3() {
+        if ( !class_exists('Memcache', FALSE) ) {
+            echo "Warning: php-memcache is not available!\n";
+            return;
+        }
         $cm = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($cm, "Can not create cache manager object!");
         $this->assertTrue($cm instanceof Ddth_Cache_CacheManager);
@@ -164,21 +190,21 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
         $cache->put($key, $value);
         $value = $cache->get($key);
         $this->assertEquals('value1', $value);
-        $this->assertEquals(1, $cache->getSize());
+        $this->assertGreaterThanOrEqual(1, $cache->getSize());
 
         $key = 'key2';
         $value = 'value2';
         $cache->put($key, $value);
         $value = $cache->get($key);
         $this->assertEquals('value2', $value);
-        $this->assertEquals(2, $cache->getSize());
+        $this->assertGreaterThanOrEqual(2, $cache->getSize());
 
         $key = 'key3';
         $value = 'value3';
         $cache->put($key, $value);
         $value = $cache->get($key);
         $this->assertEquals('value3', $value);
-        $this->assertEquals(3, $cache->getSize());
+        $this->assertGreaterThanOrEqual(3, $cache->getSize());
     }
 }
 ?>
