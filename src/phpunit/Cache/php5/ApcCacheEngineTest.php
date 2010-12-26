@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * PHPUnit (http://www.phpunit.de/) test case for in-memory cache engine.
+ * PHPUnit (http://www.phpunit.de/) test case for APC cache engine.
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -14,17 +14,17 @@
 
 /**
  */
-class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
+class ApcCacheEngineTest extends PHPUnit_Framework_TestCase {
 
     protected function setup() {
         parent::setUp();
         global $DPHP_CACHE_CONFIG;
         $DPHP_CACHE_CONFIG = Array(
             'default' => Array(
-                'cache.type' => 'memory'
+                'cache.type' => 'apc'
                 ),
-            'memory' => Array(
-                'cache.type' => 'memory'
+            'apc' => Array(
+                'cache.type' => 'apc'
                 )
                 );
     }
@@ -33,6 +33,10 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
      * Tests creation of cache manager objects.
      */
     public function testObjCreation() {
+        if ( !function_exists('apc_store') ) {
+            echo "Warning: APC is not available!\n";
+            return;
+        }
         $obj1 = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($obj1, "Can not create cache manager object!");
 
@@ -46,11 +50,15 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
      * Tests creation of cache instances.
      */
     public function testGetCache() {
+        if ( !function_exists('apc_store') ) {
+            echo "Warning: APC is not available!\n";
+            return;
+        }
         $cm = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($cm, "Can not create cache manager object!");
         $this->assertTrue($cm instanceof Ddth_Cache_CacheManager, "Object must be of type Ddth_Cache_CacheManager!");
 
-        $cacheName = 'memory';
+        $cacheName = 'apc';
         $cache = $cm->getCache($cacheName);
         $this->assertNotNull($cache, "Can not get cache [$cacheName]!");
         $this->assertTrue($cache instanceof Ddth_Cache_ICache, "Object must be of type Ddth_Cache_ICache!");
@@ -61,6 +69,10 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
      * Tests creation of cache instances.
      */
     public function testGetCache2() {
+        if ( !function_exists('apc_store') ) {
+            echo "Warning: APC is not available!\n";
+            return;
+        }
         $cm = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($cm, "Can not create cache manager object!");
         $this->assertTrue($cm instanceof Ddth_Cache_CacheManager, "Object must be of type Ddth_Cache_CacheManager!");
@@ -76,11 +88,15 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
      * Tests cache functionality.
      */
     public function testCacheTest1() {
+        if ( !function_exists('apc_store') ) {
+            echo "Warning: APC is not available!\n";
+            return;
+        }
         $cm = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($cm, "Can not create cache manager object!");
         $this->assertTrue($cm instanceof Ddth_Cache_CacheManager, "Object must be of type Ddth_Cache_CacheManager!");
 
-        $cacheName = 'memory';
+        $cacheName = 'apc';
         $cache = $cm->getCache($cacheName);
         $this->assertNotNull($cache, "Can not get cache [$cacheName]!");
         $this->assertTrue($cache instanceof Ddth_Cache_ICache, "Object must be of type Ddth_Cache_ICache!");
@@ -106,11 +122,15 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
      * Tests cache functionality.
      */
     public function testCacheTest2() {
+        if ( !function_exists('apc_store') ) {
+            echo "Warning: APC is not available!\n";
+            return;
+        }
         $cm = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($cm, "Can not create cache manager object!");
         $this->assertTrue($cm instanceof Ddth_Cache_CacheManager);
 
-        $cacheName = 'memory';
+        $cacheName = 'apc';
         $cache = $cm->getCache($cacheName);
         $this->assertNotNull($cache, "Can not get cache [$cacheName]!");
         $this->assertTrue($cache instanceof Ddth_Cache_ICache, "Object must be of type Ddth_Cache_ICache!");
@@ -148,6 +168,10 @@ class MemoryCacheEngineTest extends PHPUnit_Framework_TestCase {
      * Tests cache functionality.
      */
     public function testCacheTest3() {
+        if ( !function_exists('apc_store') ) {
+            echo "Warning: APC is not available!\n";
+            return;
+        }
         $cm = Ddth_Cache_CacheManager::getInstance();
         $this->assertNotNull($cm, "Can not create cache manager object!");
         $this->assertTrue($cm instanceof Ddth_Cache_CacheManager);

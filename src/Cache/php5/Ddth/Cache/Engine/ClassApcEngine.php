@@ -30,7 +30,7 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
      * @see Ddth_Cache_ICacheEngine::clear()
      */
     public function clear() {
-        return apc_clear_cache();
+        return apc_clear_cache('user');
     }
 
     /**
@@ -59,13 +59,13 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
 
     /**
      * This function assumes the retrieved value is in serialized form. Hence it
-     * deserializes the value before returning it.
+     * unserializes the value before returning it.
      *
      * @see Ddth_Cache_ICacheEngine::get()
      */
     public function get($key) {
         $result = apc_fetch($key, $success);
-        return $success?deserialize($result):NULL;
+        return $success?unserialize($result):NULL;
     }
 
     /**
@@ -111,8 +111,8 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
      * @see Ddth_Cache_ICacheEngine::getSize()
      */
     public function getSize() {
-        $result = apc_cache_info(FALSE, TRUE);
-        return $result!==FALSE?$result['num_slots']:-1;
+        $result = apc_cache_info('user', TRUE);
+        return $result!==FALSE?$result['num_entries']:-1;
     }
 }
 ?>
