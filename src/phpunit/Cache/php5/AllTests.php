@@ -16,5 +16,10 @@ define('PACKAGE', 'Cache');
 $REQUIRED_PACKAGES = Array();
 $EXTRA_INCLUDE_PATHS = Array('');
 
+$DPHP_COMMONS_LOGGING_CONFIG = Array(
+    'ddth.commons.logging.Logger' => 'Ddth_Commons_Logging_ConsoleLog',
+    'logger.setting.default' => 'ERROR'
+);
+
 require '../../php5/Template_AllTest.php';
 ?>
