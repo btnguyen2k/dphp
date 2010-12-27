@@ -1,5 +1,7 @@
 * 16-Dec-2010: version 0.1.7
     - Removed class AdodbConfig, replaced it by PHP-style config
+    - Fixed bugs & Enhanced AdodbSqlStatement & Ddth_Adodb_AdodbSqlStatementFactory
+    - Now needs Commons-v0.2+
 
 * 15-Feb-2009: version 0.1.6
 	- Added classes AdodbSqlStatement, Ddth_Adodb_AdodbSqlStatementFactory

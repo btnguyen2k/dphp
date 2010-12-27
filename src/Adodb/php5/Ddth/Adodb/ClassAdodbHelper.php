@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * ADOdb connection factory.
+ * ADOdb helper class.
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -26,7 +26,7 @@ class Ddth_Adodb_AdodbHelper {
 
     /**
      * A shortcut to to build string with n question marks separated by commas (e.g. "?,?,?,?").
-     * 
+     *
      * @param int
      * @return string
      */
@@ -44,7 +44,7 @@ class Ddth_Adodb_AdodbHelper {
 
     /**
      * Prepares the SQL statement.
-     * 
+     *
      * @param ADOConnection an active ADOdb connection
      * @param string the SQL statement
      * @param Array list of named binding parameters (case-sensitive! and in-order!!!)
