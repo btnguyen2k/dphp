@@ -1,3 +1,6 @@
+* 27-Dec-2010: version 0.2.1:
+    - Now use PHP-style configurations (removed .properties file-based config)
+
 * 04-April-2008: version 0.2
     - Added interfaces: IDao, IDaoFactory
     - Removed sub-package Adodb, interface IBusinessObject and IBoManager
