@@ -212,13 +212,21 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
      */
     public function closeConnection($conn, $hasError=false) {
         if ( $conn !== NULL ) {
-            if ( $conn->hasTransactions ) {
-                if ( $hasError ) {
-                    $conn->FailTrans();
+            $exception = NULL;
+            try {
+                if ( $conn->hasTransactions ) {
+                    if ( $hasError ) {
+                        $conn->FailTrans();
+                    }
+                    $conn->CompleteTrans();
                 }
-                $conn->CompleteTrans();
+            } catch ( Exception $e ) {
+                $exception = $e;
             }
             $conn->close();
+            if ( $exception !== NULL ) {
+                throw $exception;
+            }
         }
     }
 }
