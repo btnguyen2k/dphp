@@ -67,9 +67,9 @@ class Ddth_Adodb_AdodbFactory implements Ddth_Adodb_IAdodbFactory {
     /**
      * Static function to get instances of {@link Ddth_Adodb_AdodbFactory}.
      *
-     * This function accept an associative array as parameter. If the argument is NULL,
+     * This function accepts an associative array as parameter. If the argument is NULL,
      * the global variable $DPHP_ADODB_CONFIG is used instead (if there is no global variable
-     * $DPHP_ADODB_CONFIG, the function fallbacks to use the global variable $DPHP_ADODB_CONF).
+     * $DPHP_ADODB_CONFIG, the function falls back to use the global variable $DPHP_ADODB_CONF).
      *
      * Detailed specs of the configuration array:
      * <code>
