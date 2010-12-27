@@ -34,6 +34,7 @@
  * <b>1. Obtain an instance of {@link Ddth_Adodb_AdodbFactory}:</b>
  * <code>
  * $adodbFactory = Ddth_Adodb_AdodbFactory::getInstance();
+ * //or:
  * $adodbFactory = Ddth_Adodb_AdodbFactory::getInstance($config);
  * </code>
  * If there is argument supplied, function {@link Ddth_Adodb_AdodbFactory::getInstance()} will
