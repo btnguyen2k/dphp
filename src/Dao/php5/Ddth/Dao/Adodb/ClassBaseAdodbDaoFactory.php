@@ -84,7 +84,7 @@ class Ddth_Dao_Adodb_BaseAdodbDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
     /**
      * @see Ddth_Dao_AbstractConnDaoFactory::createConnection()
      */
-    protected abstract function createConnection($startTransaction=FALSE) {
+    protected function createConnection($startTransaction=FALSE) {
         return $this->adodbFactory->getConnection($startTransaction);
     }
 
