@@ -157,7 +157,7 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      *
      * @see Ddth_Dao_AbstractConnDaoFactory::createConnection()
      */
-    protected abstract function createConnection($startTransaction=FALSE) {
+    protected function createConnection($startTransaction=FALSE) {
         if ( $this->mysqlPersistent ) {
             if ( $this->mysqlUsername !== false ) {
                 if ( $this->mysqlPassword !== false ) {

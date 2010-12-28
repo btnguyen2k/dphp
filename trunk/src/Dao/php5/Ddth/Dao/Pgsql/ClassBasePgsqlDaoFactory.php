@@ -81,7 +81,7 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      * Sets the PostgreSQL connection string.
      * @param string $connectionString
      */
-    protected function getPgsqlConnectionString($connectionString) {
+    protected function setPgsqlConnectionString($connectionString) {
         $this->pgsqlConnectionString = $connectionString;
     }
 
@@ -123,11 +123,11 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      *
      * @see Ddth_Dao_AbstractConnDaoFactory::createConnection()
      */
-    protected abstract function createConnection($startTransaction=FALSE) {
+    protected function createConnection($startTransaction=FALSE) {
         if ( $this->pgsqlPersistent ) {
             $pgsqlConn = pg_pconnect($this->pgsqlConnectionString);
         } else {
-            $pgsqlConn = pg_cconnect($this->pgsqlConnectionString);
+            $pgsqlConn = pg_connect($this->pgsqlConnectionString);
         }
         $result = new Ddth_Dao_Pgsql_PgsqlConnection($pgsqlConn);
         if ( $startTransaction ) {
