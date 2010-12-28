@@ -1,28 +1,28 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Wrapper for a MySQL connection.
+ * Wrapper for a PostgreSQL connection.
  *
  * LICENSE: See the included license.txt file for detail.
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
  * @package     Dao
- * @subpackage  Mysql
+ * @subpackage  Pgsql
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIBoManager.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 
 /**
- * An object of this class wraps a MySQL connection inside.
+ * An object of this class wraps a PostgreSQL connection inside.
  *
  * @package     Dao
- * @subpackage  Mysql
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.2
+ * @subpackage  Pgsql
+ * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since       Class available since v0.2
  */
-class Ddth_Dao_Mysql_MysqlConnection {
+class Ddth_Dao_Pgsql_PgsqlConnection {
 
     /**
      * @var bool
@@ -32,31 +32,59 @@ class Ddth_Dao_Mysql_MysqlConnection {
     /**
      * @var resource
      */
-    private $mysqlConn;
+    private $pgsqlConn;
 
     /**
-     * Constructs a new Ddth_Dao_Mysql_MysqlConnection object.
+     * Constructs a new Ddth_Dao_Pgsql_PgsqlConnection object.
      *
-     * @param resource $mysqlConn a MySQL connectio nto wrap.
+     * @param resource $pgsqlConn a PostgreSQL connection to wrap.
      */
-    public function __construct($mysqlConn) {
-        $this->mysqlConn = $mysqlConn;
+    public function __construct($pgsqlConn) {
+        $this->pgsqlConn = $pgsqlConn;
     }
 
     /**
-     * Gets the wrapped MySQL connection.
+     * Gets the wrapped PostgreSQL connection.
      *
      * @return resource
      */
-    public function getMysqlConnection() {
-        return $this->mysqlConn;
+    public function getPgsqlConnection() {
+        return $this->pgsqlConn;
     }
 
     /**
-     * Alias of {@link ::getMysqlConnection()}
+     * Alias of {@link getPgsqlConnection()}
      */
     public function getConn() {
-        return $this->mysqlConn;
+        return $this->pgsqlConn;
+    }
+
+    /**
+     * Close the wrapped PostgreSQL Connection.
+     *
+     * @param bool $hasError indicates that an error has occurred during the usage of the connection
+     */
+    public function closePgsqlConnection($hasError=false) {
+        if ( $this->pgsqlConn === NULL ) {
+            $msg = 'The PostgreSQL connection has already been closed!';
+            throw new Ddth_Dao_DaoException($msg);
+        }
+        if ( $this->hasTransaction ) {
+            if ( $hasError ) {
+                $this->rollbackTransaction();
+            } else {
+                $this->commitTransaction();
+            }
+        }
+        pg_close($this->pgsqlConn);
+        $this->pgsqlConn = NULL;
+    }
+
+    /**
+     * Alias of {@link closePgsqlConnection()}
+     */
+    public function closeConn($hasError) {
+       $this->closePgsqlConnection($hasError);
     }
 
     /**

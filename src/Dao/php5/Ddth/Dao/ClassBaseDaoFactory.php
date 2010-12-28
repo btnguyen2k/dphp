@@ -9,7 +9,7 @@
  *
  * @package     Dao
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIBoManager.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 
@@ -18,17 +18,21 @@
  * of dao factory.
  *
  * This class also provides static function to create instance of {@link Ddth_Dao_IDaoFactory}.
- * The function will first load configuration settings from a .properties file, and then create
- * an instance of type {@link Ddth_Dao_IDaoFactory} based on the configurations. The configuration
- * file has the following format:
- * <code>
- * # Name of the DAO factory class (must implement interface Ddth_Dao_IDaoFactory)
- * ddth-dao.factoryClass=Ddth_Dao_BaseDaoFactory
+ * This function accepts an associative array as parameter. If the argument is NULL,
+ * the global variable $DPHP_DAO_CONFIG is used instead (if there is no global variable
+ * $DPHP_DAO_CONFIG, the function falls back to use the global variable $DPHP_DAO_CONF).
  *
- * # DAOs configurations: Each DAO is configured in the following format
- * # dao.<daoname>=<dao class name, must implement interface Ddth_Dao_IDao>
- * # Example:
- * dao.user=Ddth_Demo_Dao_UserDao
+ * Detailed specs of the configuration array:
+ * <code>
+ * Array(
+ *     # Name of the DAO factory class (must implement interface Ddth_Dao_IDaoFactory)
+ *     'ddth-dao.factoryClass' => 'Ddth_Dao_BaseDaoFactory',
+ *
+ *     # DAOs configurations: Each DAO is configured in the following format
+ *     'dao.<daoname>' => '<dao class name, must implement interface Ddth_Dao_IDao>',
+ *     # Example:
+ *     'dao.user' => 'Ddth_Demo_Dao_UserDao'
+ * )
  * </code>
  *
  * @package     Dao
@@ -45,9 +49,9 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
     const CONF_DAO_PREFIX = 'dao.';
 
     /**
-     * @var Ddth_Commons_Properties
+     * @var Array
      */
-    private $props = NULL;
+    private $config = NULL;
 
     /**
      * Constructs a new Ddth_Dao_BaseDaoFactory object.
@@ -58,46 +62,44 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
     /**
      * Gets an instance of DAO factory.
      *
-     * @param string $configFile path to the configuration file.
+     * @param Array $config configuration array (see {@link Ddth_Dao_BaseDaoFactory here} for more information.
      * @return Ddth_Dao_IDaoFactory
      * @throws {@link Ddth_Dao_DaoException}
      */
-    public static function getInstance($configFile = NULL) {
-        if ( $configFile === NULL ) {
-            return self::getInstance(self::DEFAULT_CONFIG_FILE);
+    public static function getInstance($config=NULL) {
+        if ( $config === NULL ) {
+            global $DPHP_DAO_CONFIG;
+            $config = isset($DPHP_DAO_CONFIG)?$DPHP_DAO_CONFIG:NULL;
         }
+        if ( $config === NULL ) {
+            global $DPHP_DAO_CONF;
+            $config = isset($DPHP_DAO_CONF)?$DPHP_DAO_CONF:NULL;
+        }
+        if ( $config === NULL ) {
+            global $DPHP_DAO_CFG;
+            $config = isset($DPHP_DAO_CFG)?$DPHP_DAO_CFG:NULL;
+        }
+        if ( $config === NULL ) {
+            return NULL;
+        }
+        $hash = md5(serialize($config));
         /**
          * @var Ddth_Dao_IDaoFactory
          */
-        $obj = isset(self::$cache[$configFile]) ? self::$cache[$configFile] : NULL;
+        $obj = isset(self::$cache[$hash]) ? self::$cache[$hash] : NULL;
         if ( $obj === NULL ) {
-            $fileContent = Ddth_Commons_Loader::loadFileContent($configFile);
-            if ( $fileContent === NULL ) {
-                $msg = "Can not read file [$configFile]!";
-                throw new Ddth_Dao_DaoException($msg);
-            }
-            $props = new Ddth_Commons_Properties();
-            try {
-                $this->props->import($fileContent);
-            } catch ( Exception $e ) {
-                $msg = $e->getMessage();
-                throw new Ddth_Dao_DaoException($msg, $e->getCode());
-            }
-            $daoFactoryClass = $props->getProperty(self::CONF_DAO_FACTORY_CLASS);
+            $daoFactoryClass = isset($config[self::CONF_DAO_FACTORY_CLASS])?$config[self::CONF_DAO_FACTORY_CLASS]:NULL;
             if ( $daoFactoryClass === NULL || trim($daoFactoryClass) === '' ) {
                 $daoFactoryClass = 'Ddth_Dao_BaseDaoFactory';
             }
-            
-            if ( $daoFactoryClass !== NULL && trim($daoFactoryClass) !== '' ) {
-                $obj = new $daoFactoryClass();
-            }
+            $obj = new $daoFactoryClass();
             if ( $obj instanceof Ddth_Dao_IDaoFactory ) {
-                $obj->init($props);
+                $obj->init($config);
             } else {
                 $msg = 'The DAO factory is not instance of [Ddth_Dao_IDaoFactory]!';
                 throw new Ddth_Dao_DaoException($msg);
             }
-            self::$cache[$configFile] = $obj;
+            self::$cache[$hash] = $obj;
         }
         return $obj;
     }
@@ -105,18 +107,17 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
     /**
      * @see Ddth_Dao_IDaoFactory::init();
      */
-    public function init($props) {
-        $this->props = $props;
+    public function init($config) {
+        $this->config = $config;
     }
 
     /**
-     * Gets a property.
+     * Gets the configuration array.
      *
-     * @param string $name
-     * @return string
+     * @return Array
      */
-    protected function getProperty($name) {
-        return $this->props->getProperty($name);
+    protected function getConfig() {
+        return $this->config;
     }
 
     /**
@@ -127,7 +128,7 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
      * @throws {@link Ddth_Dao_DaoException}
      */
     public function getDao($name) {
-        $className = $this->getProperty($name);
+        $className = isset($this->config[$name])?$this->config[$name]:NULL;
         if ( $className === NULL || trim($className) === '' ) {
             return NULL;
         }
@@ -157,19 +158,40 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
     public function __call($name, $arguments = Array()) {
         $matches = Array();
         if ( preg_match('/get((\w+)Dao)/i', $name, $matches) ) {
-            $dao = $this->getDao($matches[1], $arguments);
-            if ( $dao === NULL ) {
-                $dao = $this->getDao(ucfirst($matches[1]), $arguments);
+            //try 1
+            $names = $this->_genNames($matches[1]);
+            $dao = NULL;
+            foreach ( $names as $name ) {
+                $dao = $this->getDao($name);
+                if ( $dao !== NULL ) {
+                    return $dao;
+                }
             }
-            if ( $dao === NULL ) {
-                $dao = $this->getDao($matches[2], $arguments);
+
+            //try 2
+            $names = $this->_genNames($matches[2]);
+            $dao = NULL;
+            foreach ( $names as $name ) {
+                $dao = $this->getDao($name);
+                if ( $dao !== NULL ) {
+                    return $dao;
+                }
             }
-            if ( $dao === NULL ) {
-                $dao = $this->getDao(ucfirst($matches[2]), $arguments);
-            }
-            return $dao;
         }
         return NULL;
+    }
+
+    private function _genNames($name) {
+        $lower = strtolower($name);
+        $upper = strtoupper($name);
+        $prefix = 'dao.';
+        $result = Array($name, ucfirst($name), $lower, ucfirst($lower), $upper);
+        $result[] = $prefix.$name;
+        $result[] = $prefix.ucfirst($name);
+        $result[] = $prefix.$lower;
+        $result[] = $prefix.ucfirst($lower);
+        $result[] = $prefix.$upper;
+        return $result;
     }
 }
 ?>

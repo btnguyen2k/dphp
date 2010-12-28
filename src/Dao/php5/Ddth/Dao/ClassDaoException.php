@@ -9,7 +9,7 @@
  *
  * @package     Dao
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassDaoException.php 228 2010-12-05 16:08:37Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1
  */
 

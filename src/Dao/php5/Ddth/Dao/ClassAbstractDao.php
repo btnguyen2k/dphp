@@ -4,12 +4,12 @@
  * Abstract implementation of {@link Ddth_Dao_IDao}.
  *
  * LICENSE: See the included license.txt file for detail.
- * 
+ *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
  * @package     Dao
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIBoManager.php 207 2009-01-01 20:24:27Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1
  */
 
@@ -42,10 +42,10 @@ abstract class Ddth_Dao_AbstractDao implements Ddth_Dao_IDao {
 
     /**
      * Gets the DaoFactory instance.
-     * 
+     *
      * @return Ddth_Dao_IDaoFactory
      */
-    protected function getDaoFactory() {
+    public function getDaoFactory() {
         return $this->daoFactory;
     }
 }

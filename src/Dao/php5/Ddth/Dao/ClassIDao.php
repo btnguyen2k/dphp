@@ -9,7 +9,7 @@
  *
  * @package     Dao
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIBoManager.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 
@@ -28,15 +28,18 @@ interface Ddth_Dao_IDao {
      * @param bool $startTransaction indicates that if a transaction is automatically started
      * @return mixed the connection, or NULL if the connection can not be created
      */
-    public function getConnection($startTransaction=false);
-    
+    public function getConnection($startTransaction=FALSE);
+
     /**
-     * Closes an existing connection.
+     * Closes the connection to persistent storage.
      *
-     * @param mixed $conn the existing connection to close
+     * Normally this function closes the open connection only when necessary. Set $forceClose
+     * to force the open connection to be closed.
+     *
      * @param bool $hasError indicates that an error has occurred during the usage of the connection
+     * @param bool $forceClose force the connection to be closed
      */
-    public function closeConnection($conn, $hasError=false);
+    public function closeConnection($hasError=FALSE, $forceClose=FALSE);
 
     /**
      * Gets the DAO factory instance.

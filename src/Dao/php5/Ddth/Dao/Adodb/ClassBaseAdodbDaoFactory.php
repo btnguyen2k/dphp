@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * An implementation of {@link Ddth_Dao_Adodb_IAdodbDaoFactory}.
+ * Factory to create {@link Ddth_Dao_Adodb_IAdodbDao} instances.
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -10,29 +10,22 @@
  * @package     Dao
  * @subpackage  Adodb
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIBoManager.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 
 /**
- * An implementation of {@link Ddth_Dao_Adodb_IAdodbDaoFactory}. This can be used as a base implementation
- * of Adodb-based dao factory.
+ * Factory to create {@link Ddth_Dao_Adodb_IAdodbDao} instances. This can be used as a base
+ * implementation of Adodb-based DAO factory.
  *
- * This factory uses the same configuration file as {@link Ddth_Dao_BaseDaoFactory}, with additional
- * configurations:
- * <code>
- * # ddth-adodb configuration file
- * ddth-dao.adodb.config=ddth-adodb.properties
- * </code>
+ * This factory uses the same configuration array as {@link Ddth_Dao_BaseDaoFactory}.
  *
  * @package     Dao
  * @subpackage  Adodb
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since      	Class available since v0.2
  */
-class Ddth_Dao_Adodb_BaseAdodbDaoFactory extends Ddth_Dao_BaseDaoFactory implements Ddth_Dao_Adodb_IAdodbDaoFactory {
-
-    const CONF_ADODB_CONFIG_FILE = 'ddth-dao.adodb.config';
+class Ddth_Dao_Adodb_BaseAdodbDaoFactory extends Ddth_Dao_AbstractConnDaoFactory {
 
     /**
      * @var Ddth_Adodb_IAdodbFactory
@@ -49,10 +42,9 @@ class Ddth_Dao_Adodb_BaseAdodbDaoFactory extends Ddth_Dao_BaseDaoFactory impleme
     /**
      * @see Ddth_Dao_IDaoFactory::init();
      */
-    public function init($props) {
-        parent::init($props);
-        $configFile = $this->props->getProperty(self::CONF_ADODB_CONFIG_FILE);
-        $this->adodbFactory = Ddth_Adodb_AdodbFactory::getInstance($configFile);
+    public function init($config) {
+        parent::init($config);
+        $this->adodbFactory = Ddth_Adodb_AdodbFactory::getInstance();
     }
 
     /**
@@ -82,24 +74,24 @@ class Ddth_Dao_Adodb_BaseAdodbDaoFactory extends Ddth_Dao_BaseDaoFactory impleme
      */
     public function getDao($name) {
         $dao = parent::getDao($name);
-        if ( $dao !== NULL && !($dao instanceof Ddth_Dao_Adodb_AbstractAdodbDao ) ) {
-            $msg = 'DAO ['.$name.'] is not of type [Ddth_Dao_Adodb_AbstractAdodbDao]!';
+        if ( $dao !== NULL && !($dao instanceof Ddth_Dao_Adodb_IAdodbDao ) ) {
+            $msg = 'DAO ['.$name.'] is not of type [Ddth_Dao_Adodb_IAdodbDao]!';
             throw new Ddth_Dao_DaoException($msg);
         }
         return $dao;
     }
 
     /**
-     * @see Ddth_Dao_Adodb_IAdodbDaoFactory::getConnection()
+     * @see Ddth_Dao_AbstractConnDaoFactory::createConnection()
      */
-    public function getConnection($startTransaction=false) {
+    protected abstract function createConnection($startTransaction=FALSE) {
         return $this->adodbFactory->getConnection($startTransaction);
     }
 
     /**
-     * @see Ddth_Dao_Adodb_IAdodbDaoFactory::closeConnection()
+     * @see Ddth_Dao_AbstractConnDaoFactory::forceCloseConnection()
      */
-    public function closeConnection($conn, $hasError=false) {
+    protected function forceCloseConnection($conn, $hasError=FALSE) {
         $this->adodbFactory->closeConnection($conn, $hasError);
     }
 }

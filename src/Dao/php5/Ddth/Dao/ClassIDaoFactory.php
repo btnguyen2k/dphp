@@ -9,7 +9,7 @@
  *
  * @package     Dao
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIBoManager.php 222 2010-11-21 07:25:10Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 
@@ -27,12 +27,12 @@ interface Ddth_Dao_IDaoFactory {
      * @param Ddth_Dao_IDao $name
      */
     public function getDao($name);
-    
+
     /**
      * Initializes the DAO factory.
      *
-     * @param Ddth_Commons_Properties $props
+     * @param Array $config
      */
-    public function init($props);
+    public function init($config);
 }
 ?>
