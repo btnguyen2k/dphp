@@ -1,22 +1,11 @@
 <?php
-class UserDao implements Ddth_Dao_Adodb_IAdodbBoManager {
-    
-    private $daoFactory;
-    
-    public function delete($bo) {
+class UserDao extends Ddth_Dao_AbstractDao {
+    public function getConnection($startTransaction = FALSE) {
+        return NULL;
     }
 
-    public function get($id) {
-    }
+    public function closeConnection($hasError = FALSE, $forceClose = FALSE) {
 
-    public function save($bo) {
-    }
-
-    public function update($bo) {
-    }
-
-    public function init($daoFactory) {
-        $this->daoFactory = $daoFactory;
     }
 }
 ?>

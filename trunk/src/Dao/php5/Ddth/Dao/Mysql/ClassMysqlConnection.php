@@ -10,7 +10,7 @@
  * @package     Dao
  * @subpackage  Mysql
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIBoManager.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
+ * @version     $Id$
  * @since       File available since v0.2
  */
 
@@ -37,7 +37,7 @@ class Ddth_Dao_Mysql_MysqlConnection {
     /**
      * Constructs a new Ddth_Dao_Mysql_MysqlConnection object.
      *
-     * @param resource $mysqlConn a MySQL connectio nto wrap.
+     * @param resource $mysqlConn a MySQL connection to wrap.
      */
     public function __construct($mysqlConn) {
         $this->mysqlConn = $mysqlConn;
@@ -53,10 +53,38 @@ class Ddth_Dao_Mysql_MysqlConnection {
     }
 
     /**
-     * Alias of {@link ::getMysqlConnection()}
+     * Alias of {@link getMysqlConnection()}
      */
     public function getConn() {
         return $this->mysqlConn;
+    }
+
+    /**
+     * Close the wrapped MySQL Connection.
+     *
+     * @param bool $hasError indicates that an error has occurred during the usage of the connection
+     */
+    public function closeMysqlConnection($hasError=false) {
+        if ( $this->mysqlConn === NULL ) {
+            $msg = 'The MySQL connection has already been closed!';
+            throw new Ddth_Dao_DaoException($msg);
+        }
+        if ( $this->hasTransaction ) {
+            if ( $hasError ) {
+                $this->rollbackTransaction();
+            } else {
+                $this->commitTransaction();
+            }
+        }
+        mysql_close($this->mysqlConn);
+        $this->mysqlConn = NULL;
+    }
+
+    /**
+     * Alias of {@link closeMysqlConnection()}
+     */
+    public function closeConn($hasError) {
+       $this->closeMysqlConnection($hasError);
     }
 
     /**
