@@ -32,7 +32,7 @@ class Ddth_Template_Smarty_SmartyTemplate extends Ddth_Template_AbstractTemplate
     const DEFAULT_PAGE_CLASS = 'Ddth_Template_Smarty_SmartyPage';
 
     const CONF_SMARTY_CACHE_DIR = 'smarty.cache';
-    const CONF_SMARTY_COMPILE_DIR = 'smarty.templates_c';
+    const CONF_SMARTY_COMPILE_DIR = 'smarty.compile';
     const CONF_SMARTY_CONFIGS_DIR = 'smarty.configs';
 
     /**

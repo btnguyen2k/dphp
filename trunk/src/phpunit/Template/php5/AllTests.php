@@ -33,7 +33,7 @@ $DPHP_TEMPLATE_CONFIG = Array(
 	'template.smarty.location' => 'templateSmarty',
     'template.smarty.configFile' => 'config.properties',
     'template.smarty.charset' => 'utf-8',
-    'template.smarty.smarty.configs' => '.',
+    'template.smarty.smarty.configs' => 'configs',
     'template.smarty.smarty.cache' => 'cache',
     'template.smarty.smarty.compile' => 'compile',
 

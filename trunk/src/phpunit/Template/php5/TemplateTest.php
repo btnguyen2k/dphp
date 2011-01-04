@@ -77,7 +77,8 @@ class TemplateTest extends PHPUnit_Framework_TestCase {
         ob_start();
         $page->render($model);
         $output = ob_get_contents();
-        ob_end_clean();
+        ob_end_flush();
+        //ob_end_clean();
         $this->assertTrue(strpos($output, 'Action: index;') > -1);
     }
 }
