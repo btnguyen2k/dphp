@@ -38,21 +38,25 @@ class Ddth_Template_Smarty_SmartyPage extends Ddth_Template_AbstractPage {
 
         //Smarty's template directory
         $smarty->template_dir = $templateDir->getPathname();
+        var_dump($smarty->template_dir);
 
         //Smarty's cache directory
         $key = Ddth_Template_Smarty_SmartyTemplate::CONF_SMARTY_CACHE_DIR;
         $cacheDir = new Ddth_Commons_File($this->getTemplateConfigSetting($key), $templateDir);
         $smarty->cache_dir = $cacheDir->getPathname();
+        var_dump($smarty->cache_dir);
 
         //Smarty's compile directory
         $key = Ddth_Template_Smarty_SmartyTemplate::CONF_SMARTY_COMPILE_DIR;
         $compileDir = new Ddth_Commons_File($this->getTemplateConfigSetting($key), $templateDir);
         $smarty->compile_dir = $compileDir->getPathname();
+        var_dump($smarty->compile_dir);
 
         //Smarty's configuration directory
         $key = Ddth_Template_Smarty_SmartyTemplate::CONF_SMARTY_CONFIGS_DIR;
         $configDir = new Ddth_Commons_File($this->getTemplateConfigSetting($key), $templateDir);
         $smarty->config_dir = $configDir->getPathname();
+        var_dump($smarty->config_dir);
 
         $model = $this->getModel();
         $smarty->assign($model);
