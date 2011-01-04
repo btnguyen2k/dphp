@@ -84,16 +84,16 @@ removeTree($DIR_PACKAGE_DOCS);
  *   + PDF:default:default - standard, plain PDF formatting
  * - XML:DocBook:* - output is XML, in DocBook format
  *   + XML:DocBook/peardoc2:default - documentation ready for compiling into peardoc
- *     for online pear.php.net documentation, 2nd revision 
+ *     for online pear.php.net documentation, 2nd revision
  */
 $STYLE = "";
 if ( count($argv) == 6 ) {
     $STYLE = "-o \"$argv[5]\"";
 } else {
     //default stype
-    //$STYLE = "-o \"HTML:Smarty:HandS\"";
+    $STYLE = "-o \"HTML:Smarty:HandS\"";
     //$STYLE = "-o \"HTML:frames/Extjs:default\"";
-    $STYLE = "-o \"HTML:Smarty/Evolve:default\"";
+    //$STYLE = "-o \"HTML:Smarty/Evolve:default\"";
 }
 $CMD = "$PHP \"$PHP_DOCUMENTOR\" -t \"$DIR_PACKAGE_DOCS\" $STYLE -d \"$DIR_PACKAGE_SOURCE\" -ti \"$PACKAGE Documentation\"";
 echo $CMD, "\n";
