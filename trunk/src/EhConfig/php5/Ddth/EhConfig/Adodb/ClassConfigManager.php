@@ -84,14 +84,14 @@ class Ddth_EhConfig_Adodb_ConfigManager extends Ddth_EhConfig_ConfigManager {
     }
 
     /**
-     * {@see Ddth_EhConfig_ConfigManager::init()}
+     * @see Ddth_EhConfig_ConfigManager::init()
      */
     public function init($props) {
         parent::init($props);
     }
 
     /**
-     * {@see Ddth_EhConfig_ConfigManager::createConfig()}
+     * @see Ddth_EhConfig_ConfigManager::createConfig()
      */
     public function createConfig($config) {
         if ( $config === NULL || !($config instanceof Ddth_EhConfig_Config) ) {
@@ -108,7 +108,7 @@ class Ddth_EhConfig_Adodb_ConfigManager extends Ddth_EhConfig_ConfigManager {
     }
 
     /**
-     * {@see Ddth_EhConfig_ConfigManager::deleteAllConfigsInDomain()}
+     * @see Ddth_EhConfig_ConfigManager::deleteAllConfigsInDomain()
      */
     public function deleteAllConfigsInDomain($domain) {
         $conn = $this->getAdodbConnection();
@@ -119,7 +119,7 @@ class Ddth_EhConfig_Adodb_ConfigManager extends Ddth_EhConfig_ConfigManager {
     }
 
     /**
-     * {@see Ddth_EhConfig_ConfigManager::deleteConfig()}
+     * @see Ddth_EhConfig_ConfigManager::deleteConfig()
      */
     public function deleteConfig($key) {
         if ( $key === NULL || !($key instanceof Ddth_EhConfig_ConfigKey ) ) {
@@ -134,7 +134,7 @@ class Ddth_EhConfig_Adodb_ConfigManager extends Ddth_EhConfig_ConfigManager {
     }
 
     /**
-     * {@see Ddth_EhConfig_ConfigManager::getConfig()}
+     * @see Ddth_EhConfig_ConfigManager::getConfig()
      */
     public function getConfig($key) {
         $conn = $this->getAdodbConnection();

@@ -9,7 +9,7 @@
  *
  * @package     Template
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassITemplateFactory.php 227 2010-12-05 06:57:50Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1
  */
 
@@ -20,30 +20,30 @@
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since      	Class available since v0.1
  */
-interface Ddth_Template_ITemplateFactory {            
-    
+interface Ddth_Template_ITemplateFactory {
+
     /**
      * Gets a template pack.
-     * 
+     *
      * @param string
      * @return Ddth_Template_ITemplate
      * @throws Ddth_Template_TemplateException
      */
     public function getTemplate($name);
-    
+
     /**
      * Gets list of names of available templates.
-     * 
+     *
      * @return Array()
      */
     public function getTemplateNames();
-    
+
     /**
      * Initializes the factory.
-     * 
-     * @param Dddth_Commons_Properties
+     *
+     * @param Array $config
      * @throws Ddth_Template_TemplateException
      */
-    public function init($settings);
+    public function init($config);
 }
 ?>

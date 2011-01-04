@@ -97,9 +97,9 @@ if ( count($argv) == 5 ) {
     $STYLE = "-o \"$argv[4]\"";
 } else {
     //default stype
-    //$STYLE = "-o \"HTML:Smarty:HandS\"";
+    $STYLE = "-o \"HTML:Smarty:HandS\"";
     //$STYLE = "-o \"HTML:frames/Extjs:default\"";
-    $STYLE = "-o \"HTML:Smarty/Evolve:default\"";
+    //$STYLE = "-o \"HTML:Smarty/Evolve:default\"";
 }
 $CMD = "$PHP \"$PHP_DOCUMENTOR\" -t \"$DIR_PACKAGE_DOCS\" $STYLE -d \"$DIR_PACKAGE_SOURCE\" -dn \"dPHP\" -ti \"dPHP Documentation\"";
 echo $CMD, "\n";

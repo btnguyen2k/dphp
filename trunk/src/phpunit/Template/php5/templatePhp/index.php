@@ -1,0 +1,1 @@
+Action: <?php global $MODEL; echo isset($MODEL['action'])?$MODEL['action']:''; ?>;

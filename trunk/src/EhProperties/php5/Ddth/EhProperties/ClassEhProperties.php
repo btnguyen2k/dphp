@@ -36,7 +36,7 @@ class Ddth_EhProperties_EhProperties extends Ddth_Commons_Properties {
     }
 
     /**
-     * {@see Ddth_Commons_Properties::getProperties()}
+     * @see Ddth_Commons_Properties::getProperties()
      */
     public function getProperty($key, $defaultValue=NULL) {
         return $this->myGetProperty(Array(), $key, $defaultValue);
@@ -50,7 +50,7 @@ class Ddth_EhProperties_EhProperties extends Ddth_Commons_Properties {
 
         $cached[] = $key;
         $value = parent::getProperty($key, $defaultValue);
-        
+
         if ( $value === NULL ) {
             return $value;
         }
