@@ -32,7 +32,7 @@ class DaoTest extends PHPUnit_Framework_TestCase {
         ;
 
         global $DPHP_DAO_CONFIG;
-        $DPHP_DAO_CONFIG = Array('ddth-dao.factoryClass' => 'Ddth_Dao_BaseDaoFactory', 'dao.user' => 'UserDao');
+        $DPHP_DAO_CONFIG = Array('ddth-dao.factoryClass' => 'Ddth_Dao_BaseDaoFactory', 'dao.user' => 'UserDao', 'dao.simpleBlog' => 'UserDao');
     }
 
     /**
