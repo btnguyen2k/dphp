@@ -25,13 +25,13 @@
  * Detailed specs of the configuration array:
  * <code>
  * Array(
- *     # Name of the DAO factory class (must implement interface Ddth_Dao_IDaoFactory)
- *     'ddth-dao.factoryClass' => 'Ddth_Dao_BaseDaoFactory',
+ * # Name of the DAO factory class (must implement interface Ddth_Dao_IDaoFactory)
+ * 'ddth-dao.factoryClass' => 'Ddth_Dao_BaseDaoFactory',
  *
- *     # DAOs configurations: Each DAO is configured in the following format
- *     'dao.<daoname>' => '<dao class name, must implement interface Ddth_Dao_IDao>',
- *     # Example:
- *     'dao.user' => 'Ddth_Demo_Dao_UserDao'
+ * # DAOs configurations: Each DAO is configured in the following format
+ * 'dao.<daoname>' => '<dao class name, must implement interface Ddth_Dao_IDao>',
+ * # Example:
+ * 'dao.user' => 'Ddth_Demo_Dao_UserDao'
  * )
  * </code>
  *
@@ -66,20 +66,20 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
      * @return Ddth_Dao_IDaoFactory
      * @throws {@link Ddth_Dao_DaoException}
      */
-    public static function getInstance($config=NULL) {
-        if ( $config === NULL ) {
+    public static function getInstance($config = NULL) {
+        if ($config === NULL) {
             global $DPHP_DAO_CONFIG;
-            $config = isset($DPHP_DAO_CONFIG)?$DPHP_DAO_CONFIG:NULL;
+            $config = isset($DPHP_DAO_CONFIG) ? $DPHP_DAO_CONFIG : NULL;
         }
-        if ( $config === NULL ) {
+        if ($config === NULL) {
             global $DPHP_DAO_CONF;
-            $config = isset($DPHP_DAO_CONF)?$DPHP_DAO_CONF:NULL;
+            $config = isset($DPHP_DAO_CONF) ? $DPHP_DAO_CONF : NULL;
         }
-        if ( $config === NULL ) {
+        if ($config === NULL) {
             global $DPHP_DAO_CFG;
-            $config = isset($DPHP_DAO_CFG)?$DPHP_DAO_CFG:NULL;
+            $config = isset($DPHP_DAO_CFG) ? $DPHP_DAO_CFG : NULL;
         }
-        if ( $config === NULL ) {
+        if ($config === NULL) {
             return NULL;
         }
         $hash = md5(serialize($config));
@@ -87,13 +87,13 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
          * @var Ddth_Dao_IDaoFactory
          */
         $obj = isset(self::$cache[$hash]) ? self::$cache[$hash] : NULL;
-        if ( $obj === NULL ) {
-            $daoFactoryClass = isset($config[self::CONF_DAO_FACTORY_CLASS])?$config[self::CONF_DAO_FACTORY_CLASS]:NULL;
-            if ( $daoFactoryClass === NULL || trim($daoFactoryClass) === '' ) {
+        if ($obj === NULL) {
+            $daoFactoryClass = isset($config[self::CONF_DAO_FACTORY_CLASS]) ? $config[self::CONF_DAO_FACTORY_CLASS] : NULL;
+            if ($daoFactoryClass === NULL || trim($daoFactoryClass) === '') {
                 $daoFactoryClass = 'Ddth_Dao_BaseDaoFactory';
             }
             $obj = new $daoFactoryClass();
-            if ( $obj instanceof Ddth_Dao_IDaoFactory ) {
+            if ($obj instanceof Ddth_Dao_IDaoFactory) {
                 $obj->init($config);
             } else {
                 $msg = 'The DAO factory is not instance of [Ddth_Dao_IDaoFactory]!';
@@ -128,19 +128,21 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
      * @throws {@link Ddth_Dao_DaoException}
      */
     public function getDao($name) {
-        $className = isset($this->config[$name])?$this->config[$name]:NULL;
-        if ( $className === NULL || trim($className) === '' ) {
+        $className = isset($this->config[$name]) ? $this->config[$name] : NULL;
+        if ($className === NULL || trim($className) === '') {
             return NULL;
         }
-        $dao = isset($this->daoCache[$name])?$this->daoCache[$name]:NULL;
-        if ( !($dao instanceof Ddth_Dao_IDao) ) {
+        $dao = isset($this->daoCache[$name]) ? $this->daoCache[$name] : NULL;
+        if (!($dao instanceof Ddth_Dao_IDao)) {
             $dao = NULL;
         }
-        if ( $dao === NULL ) {
+        if ($dao === NULL) {
             $dao = new $className();
-            if ( $dao instanceof Ddth_Dao_IDao ) {
+            if ($dao instanceof Ddth_Dao_IDao) {
                 $dao->init($this);
             } else {
+                $msg = "[$className] is not instance of [Ddth_Dao_IDao]!";
+                $this->LOGGER->warn($msg);
                 $dao = NULL;
             }
         }
@@ -157,13 +159,13 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
      */
     public function __call($name, $arguments = Array()) {
         $matches = Array();
-        if ( preg_match('/get((\w+)Dao)/i', $name, $matches) ) {
+        if (preg_match('/get((\w+)Dao)/i', $name, $matches)) {
             //try 1
             $names = $this->_genNames($matches[1]);
             $dao = NULL;
-            foreach ( $names as $name ) {
+            foreach ($names as $name) {
                 $dao = $this->getDao($name);
-                if ( $dao !== NULL ) {
+                if ($dao !== NULL) {
                     return $dao;
                 }
             }
@@ -171,9 +173,9 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
             //try 2
             $names = $this->_genNames($matches[2]);
             $dao = NULL;
-            foreach ( $names as $name ) {
+            foreach ($names as $name) {
                 $dao = $this->getDao($name);
-                if ( $dao !== NULL ) {
+                if ($dao !== NULL) {
                     return $dao;
                 }
             }
@@ -186,11 +188,11 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
         $upper = strtoupper($name);
         $prefix = 'dao.';
         $result = Array($name, ucfirst($name), $lower, ucfirst($lower), $upper);
-        $result[] = $prefix.$name;
-        $result[] = $prefix.ucfirst($name);
-        $result[] = $prefix.$lower;
-        $result[] = $prefix.ucfirst($lower);
-        $result[] = $prefix.$upper;
+        $result[] = $prefix . $name;
+        $result[] = $prefix . ucfirst($name);
+        $result[] = $prefix . $lower;
+        $result[] = $prefix . ucfirst($lower);
+        $result[] = $prefix . $upper;
         return $result;
     }
 }
