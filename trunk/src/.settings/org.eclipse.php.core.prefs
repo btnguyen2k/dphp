@@ -1,5 +1,6 @@
-#Mon Jan 21 16:55:55 ICT 2008
+#Thu Jan 13 00:28:51 ICT 2011
 eclipse.preferences.version=1
+include_path=1;D\:/Workspace/ZendStudio/dphp/libs/AdoDb5-5.0.4\u00051;D\:/Workspace/ZendStudio/dphp/libs/PHPUnit-3.2.9
 org.eclipse.php.core.phpForamtterIndentationSize=4
 org.eclipse.php.core.phpForamtterUseTabs=false
 phpVersion=php5
