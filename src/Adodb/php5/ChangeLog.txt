@@ -1,3 +1,7 @@
+* 17-Jan-2011: version 0.2
+    - Removed class AdodbSqlStatement, AdodbSqlStatementFactory; added function
+      AdodbHelper::loadSqlStatement()
+
 * 16-Dec-2010: version 0.1.7
     - Removed class AdodbConfig, replaced it by PHP-style config
     - Fixed bugs & Enhanced AdodbSqlStatement & Ddth_Adodb_AdodbSqlStatementFactory
