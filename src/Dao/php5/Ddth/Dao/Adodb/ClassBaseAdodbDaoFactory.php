@@ -69,13 +69,13 @@ class Ddth_Dao_Adodb_BaseAdodbDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      * Gets a DAO by name.
      *
      * @param string $name
-     * @return Ddth_Dao_Adodb_AbstractAdodbDao
+     * @return Ddth_Dao_Adodb_IAdodbDao
      * @throws Ddth_Dao_DaoException
      */
     public function getDao($name) {
         $dao = parent::getDao($name);
-        if ( $dao !== NULL && !($dao instanceof Ddth_Dao_Adodb_IAdodbDao ) ) {
-            $msg = 'DAO ['.$name.'] is not of type [Ddth_Dao_Adodb_IAdodbDao]!';
+        if ($dao !== NULL && !($dao instanceof Ddth_Dao_Adodb_IAdodbDao)) {
+            $msg = 'DAO [' . $name . '] is not of type [Ddth_Dao_Adodb_IAdodbDao]!';
             throw new Ddth_Dao_DaoException($msg);
         }
         return $dao;
@@ -84,14 +84,14 @@ class Ddth_Dao_Adodb_BaseAdodbDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
     /**
      * @see Ddth_Dao_AbstractConnDaoFactory::createConnection()
      */
-    protected function createConnection($startTransaction=FALSE) {
+    protected function createConnection($startTransaction = FALSE) {
         return $this->adodbFactory->getConnection($startTransaction);
     }
 
     /**
      * @see Ddth_Dao_AbstractConnDaoFactory::forceCloseConnection()
      */
-    protected function forceCloseConnection($conn, $hasError=FALSE) {
+    protected function forceCloseConnection($conn, $hasError = FALSE) {
         $this->adodbFactory->closeConnection($conn, $hasError);
     }
 }

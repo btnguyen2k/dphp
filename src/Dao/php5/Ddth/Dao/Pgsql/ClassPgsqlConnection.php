@@ -64,13 +64,13 @@ class Ddth_Dao_Pgsql_PgsqlConnection {
      *
      * @param bool $hasError indicates that an error has occurred during the usage of the connection
      */
-    public function closePgsqlConnection($hasError=false) {
-        if ( $this->pgsqlConn === NULL ) {
+    public function closePgsqlConnection($hasError = FALSE) {
+        if ($this->pgsqlConn === NULL) {
             $msg = 'The PostgreSQL connection has already been closed!';
             throw new Ddth_Dao_DaoException($msg);
         }
-        if ( $this->hasTransaction ) {
-            if ( $hasError ) {
+        if ($this->hasTransaction) {
+            if ($hasError) {
                 $this->rollbackTransaction();
             } else {
                 $this->commitTransaction();
@@ -83,8 +83,8 @@ class Ddth_Dao_Pgsql_PgsqlConnection {
     /**
      * Alias of {@link closePgsqlConnection()}
      */
-    public function closeConn($hasError) {
-       $this->closePgsqlConnection($hasError);
+    public function closeConn($hasError = FALSE) {
+        $this->closePgsqlConnection($hasError);
     }
 
     /**
@@ -102,7 +102,7 @@ class Ddth_Dao_Pgsql_PgsqlConnection {
      * @return bool FALSE if there is no current transaction, TRUE otherwise
      */
     public function commitTransaction() {
-        if ( $this->hasTransaction ) {
+        if ($this->hasTransaction) {
             mysql_query("COMMIT", $this->mysqlConn);
             $this->hasTransaction = FALSE;
             return TRUE;
@@ -117,7 +117,7 @@ class Ddth_Dao_Pgsql_PgsqlConnection {
      * @return bool FALSE if there is no current transaction, TRUE otherwise
      */
     public function rollbackTransaction() {
-        if ( $this->hasTransaction ) {
+        if ($this->hasTransaction) {
             mysql_query("ROLLBACK", $this->mysqlConn);
             $this->hasTransaction = FALSE;
             return TRUE;
@@ -130,7 +130,7 @@ class Ddth_Dao_Pgsql_PgsqlConnection {
      * Starts a transaction.
      */
     public function startTransaction() {
-        if ( !$this->hasTransaction ) {
+        if (!$this->hasTransaction) {
             mysql_query("BEGIN", $this->mysqlConn);
             $this->hasTransaction = TRUE;
         }

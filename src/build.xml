@@ -49,6 +49,9 @@
 		<antcall target="phpunit">
 			<param name="lib.name" value="Cache" />
 		</antcall>
+		<antcall target="phpunit">
+			<param name="lib.name" value="Dao" />
+		</antcall>
 	</target>
 
 	<target name="release" description="Release one single library. This target take a paramter lib.name">

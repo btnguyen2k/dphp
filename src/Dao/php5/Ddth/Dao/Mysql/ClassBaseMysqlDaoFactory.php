@@ -22,15 +22,15 @@
  * configurations:
  * <code>
  * Array(
- * #other configurations used by Ddth_Dao_BaseDaoFactory
+ * #other configurations used by Ddth_Dao_Mysql_BaseMysqlDaoFactory
  *
  * # MySQL hostname, username, and password
  * # See http://php.net/manual/en/function.mysql-connect.php for more information
- * 'ddth-dao.mysql.host'       => 'localhost',
- * 'ddth-dao.mysql.username'   => 'root', #supply FALSE or NULL to disable username field
- * 'ddth-dao.mysql.password'   => '',     #supply FALSE or NULL to disable password field
- * 'ddth-dao.mysql.persistent' => FALSE,  #indicate if mysql_pconnect (TRUE) or mysql_connect (FALSE) is used. Default value is FALSE
- * 'ddth-dap.mysql.database'   => 'mydb'  #name of the database to use
+ * 'dphp-dao.mysql.host'       => 'localhost',
+ * 'dphp-dao.mysql.username'   => 'root', #supply FALSE or NULL to disable username field
+ * 'dphp-dao.mysql.password'   => '',     #supply FALSE or NULL to disable password field
+ * 'dphp-dao.mysql.persistent' => FALSE,  #indicate if mysql_pconnect (TRUE) or mysql_connect (FALSE) is used. Default value is FALSE
+ * 'dphp-dap.mysql.database'   => 'mydb'  #name of the database to use
  * )
  * </code>
  *
@@ -41,11 +41,11 @@
  */
 class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory {
 
-    const CONF_MYSQL_HOST = 'ddth-dao.mysql.host';
-    const CONF_MYSQL_USERNAME = 'ddth-dao.mysql.username';
-    const CONF_MYSQL_PASSWORD = 'ddth-dao.mysql.password';
-    const CONF_MYSQL_PERSISTENT = 'ddth-dao.mysql.persistent';
-    const CONF_MYSQL_DATABASE = 'ddth-dao.mysql.database';
+    const CONF_MYSQL_HOST = 'dphp-dao.mysql.host';
+    const CONF_MYSQL_USERNAME = 'dphp-dao.mysql.username';
+    const CONF_MYSQL_PASSWORD = 'dphp-dao.mysql.password';
+    const CONF_MYSQL_PERSISTENT = 'dphp-dao.mysql.persistent';
+    const CONF_MYSQL_DATABASE = 'dphp-dao.mysql.database';
 
     private $mysqlHost = 'localhost:3306';
     private $mysqlUsername = NULL;
@@ -161,7 +161,7 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      * Gets a DAO by name.
      *
      * @param string $name
-     * @return Ddth_Dao_Mysql_AbstractMysqlDao
+     * @return Ddth_Dao_Mysql_IMysqlDao
      * @throws Ddth_Dao_DaoException
      */
     public function getDao($name) {
