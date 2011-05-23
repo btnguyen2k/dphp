@@ -54,7 +54,7 @@
  *                           )
  * );
  * </code>
- * <u><i>Notes:</i></u>
+ * <b><i>Notes:</i></b>
  * <ul>
  *     <li>Use either <i>adodb.url</i> or <i>adodb.dsn</i>.</li>
  *     <li>When <i>adodb.url</i> or <i>adodb.dsn</i> is used, other settings (except for <i>adodb.setupSqls</i>) are ignored.</li>
