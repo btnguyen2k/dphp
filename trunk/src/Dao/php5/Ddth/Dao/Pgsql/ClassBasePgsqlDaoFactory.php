@@ -22,13 +22,13 @@
  * configurations:
  * <code>
  * Array(
- *     #other configurations used by Ddth_Dao_BaseDaoFactory
+ *     #other configurations used by Ddth_Dao_Pgsql_BasePgsqlDaoFactory
  *
  *     # PostgreSQL connection string
  *     # See http://php.net/manual/en/function.pg-connect.php for more information
- *     'ddth-dao.pgsql.persistent'
+ *     'dphp-dao.pgsql.persistent'
  *         => FALSE,   #indicate if pgsql_pconnect (TRUE) or pgsql_connect (FALSE) is used. Default value is FALSE
- *     'ddth-dao.pgsql.connectionString'
+ *     'dphp-dao.pgsql.connectionString'
  *         => "host=localhost port=5432 dbname=testdb user=foouser password=barpwd options='--client_encoding=UTF8'"
  * )
  * </code>
@@ -40,8 +40,8 @@
  */
 class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory {
 
-    const CONF_PGSQL_CONNECTION_STRING = 'ddth-dao.pgsql.connectionString';
-    const CONF_PGSQL_PERSISTENT        = 'ddth-dao.pgsql.persistent';
+    const CONF_PGSQL_CONNECTION_STRING = 'dphp-dao.pgsql.connectionString';
+    const CONF_PGSQL_PERSISTENT        = 'dphp-dao.pgsql.persistent';
 
     private $pgsqlConnectionString = '';
     private $pgsqlPersistent       = FALSE;
@@ -106,7 +106,7 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      * Gets a DAO by name.
      *
      * @param string $name
-     * @return Ddth_Dao_Pgsql_AbstractPgsqlDao
+     * @return Ddth_Dao_Pgsql_IPgsqlDao
      * @throws Ddth_Dao_DaoException
      */
     public function getDao($name) {

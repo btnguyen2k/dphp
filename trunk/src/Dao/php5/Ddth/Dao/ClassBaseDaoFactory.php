@@ -26,7 +26,7 @@
  * <code>
  * Array(
  * # Name of the DAO factory class (must implement interface Ddth_Dao_IDaoFactory)
- * 'ddth-dao.factoryClass' => 'Ddth_Dao_BaseDaoFactory',
+ * 'dphp-dao.factoryClass' => 'Ddth_Dao_BaseDaoFactory',
  *
  * # DAOs configurations: Each DAO is configured in the following format
  * 'dao.<daoname>' => '<dao class name, must implement interface Ddth_Dao_IDao>',
@@ -45,7 +45,7 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
     private $daoCache = Array();
 
     const DEFAULT_CONFIG_FILE = "dphp-dao.properties";
-    const CONF_DAO_FACTORY_CLASS = 'ddth-dao.factoryClass';
+    const CONF_DAO_FACTORY_CLASS = 'dphp-dao.factoryClass';
     const CONF_DAO_PREFIX = 'dao.';
 
     /**

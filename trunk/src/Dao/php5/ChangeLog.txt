@@ -1,3 +1,10 @@
+* xx-May-2011: version 0.2.3:
+    - Added classes AbstractSqlStatementDao
+
+* 17-Jan-2011: version 0.2.2:
+    - Added Sqlite support
+    - Added classes SqlStatement & SqlStatementFactory; and sub-classes of SqlStatement
+
 * 27-Dec-2010: version 0.2.1:
     - Now use PHP-style configurations (removed .properties file-based config)
     - Re-implemented sub-package Adodb

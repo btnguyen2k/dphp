@@ -1,28 +1,28 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * Wrapper for a MySQL connection.
+ * Wrapper for a SQLite connection.
  *
  * LICENSE: See the included license.txt file for detail.
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
  * @package     Dao
- * @subpackage  Mysql
+ * @subpackage  Sqlite
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @version     $Id$
- * @since       File available since v0.2
+ * @since       File available since v0.2.2
  */
 
 /**
- * An object of this class wraps a MySQL connection inside.
+ * An object of this class wraps a SQLite connection inside.
  *
  * @package     Dao
- * @subpackage  Mysql
+ * @subpackage  Sqlite
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.2
+ * @since      	Class available since v0.2.2
  */
-class Ddth_Dao_Mysql_MysqlConnection {
+class Ddth_Dao_Sqlite_SqliteConnection {
 
     /**
      * @var bool
@@ -32,41 +32,41 @@ class Ddth_Dao_Mysql_MysqlConnection {
     /**
      * @var resource
      */
-    private $mysqlConn;
+    private $sqliteConn;
 
     /**
-     * Constructs a new Ddth_Dao_Mysql_MysqlConnection object.
+     * Constructs a new Ddth_Dao_Sqlite_SqliteConnection object.
      *
-     * @param resource $mysqlConn a MySQL connection to wrap.
+     * @param resource $sqliteConn a SQLite connection to wrap.
      */
-    public function __construct($mysqlConn) {
-        $this->mysqlConn = $mysqlConn;
+    public function __construct($sqliteConn) {
+        $this->sqliteConn = $sqliteConn;
     }
 
     /**
-     * Gets the wrapped MySQL connection.
+     * Gets the wrapped SQLite connection.
      *
      * @return resource
      */
-    public function getMysqlConnection() {
-        return $this->mysqlConn;
+    public function getSqliteConnection() {
+        return $this->sqliteConn;
     }
 
     /**
-     * Alias of {@link getMysqlConnection()}
+     * Alias of {@link getSqliteConnection()}
      */
     public function getConn() {
-        return $this->mysqlConn;
+        return $this->sqliteConn;
     }
 
     /**
-     * Close the wrapped MySQL Connection.
+     * Close the wrapped SQLite connection.
      *
      * @param bool $hasError indicates that an error has occurred during the usage of the connection
      */
-    public function closeMysqlConnection($hasError = FALSE) {
-        if ($this->mysqlConn === NULL) {
-            $msg = 'The MySQL connection has already been closed!';
+    public function closeSqliteConnection($hasError = FALSE) {
+        if ($this->sqliteConn === NULL) {
+            $msg = 'The SQLite connection has already been closed!';
             throw new Ddth_Dao_DaoException($msg);
         }
         if ($this->hasTransaction) {
@@ -76,15 +76,15 @@ class Ddth_Dao_Mysql_MysqlConnection {
                 $this->commitTransaction();
             }
         }
-        mysql_close($this->mysqlConn);
-        $this->mysqlConn = NULL;
+        sqlite_close($this->sqliteConn);
+        $this->sqliteConn = NULL;
     }
 
     /**
-     * Alias of {@link closeMysqlConnection()}
+     * Alias of {@link closeSqliteConnection()}
      */
     public function closeConn($hasError = FALSE) {
-        $this->closeMysqlConnection($hasError);
+        $this->closeSqliteConnection($hasError);
     }
 
     /**
@@ -103,7 +103,7 @@ class Ddth_Dao_Mysql_MysqlConnection {
      */
     public function commitTransaction() {
         if ($this->hasTransaction) {
-            mysql_query("COMMIT", $this->mysqlConn);
+            sqlite_query("COMMIT TRANSACTION", $this->sqliteConn);
             $this->hasTransaction = FALSE;
             return TRUE;
         } else {
@@ -118,7 +118,7 @@ class Ddth_Dao_Mysql_MysqlConnection {
      */
     public function rollbackTransaction() {
         if ($this->hasTransaction) {
-            mysql_query("ROLLBACK", $this->mysqlConn);
+            sqlite_query("ROLLBACK TRANSACTION", $this->sqliteConn);
             $this->hasTransaction = FALSE;
             return TRUE;
         } else {
@@ -131,7 +131,7 @@ class Ddth_Dao_Mysql_MysqlConnection {
      */
     public function startTransaction() {
         if (!$this->hasTransaction) {
-            mysql_query("BEGIN", $this->mysqlConn);
+            sqlite_query("BEGIN TRANSACTION", $this->sqliteConn);
             $this->hasTransaction = TRUE;
         }
     }

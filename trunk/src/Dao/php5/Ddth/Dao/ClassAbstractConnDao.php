@@ -38,5 +38,33 @@ abstract class Ddth_Dao_AbstractConnDao extends Ddth_Dao_AbstractDao {
     public function closeConnection($hasError=FALSE, $forceClose=FALSE) {
         $this->getDaoFactory()->closeConnection($hasError, $forceClose);
     }
+
+    /**
+     * Executes a query and returns the result set.
+     *
+     * This function just simply returns FALSE. Sub-class should have its own implement.
+     * For example, MySQL sub-class can use the function mysql_query() to execute the query.
+     *
+     * @param string $query
+     * @return resource
+     * @since 0.2.3
+     */
+    protected function executeQuery($query) {
+        return FALSE;
+    }
+
+    /**
+     * Frees a result set memory.
+     *
+     * This function simply returns FALSE. Sub-classes should have its own implementation.
+     * For example, MySQL sub-class may use the function mysql_free_result to free the
+     * result set memory.
+     *
+     * @param resource $resultSet
+     * @return bool
+     */
+    protected function freeResult($resultSet) {
+        return FALSE;
+    }
 }
 ?>

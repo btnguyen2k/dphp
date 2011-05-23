@@ -10,7 +10,7 @@
  *
  * @package     Dao
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIBoManager.php 150 2008-03-12 18:59:43Z nbthanh@vninformatics.com $
+ * @version     $Id$
  * @since       File available since v0.2.1
  */
 
@@ -42,15 +42,22 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
     }
 
     /**
-     * @see Ddth_Dao_Adodb_IAdodbDaoFactory::getConnection()
+     * Gets a connection to the persistent storage.
+     *
+     * Note: if this function is called more than once, the same connection is returned.
+     * This function also maintains an internal counter to track how many "open" connections
+     * are in use.
+     *
+     * @param bool $startTransaction indicates that if a transaction is automatically started
+     * @return mixed the connection, or NULL if the connection can not be created
      */
-    public function getConnection($startTransaction=FALSE) {
-        if ( $this->conn == NULL ) {
-            if ( $this->LOGGER->isDebugEnabled() ) {
+    public function getConnection($startTransaction = FALSE) {
+        if ($this->conn == NULL) {
+            if ($this->LOGGER->isDebugEnabled()) {
                 $this->LOGGER->debug('Creating new connection...');
             }
             $this->conn = $this->createConnection($startTransaction);
-            if ( $this->conn === NULL ) {
+            if ($this->conn === NULL) {
                 $msg = 'Can not create new connection!';
                 throw new Ddth_Dao_DaoException($msg);
             }
@@ -58,8 +65,8 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
         } else {
             $this->connCount++;
         }
-        if ( $this->LOGGER->isDebugEnabled() ) {
-            $this->LOGGER->debug('Connection count: ['.$this->connCount.']');
+        if ($this->LOGGER->isDebugEnabled()) {
+            $this->LOGGER->debug('Connection count: [' . $this->connCount . ']');
         }
         return $this->conn;
     }
@@ -72,14 +79,20 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
      * @param bool $startTransaction indicates that if a transaction is automatically started
      * @return mixed the connection, or NULL if the connection can not be created
      */
-    protected abstract function createConnection($startTransaction=FALSE);
+    protected abstract function createConnection($startTransaction = FALSE);
 
     /**
-     * @see Ddth_Dao_Adodb_IAdodbDaoFactory::closeConnection()
+     * Closes an existing connection.
+     *
+     * Note: by default this function does not close the existing connection if its internal
+     * counter is greater than 1.
+     *
+     * @param bool $hasError indicates that an error has occurred during the usage of the connection
+     * @param bool $forceClost force the connection to be closed
      */
-    public function closeConnection($hasError=FALSE, $forceClose=FALSE) {
-        if ( $hasError || $forceClose || $this->connCount < 2 ) {
-            if ( $this->LOGGER->isDebugEnabled() ) {
+    public function closeConnection($hasError = FALSE, $forceClose = FALSE) {
+        if ($hasError || $forceClose || $this->connCount < 2) {
+            if ($this->LOGGER->isDebugEnabled()) {
                 $this->LOGGER->debug('Force closing the connection...');
             }
             $this->forceCloseConnection($this->conn, $hasError);
@@ -87,8 +100,8 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
             $this->connCount = 0;
         } else {
             $this->connCount--;
-            if ( $this->LOGGER->isDebugEnabled() ) {
-                $this->LOGGER->debug('Connection count: ['.$this->connCount.']');
+            if ($this->LOGGER->isDebugEnabled()) {
+                $this->LOGGER->debug('Connection count: [' . $this->connCount . ']');
             }
         }
     }
@@ -99,6 +112,6 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
      * @param mixed $conn the current connection this object is holding
      * @param bool $hasError indicates that an error has occurred during the usage of the connection
      */
-    protected abstract function forceCloseConnection($conn, $hasError=FALSE);
+    protected abstract function forceCloseConnection($conn, $hasError = FALSE);
 }
 ?>
