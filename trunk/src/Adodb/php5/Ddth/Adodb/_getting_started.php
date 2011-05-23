@@ -14,7 +14,9 @@
  */
 
 /**
- * Getting started for Ddth_Adodb package.
+ * "Getting started" for Ddth_Adodb package.
+ *
+ * Ddth_Adodb aims to provide a uniform way to manage ADOdb connections.
  *
  * <b>"Quick & Dirty":</b>
  * <code>
@@ -54,7 +56,7 @@
  *                           )
  * );
  * </code>
- * <b><i>Notes:</i></b>
+ * <b>Notes:</b>
  * <ul>
  *     <li>Use either <i>adodb.url</i> or <i>adodb.dsn</i>.</li>
  *     <li>When <i>adodb.url</i> or <i>adodb.dsn</i> is used, other settings (except for <i>adodb.setupSqls</i>) are ignored.</li>

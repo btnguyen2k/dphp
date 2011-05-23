@@ -14,7 +14,9 @@
  */
 
 /**
- * Getting started for Ddth_Cache package.
+ * "Getting started" for Ddth_Cache package.
+ *
+ * Ddth_Cache provides a uniform caching APIs that wrap other underlying cache engines.
  *
  * <b>"Quick & Dirty":</b>
  * <code>
@@ -82,27 +84,6 @@
  * print_r($cache->get($key));
  * </code>
  *
- * <b>1. Obtain an instance of {@link Ddth_Cache_CacheManager}:</b>
- * <code>
- * $cacheManager = Ddth_Cache_CacheManager::getInstance();
- * //or:
- * $cacheManager = Ddth_Cache_CacheManager::getInstance($config);
- * </code>
- * If there is argument supplied, function {@link Ddth_Cache_CacheManager::getInstance()} will
- * look for the global variable $DPHP_CACHE_CONFIG. If there is no such global variable, the
- * function will then look for the global variable $DPHP_CACHE_CONF.
- *
- * <b>2. Obtain instances of Ddth_Cache_ICache:</b>
- * <code>
- * $cacheName = 'default';
- * $cache = $cacheManager->getCache($cacheName);
- * </code>
- *
- * <b>3. Use the cache in your way</b>
- * $cache->put($key, $value);
- * $value = $cache->get($key);
- * </code>
- *
  * <b>0. The configuration:</b> it's an associative array with the following structure
  * <code>
  * $config = Array(
@@ -160,6 +141,27 @@
  *         )
  *     )
  * );
+ * </code>
+ *
+ * <b>1. Obtain an instance of {@link Ddth_Cache_CacheManager}:</b>
+ * <code>
+ * $cacheManager = Ddth_Cache_CacheManager::getInstance();
+ * //or:
+ * $cacheManager = Ddth_Cache_CacheManager::getInstance($config);
+ * </code>
+ * If there is argument supplied, function {@link Ddth_Cache_CacheManager::getInstance()} will
+ * look for the global variable $DPHP_CACHE_CONFIG. If there is no such global variable, the
+ * function will then look for the global variable $DPHP_CACHE_CONF.
+ *
+ * <b>2. Obtain instances of Ddth_Cache_ICache:</b>
+ * <code>
+ * $cacheName = 'default';
+ * $cache = $cacheManager->getCache($cacheName);
+ * </code>
+ *
+ * <b>3. Use the cache in your way</b>
+ * $cache->put($key, $value);
+ * $value = $cache->get($key);
  * </code>
  *
  * @package     Cache
