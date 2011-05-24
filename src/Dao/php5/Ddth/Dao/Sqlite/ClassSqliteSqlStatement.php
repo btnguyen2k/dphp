@@ -34,7 +34,12 @@ class Ddth_Dao_Sqlite_SqliteSqlStatement extends Ddth_Dao_SqlStatement {
      * @see Ddth_Dao_SqlStatement::doExecute()
      */
     protected function doExecute($preparedSql, $conn) {
-        return sqlite_query($conn, $preparedSql);
+        $errorMsg = '';
+        $result = sqlite_query($conn, $preparedSql, SQLITE_BOTH, $errorMsg);
+        if ($result === FALSE) {
+            throw new Ddth_Dao_DaoException($errorMsg);
+        }
+        return $result;
     }
 }
 ?>

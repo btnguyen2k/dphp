@@ -27,14 +27,22 @@ class Ddth_Dao_Mysql_MysqlSqlStatement extends Ddth_Dao_SqlStatement {
      * @see Ddth_Dao_SqlStatement::escape()
      */
     protected function escape($conn, $value) {
-        return mysql_real_escape_string($value, $conn);
+        $result = mysql_real_escape_string($value, $conn);
+        if ($result === FALSE) {
+            throw new Ddth_Dao_DaoException(mysql_error($conn));
+        }
+        return $result;
     }
 
     /**
      * @see Ddth_Dao_SqlStatement::doExecute()
      */
     protected function doExecute($preparedSql, $conn) {
-        return mysql_query($preparedSql, $conn);
+        $result = mysql_query($preparedSql, $conn);
+        if ($result === FALSE) {
+            throw new Ddth_Dao_DaoException(mysql_error($conn));
+        }
+        return $result;
     }
 }
 ?>
