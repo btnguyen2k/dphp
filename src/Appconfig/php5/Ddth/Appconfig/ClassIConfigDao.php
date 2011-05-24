@@ -9,7 +9,7 @@
  *
  * @package     Appconfig
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassIAdodbFactory.php 144 2008-02-29 15:34:04Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1
  */
 

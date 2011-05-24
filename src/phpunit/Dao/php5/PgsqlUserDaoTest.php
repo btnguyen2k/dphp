@@ -8,7 +8,7 @@
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: DaoTest.php 263 2011-01-06 06:34:18Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.2.3
  */
 

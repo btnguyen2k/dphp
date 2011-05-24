@@ -39,7 +39,7 @@
  * @author     Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @copyright  2002-2008 Sebastian Bergmann <sb@sebastian-bergmann.de>
  * @license    http://www.opensource.org/licenses/bsd-license.php  BSD License
- * @version    SVN: $Id: Sleep.php 1985 2007-12-26 18:11:55Z sb $
+ * @version    SVN: $Id$
  * @link       http://www.phpunit.de/
  * @since      File available since Release 2.0.0
  */
