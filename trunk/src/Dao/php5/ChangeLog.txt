@@ -1,4 +1,4 @@
-* xx-May-2011: version 0.2.3:
+* 30-May-2011: version 0.2.3:
     - Added classes AbstractSqlStatementDao
 
 * 17-Jan-2011: version 0.2.2:

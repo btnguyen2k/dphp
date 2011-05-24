@@ -69,7 +69,7 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
         $this->mysqlUsername = isset($config[self::CONF_MYSQL_USERNAME]) ? $config[self::CONF_MYSQL_USERNAME] : NULL;
         $this->mysqlPassword = isset($config[self::CONF_MYSQL_PASSWORD]) ? $config[self::CONF_MYSQL_PASSWORD] : NULL;
         $this->mysqlPersistent = isset($config[self::CONF_MYSQL_PERSISTENT]) ? $config[self::CONF_MYSQL_PERSISTENT] : FALSE;
-        $this->mysqlDatabase = isset($config[self::CONF_MYSQL_DATABASE]) ? $config[self::CONF_MYSQL_DATABASE] : FALSE;
+        $this->mysqlDatabase = isset($config[self::CONF_MYSQL_DATABASE]) ? $config[self::CONF_MYSQL_DATABASE] : NULL;
     }
 
     /**
@@ -179,29 +179,35 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      * @see Ddth_Dao_AbstractConnDaoFactory::createConnection()
      */
     protected function createConnection($startTransaction = FALSE) {
+        $mysqlConn = NULL;
         if ($this->mysqlPersistent) {
             if ($this->mysqlUsername !== false) {
                 if ($this->mysqlPassword !== false) {
-                    $mysqlConn = mysql_pconnect($this->mysqlHost, $this->mysqlUsername, $this->mysqlPassword);
+                    $mysqlConn = @mysql_pconnect($this->mysqlHost, $this->mysqlUsername, $this->mysqlPassword);
                 } else {
-                    $mysqlConn = mysql_pconnect($this->mysqlHost, $this->mysqlUsername);
+                    $mysqlConn = @mysql_pconnect($this->mysqlHost, $this->mysqlUsername);
                 }
             } else {
-                $mysqlConn = mysql_pconnect($this->mysqlHost);
+                $mysqlConn = @mysql_pconnect($this->mysqlHost);
             }
         } else {
             if ($this->mysqlUsername !== false) {
                 if ($this->mysqlPassword !== false) {
-                    $mysqlConn = mysql_connect($this->mysqlHost, $this->mysqlUsername, $this->mysqlPassword);
+                    $mysqlConn = @mysql_connect($this->mysqlHost, $this->mysqlUsername, $this->mysqlPassword);
                 } else {
-                    $mysqlConn = mysql_connect($this->mysqlHost, $this->mysqlUsername);
+                    $mysqlConn = @mysql_connect($this->mysqlHost, $this->mysqlUsername);
                 }
             } else {
-                $mysqlConn = mysql_connect($this->mysqlHost);
+                $mysqlConn = @mysql_connect($this->mysqlHost);
             }
         }
-        if (isset($this->mysqlDatabase)) {
-            mysql_select_db($this->mysqlDatabase, $mysqlConn);
+        if ($mysqlConn === FALSE || $mysqlConn === NULL) {
+            throw new Ddth_Dao_DaoException('Can not make connection to MySQL server!');
+        }
+        if (isset($this->mysqlDatabase) && $this->mysqlDatabase !== FALSE) {
+            if ( !mysql_select_db($this->mysqlDatabase, $mysqlConn) ) {
+                throw new Ddth_Dao_DaoException(mysql_error($mysqlConn));
+            }
         }
         $result = new Ddth_Dao_Mysql_MysqlConnection($mysqlConn);
         if ($startTransaction) {

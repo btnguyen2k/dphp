@@ -21,10 +21,8 @@ class GetDaoTest extends PHPUnit_Framework_TestCase {
     protected function setup() {
         parent::setUp();
 
-        $sqliteFilename = ':memory:';
         global $DPHP_DAO_CONFIG;
         $DPHP_DAO_CONFIG = Array('dphp-dao.factoryClass' => 'Ddth_Dao_Sqlite_BaseSqliteDaoFactory',
-                'dphp-dao.sqlite.filename' => $sqliteFilename,
                 'dao.user' => 'SqliteUserDao');
     }
 

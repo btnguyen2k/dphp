@@ -1,7 +1,7 @@
 <?php
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
- * PHPUnit (http://www.phpunit.de/) test case for UserDao (Sqlite engine).
+ * PHPUnit (http://www.phpunit.de/) test case for UserDao (Mysql engine).
  *
  * LICENSE: See the included license.txt file for detail.
  *
@@ -9,15 +9,15 @@
  *
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @version     $Id$
- * @since       File available since v0.1
+ * @since       File available since v0.2.3
  */
 
 /**
- * Test cases for Sqlite UserDao.
+ * Test cases for Mysql UserDao.
  *
  * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
  */
-class SqliteUserDaoTest extends PHPUnit_Framework_TestCase {
+class MysqlUserDaoTest extends PHPUnit_Framework_TestCase {
     protected function setup() {
         global $TEST_DATA;
         $TEST_DATA = Array(Array('id' => 1, 'username' => 'user1', 'email' => 'user1@domain.com'),
@@ -26,23 +26,28 @@ class SqliteUserDaoTest extends PHPUnit_Framework_TestCase {
 
         parent::setUp();
 
-        //$sqliteFilename = ':memory:';
-        $dir = '../../../tmp';
-        if (!is_dir($dir)) {
-            mkdir($dir);
-        }
-        $sqliteFilename = "$dir/" . __CLASS__ . ".sqlite";
-        @unlink($sqliteFilename);
-
         global $DPHP_DAO_CONFIG;
-        $DPHP_DAO_CONFIG = Array('dphp-dao.factoryClass' => 'Ddth_Dao_Sqlite_BaseSqliteDaoFactory',
-                'dphp-dao.sqlite.filename' => $sqliteFilename,
-                'dao.user' => 'SqliteUserDao');
+        $DPHP_DAO_CONFIG = Array('dphp-dao.factoryClass' => 'Ddth_Dao_Mysql_BaseMysqlDaoFactory',
+                'dphp-dao.mysql.host' => '127.0.0.1',
+                'dphp-dao.mysql.username' => 'phpunit',
+                'dphp-dao.mysql.password' => 'phpunit',
+                'dphp-dao.mysql.database' => 'phpunit',
+                'dao.user' => 'MysqlUserDao');
 
         $factory = Ddth_Dao_BaseDaoFactory::getInstance();
-        $sqliteConn = $factory->getConnection();
-        $sql = 'CREATE TABLE tbl_user (id INTEGER PRIMARY KEY ASC, username VARCHAR(32), email VARCHAR(64))';
-        sqlite_exec($sqliteConn->getConn(), $sql);
+
+        $mysqlConn = $factory->getConnection();
+        $sql = 'DROP TABLE IF EXISTS tbl_user';
+        if (!mysql_query($sql, $mysqlConn->getConn())) {
+            throw new Ddth_Dao_DaoException(mysql_error($mysqlConn->getConn()));
+        }
+
+        $mysqlConn = $factory->getConnection();
+        $sql = 'CREATE TABLE tbl_user (id INT PRIMARY KEY, username VARCHAR(32), email VARCHAR(64))';
+        if (!mysql_query($sql, $mysqlConn->getConn())) {
+            throw new Ddth_Dao_DaoException(mysql_error($mysqlConn->getConn()));
+        }
+
         $factory->closeConnection();
     }
 
@@ -96,7 +101,7 @@ class SqliteUserDaoTest extends PHPUnit_Framework_TestCase {
 
         foreach ($TEST_DATA as $user) {
             $dbUser = $userDao->getUserById($user['id']);
-            if ( $user['id'] === $TEST_DATA[0]['id'] ) {
+            if ($user['id'] === $TEST_DATA[0]['id']) {
                 $this->assertNull($dbUser);
             } else {
                 $this->assertEquals($dbUser['id'], $user['id']);

@@ -8,7 +8,7 @@
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: DaoTest.php 263 2011-01-06 06:34:18Z btnguyen2k@gmail.com $
+ * @version     $Id$
  * @since       File available since v0.1
  */
 
@@ -21,14 +21,8 @@ class SqlStatementTest extends PHPUnit_Framework_TestCase {
     protected function setup() {
         parent::setUp();
 
-        $sqliteFilename = ':memory:';
-        global $DPHP_DAO_CONFIG;
-        $DPHP_DAO_CONFIG = Array('dphp-dao.factoryClass' => 'Ddth_Dao_Sqlite_BaseSqliteDaoFactory',
-                'dphp-dao.sqlite.filename' => $sqliteFilename,
-                'dao.user' => 'SqliteUserDao');
-
         global $SQL_USER;
-        $SQL_USER = 'user.sql.properties';
+        $SQL_USER = 'user.sqlite.properties';
     }
 
     /**

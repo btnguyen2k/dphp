@@ -22,14 +22,14 @@
  * configurations:
  * <code>
  * Array(
- *     #other configurations used by Ddth_Dao_Pgsql_BasePgsqlDaoFactory
+ * #other configurations used by Ddth_Dao_Pgsql_BasePgsqlDaoFactory
  *
- *     # PostgreSQL connection string
- *     # See http://php.net/manual/en/function.pg-connect.php for more information
- *     'dphp-dao.pgsql.persistent'
- *         => FALSE,   #indicate if pgsql_pconnect (TRUE) or pgsql_connect (FALSE) is used. Default value is FALSE
- *     'dphp-dao.pgsql.connectionString'
- *         => "host=localhost port=5432 dbname=testdb user=foouser password=barpwd options='--client_encoding=UTF8'"
+ * # PostgreSQL connection string
+ * # See http://php.net/manual/en/function.pg-connect.php for more information
+ * 'dphp-dao.pgsql.persistent'
+ * => FALSE,   #indicate if pgsql_pconnect (TRUE) or pgsql_connect (FALSE) is used. Default value is FALSE
+ * 'dphp-dao.pgsql.connectionString'
+ * => "host=localhost port=5432 dbname=testdb user=foouser password=barpwd options='--client_encoding=UTF8'"
  * )
  * </code>
  *
@@ -41,10 +41,10 @@
 class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory {
 
     const CONF_PGSQL_CONNECTION_STRING = 'dphp-dao.pgsql.connectionString';
-    const CONF_PGSQL_PERSISTENT        = 'dphp-dao.pgsql.persistent';
+    const CONF_PGSQL_PERSISTENT = 'dphp-dao.pgsql.persistent';
 
     private $pgsqlConnectionString = '';
-    private $pgsqlPersistent       = FALSE;
+    private $pgsqlPersistent = FALSE;
 
     /**
      * Constructs a new Ddth_Dao_Pgsql_BasePgsqlDaoFactory object.
@@ -58,14 +58,9 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      */
     public function init($config) {
         parent::init($config);
-        $this->pgsqlConnectionString =
-        isset($config[self::CONF_PGSQL_CONNECTION_STRING])
-        ?
-        $config[self::CONF_PGSQL_CONNECTION_STRING]
-        :
-        '';
+        $this->pgsqlConnectionString = isset($config[self::CONF_PGSQL_CONNECTION_STRING]) ? $config[self::CONF_PGSQL_CONNECTION_STRING] : '';
 
-        $this->pgsqlPersistent = isset($config[self::CONF_PGSQL_PERSISTENT])?$config[self::CONF_PGSQL_PERSISTENT]:FALSE;
+        $this->pgsqlPersistent = isset($config[self::CONF_PGSQL_PERSISTENT]) ? $config[self::CONF_PGSQL_PERSISTENT] : FALSE;
     }
 
     /**
@@ -111,8 +106,8 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      */
     public function getDao($name) {
         $dao = parent::getDao($name);
-        if ( $dao !== NULL && !($dao instanceof Ddth_Dao_Pgsql_IPgsqlDao ) ) {
-            $msg = 'DAO ['.$name.'] is not of type [Ddth_Dao_Pgsql_IPgsqlDao]!';
+        if ($dao !== NULL && !($dao instanceof Ddth_Dao_Pgsql_IPgsqlDao)) {
+            $msg = 'DAO [' . $name . '] is not of type [Ddth_Dao_Pgsql_IPgsqlDao]!';
             throw new Ddth_Dao_DaoException($msg);
         }
         return $dao;
@@ -123,14 +118,18 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      *
      * @see Ddth_Dao_AbstractConnDaoFactory::createConnection()
      */
-    protected function createConnection($startTransaction=FALSE) {
-        if ( $this->pgsqlPersistent ) {
-            $pgsqlConn = pg_pconnect($this->pgsqlConnectionString);
+    protected function createConnection($startTransaction = FALSE) {
+        $pgsqlConn = NULL;
+        if ($this->pgsqlPersistent) {
+            $pgsqlConn = @pg_pconnect($this->pgsqlConnectionString);
         } else {
-            $pgsqlConn = pg_connect($this->pgsqlConnectionString);
+            $pgsqlConn = @pg_connect($this->pgsqlConnectionString);
+        }
+        if ($pgsqlConn === FALSE || $pgsqlConn === NULL) {
+            throw new Ddth_Dao_DaoException('Can not make connection to PostgreSQL server!');
         }
         $result = new Ddth_Dao_Pgsql_PgsqlConnection($pgsqlConn);
-        if ( $startTransaction ) {
+        if ($startTransaction) {
             $result->startTransaction();
         }
         return $result;
@@ -141,8 +140,8 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      *
      * @see Ddth_Dao_AbstractConnDaoFactory::forceCloseConnection()
      */
-    protected function forceCloseConnection($conn, $hasError=FALSE) {
-        if ( $conn instanceof Ddth_Dao_Pgsql_PgsqlConnection ) {
+    protected function forceCloseConnection($conn, $hasError = FALSE) {
+        if ($conn instanceof Ddth_Dao_Pgsql_PgsqlConnection) {
             $conn->closeConn($hasError);
         } else {
             $msg = 'I expect the first parameter is of type [Ddth_Dao_Pgsql_PgsqlConnection]!';

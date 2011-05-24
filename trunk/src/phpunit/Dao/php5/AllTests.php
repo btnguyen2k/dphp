@@ -14,7 +14,7 @@
 
 define('PACKAGE', 'Dao');
 $REQUIRED_PACKAGES = Array('Adodb');
-$EXTRA_INCLUDE_PATHS = Array('');
+$EXTRA_INCLUDE_PATHS = Array('/libs/AdoDb5-5.0.4');
 
 $DPHP_COMMONS_LOGGING_CONFIG = Array(
     'ddth.commons.logging.Logger' => 'Ddth_Commons_Logging_ConsoleLog',

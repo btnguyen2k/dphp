@@ -142,11 +142,11 @@ class Ddth_Dao_Sqlite_BaseSqliteDaoFactory extends Ddth_Dao_AbstractConnDaoFacto
     protected function createConnection($startTransaction = FALSE) {
         $sqliteConn = NULL;
         if ($this->sqlitePersistent) {
-            $sqliteConn = sqlite_popen($this->sqliteFilename, $this->sqliteMode);
+            $sqliteConn = @sqlite_popen($this->sqliteFilename, $this->sqliteMode);
         } else {
-            $sqliteConn = sqlite_open($this->sqliteFilename, $this->sqliteMode);
+            $sqliteConn = @sqlite_open($this->sqliteFilename, $this->sqliteMode);
         }
-        if ( $sqliteConn === NULL ) {
+        if ($sqliteConn === FALSE || $sqliteConn === NULL) {
             $msg = "Can not create the SQLite connection ({$this->sqliteFilename}:{$this->sqliteMode})!";
             throw new Ddth_Dao_DaoException($msg);
         }
