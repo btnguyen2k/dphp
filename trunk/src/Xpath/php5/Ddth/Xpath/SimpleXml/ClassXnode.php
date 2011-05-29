@@ -19,20 +19,6 @@
  * @since      	File available since v0.1
  */
 
-if ( !function_exists('__autoload') ) {
-    /**
-     * Automatically loads class source file when used.
-     *
-     * @param string
-     */
-    function __autoload($className) {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        require_once 'Ddth/Commons/ClassLoader.php';
-        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
-    }
-}
-
 /**
  * Generic Xnode.
  *
@@ -55,21 +41,21 @@ abstract class Ddth_Xpath_SimpleXml_Xnode implements Ddth_Xpath_IXnode {
 
     /**
      * Creates a new node from a SimpleXMLElement object.
-     * 
+     *
      * @param $simpleXml
      * @return Ddth_Xpath_SimpleXml_Xnode
      * @throws {@link Ddth_Xpath_XpathException XpathException}
      */
-    public static function createNode($simpleXml) {        
+    public static function createNode($simpleXml) {
         if ( $simpleXml===NULL || !($simpleXml instanceof SimpleXMLElement ) ) {
             $msg = "[$simpleXml] is not an instance of SimpleXMLElement!";
             throw new Ddth_Xpath_XpathException($msg);
-        }                
+        }
         if ( $simpleXml->attributes() === NULL ) {
             return new Ddth_Xpath_SimpleXml_AttributeXnode($simpleXml);
         } else {
-            return new Ddth_Xpath_SimpleXml_ElementXnode($simpleXml);            
-        }        
+            return new Ddth_Xpath_SimpleXml_ElementXnode($simpleXml);
+        }
     }
 
     /**
@@ -90,7 +76,7 @@ abstract class Ddth_Xpath_SimpleXml_Xnode implements Ddth_Xpath_IXnode {
 
     /**
      * Gets the associated SimpleXMLElement object.
-     * 
+     *
      * @return SimpleXMLElement
      */
     protected function getSimpleXmlObj() {
@@ -112,17 +98,17 @@ abstract class Ddth_Xpath_SimpleXml_Xnode implements Ddth_Xpath_IXnode {
     public function getName() {
         return $this->name;
     }
-    
+
     public function getValue() {
         return NULL;
     }
-    
+
     public function toXml() {
         return "";
     }
 
     public function xpath($path) {
-        return NULL;        
+        return NULL;
     }
 }
 ?>

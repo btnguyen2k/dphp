@@ -31,42 +31,41 @@ define('PACKAGE_PHP_VERSION', 'php5');
 //setting up include path
 $dir = dirname(dirname(dirname(__FILE__)));
 $INCLUDE_PATH = '.';
-$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/libs/PHPUnit-3.2.9';
-$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.PACKAGE.'/'.PACKAGE_PHP_VERSION;
-if ( !isset($REQUIRED_PACKAGES) ) {
+$INCLUDE_PATH .= PATH_SEPARATOR . $dir . '/libs/PHPUnit-3.2.9';
+$INCLUDE_PATH .= PATH_SEPARATOR . $dir . '/' . PACKAGE . '/' . PACKAGE_PHP_VERSION;
+if (!isset($REQUIRED_PACKAGES)) {
     $REQUIRED_PACKAGES = Array();
 }
 $REQUIRED_PACKAGES[] = 'Commons'; //the 'Commons' package is required by default
-foreach ( $REQUIRED_PACKAGES as $package ) {
-    $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.$package.'/'.PACKAGE_PHP_VERSION;
+foreach ($REQUIRED_PACKAGES as $package) {
+    $INCLUDE_PATH .= PATH_SEPARATOR . $dir . '/' . $package . '/' . PACKAGE_PHP_VERSION;
 }
-if ( !isset($EXTRA_INCLUDE_PATHS) ) {
+if (!isset($EXTRA_INCLUDE_PATHS)) {
     $EXTRA_INCLUDE_PATHS = Array();
 }
-foreach ( $EXTRA_INCLUDE_PATHS as $path ) {
-    $INCLUDE_PATH .= PATH_SEPARATOR.$dir.$path;
+foreach ($EXTRA_INCLUDE_PATHS as $path) {
+    $INCLUDE_PATH .= PATH_SEPARATOR . $dir . $path;
 }
 ini_set('include_path', $INCLUDE_PATH);
 
-if ( !function_exists('__autoload') ) {
+if (!function_exists('ddthAutoload')) {
     /**
      * Automatically loads class source file when used.
      *
      * @param string
      * @ignore
      */
-    function __autoload($className) {
+    function ddthAutoload($className) {
         require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
         require_once 'Ddth/Commons/ClassLoader.php';
         $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        if ( false === Ddth_Commons_Loader::loadClass($className, $translator) ) {
-            trigger_error("Can not load class [$className]");
-        }
+        Ddth_Commons_Loader::loadClass($className, $translator);
     }
 }
+spl_autoload_register('ddthAutoload');
 
 //the optional 1st command line argument is the name of the log file
-if ( count($argv) > 1 ) {
+if (count($argv) > 1) {
     $logFile = $argv[1];
     @unlink($logFile);
     ini_set('error_log', $logFile);
@@ -82,10 +81,10 @@ class AllTests {
 
     public static function suite() {
         $suite = new PHPUnit_Framework_TestSuite('PHPUnit');
-        if ( $handle = opendir('.') ) {
-            while ( false !== ($file = readdir($handle)) ) {
-                if ( $file != "AllTests.php" ) {
-                    if ( preg_match("/^([\\w]+Test)\\.php$/", $file, $matches) ) {
+        if ($handle = opendir('.')) {
+            while (false !== ($file = readdir($handle))) {
+                if ($file != "AllTests.php") {
+                    if (preg_match("/^([\\w]+Test)\\.php$/", $file, $matches)) {
                         include_once $file;
                         $suite->addTestSuite($matches[1]);
                     }

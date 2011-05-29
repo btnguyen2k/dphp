@@ -18,20 +18,6 @@
  * @since      	File available since v0.1
  */
 
-if ( !function_exists('__autoload') ) {
-    /**
-     * Automatically loads class source file when used.
-     *
-     * @param string
-     */
-    function __autoload($className) {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        require_once 'Ddth/Commons/ClassLoader.php';
-        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
-    }
-}
-
 /**
  * Thrown to indicate that an error has occurred.
  *

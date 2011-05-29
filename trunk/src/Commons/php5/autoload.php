@@ -15,18 +15,18 @@
  * That's it!
  */
 
-if ( !function_exists('__autoload') ) {
+if ( !function_exists('ddthAutoload') ) {
     /**
      * Automatically loads class source file when used.
      *
      * @param string
      * @ignore
      */
-    function __autoload($className) {
+    function ddthAutoload($className) {
         require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
         require_once 'Ddth/Commons/ClassLoader.php';
         $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
         Ddth_Commons_Loader::loadClass($className, $translator);
     }
 }
-?>
+spl_autoload_register('ddthAutoload');

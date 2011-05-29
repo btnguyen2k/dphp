@@ -151,14 +151,21 @@ $includePath .= PATH_SEPARATOR."Commons/php5";
 $includePath .= PATH_SEPARATOR."Xpath/php5";
 ini_set("include_path", $includePath);
 
-if ( !function_exists('__autoload') ) {
-    function __autoload($className) {
+if ( !function_exists('ddthAutoload') ) {
+    /**
+     * Automatically loads class source file when used.
+     *
+     * @param string
+     * @ignore
+     */
+    function ddthAutoload($className) {
         require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
         require_once 'Ddth/Commons/ClassLoader.php';
         $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
         Ddth_Commons_Loader::loadClass($className, $translator);
     }
 }
+spl_autoload_register('ddthAutoload');
 
 $xml = Ddth_Commons_Loader::loadFileContent($DIR_PACKAGE_SOURCE.'/package.xml');
 $xpath = Ddth_Xpath_XmlParser::getInstance();
