@@ -19,20 +19,6 @@
  * @since      	File available since v0.1
  */
 
-if ( !function_exists('__autoload') ) {
-    /**
-     * Automatically loads class source file when used.
-     *
-     * @param string
-     */
-    function __autoload($className) {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        require_once 'Ddth/Commons/ClassLoader.php';
-        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
-    }
-}
-
 /**
  * Element node.
  *
@@ -49,9 +35,9 @@ if ( !function_exists('__autoload') ) {
 class Ddth_Xpath_SimpleXml_ElementXnode extends Ddth_Xpath_SimpleXml_Xnode {
 
     private $attributes = Array();
-    
+
     private $value = NULL;
-    
+
     /**
      * Constructs a new Ddth_Xpath_SimpleXml_ElementXnode object.
      *
@@ -62,23 +48,23 @@ class Ddth_Xpath_SimpleXml_ElementXnode extends Ddth_Xpath_SimpleXml_Xnode {
         parent::__construct($simpleXml);
         foreach ( $simpleXml->attributes() as $name => $value ) {
             $value = sprintf("%s", $value);
-            $this->attributes[$name] = trim($value);        
+            $this->attributes[$name] = trim($value);
         }
         $this->value = trim(sprintf("%s", $simpleXml));
     }
-    
+
     public function getAllAttributes() {
         return $this->attributes;
     }
-    
+
     public function getAttribute($name) {
-        return isset($this->attributes[$name]) ? $this->attributes[$name] : NULL;  
+        return isset($this->attributes[$name]) ? $this->attributes[$name] : NULL;
     }
-    
+
     public function getChildren() {
         return $this->xpath("/*");
     }
-    
+
     public function getValue() {
         return $this->value;
     }
@@ -86,16 +72,16 @@ class Ddth_Xpath_SimpleXml_ElementXnode extends Ddth_Xpath_SimpleXml_Xnode {
     public function toXml() {
         return $this->getSimpleXmlObj()->asXML();
     }
-    
-    public function xpath($path) {        
+
+    public function xpath($path) {
         $simpleXmlNodes = $this->getSimpleXmlObj()->xpath($path);
-        if ( $simpleXmlNodes === false ) {           
+        if ( $simpleXmlNodes === false ) {
             return NULL;
-        }        
-        $result = Array();        
+        }
+        $result = Array();
         foreach ( $simpleXmlNodes as $node ) {
             $result[] = Ddth_Xpath_SimpleXml_Xnode::createNode($node);
-        }                
+        }
         return $result;
     }
 }

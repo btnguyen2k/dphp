@@ -19,20 +19,6 @@
  * @since      	File available since v0.1
  */
 
-if ( !function_exists('__autoload') ) {
-    /**
-     * Automatically loads class source file when used.
-     *
-     * @param string
-     */
-    function __autoload($className) {
-        require_once 'Ddth/Commons/ClassDefaultClassNameTranslator.php';
-        require_once 'Ddth/Commons/ClassLoader.php';
-        $translator = Ddth_Commons_DefaultClassNameTranslator::getInstance();
-        Ddth_Commons_Loader::loadClass($className, $translator);
-    }
-}
-
 /**
  * Attribute node.
  *
@@ -57,10 +43,10 @@ class Ddth_Xpath_SimpleXml_AttributeXnode extends Ddth_Xpath_SimpleXml_Xnode {
      * @throws {@link Ddth_Xpath_XpathException XpathException}
      */
     protected function __construct($simpleXml) {
-        parent::__construct($simpleXml);        
-        $this->value = trim(sprintf("%s", $simpleXml));        
+        parent::__construct($simpleXml);
+        $this->value = trim(sprintf("%s", $simpleXml));
     }
-    
+
     public function getValue() {
         return $this->value;
     }
