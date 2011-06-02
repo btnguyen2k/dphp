@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Ddth::Cache User Guide</title>
+</head>
+<body>
+<center>
+<h1>Ddth::Cache User Guide</h1>
+</center>
+
+<h1>1. Getting Started</h1>
+<table cellpadding="4">
+    <tr>
+        <td><pre>
+$config = Array(...);
+
+//pass the configuration array to the getInstance() function
+$cacheManager = Ddth_Cache_CacheManager::getInstance($config);
+$cache = $cacheManager->getCache('cacheName');
+
+$key = 'key1';
+$value = 'value1';
+$cache->put($key, $value);
+print_r($cache->get($key));
+</pre></td>
+        <td><pre>
+global $DPHP_CACHE_CONFIG;
+$DPHP_CACHE_CONFIG = Array(...);
+
+//do not need to pass the configuration array if it
+//is a global variable named $DPHP_CACHE_CONFIG
+$cacheManager = Ddth_Cache_CacheManager::getInstance();
+$cache = $cacheManager->getCache('cacheName');
+
+$key = 'key1';
+$value = 'value1';
+$cache->put($key, $value);
+print_r($cache->get($key));
+</pre></td>
+</table>
+
+
+<h1>2. Configuration</h1>
+
+<p>Each cache is configured as an entry of the configuration array. The configuration array will
+be passed to the function <code>Ddth_Cache_CacheManager::getInstance</code> to obtain an <code>Ddth_Cache_CacheManager</code>
+instance. If no configuration is passed to the function, it will automatically look for a global
+global variable named <code>$DDTH_CACHE_CONFIG</code>.</p>
+<p>Below is an example of a cache configuration.</p>
+<pre>
+$DPHP_CACHE_CONFIG = Array(
+    'cacheName' => Array(
+        'cache.type'         => 'type of cache, either: memcache, memcached, apc, or memory',
+        'other configs'      => 'specified by each type of cache/engine'
+     )
+);
+</pre>
+
+<p><u>"memory" cache:</u> in-memory, request-scope cache. Cache entries are NOT persisted across
+HTTP requests. Use this cache where items are access frequently within one request, and not usually
+shared among different requests.</p>
+<pre>
+$DPHP_CACHE_CONFIG = Array(
+    'cacheName' => Array(
+        'cache.type'         => 'memory'
+     )
+);
+</pre>
+
+<p><u>"apc" cache:</u> use PHP APC as cache engine. Cache entries are persisted across HTTP
+requests.</p>
+<pre>
+$DPHP_CACHE_CONFIG = Array(
+    'cacheName' => Array(
+        'cache.type'         => 'apc'
+     )
+);
+</pre>
+
+<p><u>"memcache" cache:</u> MemcacheD as backend, use php-memcache APIs. Cache entries are
+persisted across HTTP requests.</p>
+<pre>
+$DPHP_CACHE_CONFIG = Array(
+    'cacheName' => Array(
+        'cache.type'         => 'memcache',
+        'memcache.servers'   => Array(
+            #list of MemcacheD servers
+            Array(
+                #see http://www.php.net/manual/en/memcache.addserver.php for more information
+                'host'       => '192.168.0.1',
+                'port'       => 11211, #optional
+                'weight'     => 1      #optional
+            ),
+            Array(
+                'host'       => 'unix:///path/to/memcached.sock',
+                'port'       => 0, #must be 0 if using UNIX socket
+                'weight'     => 1  #optional
+            )
+         )
+     )
+);
+</pre>
+
+<p><u>"memcached" cache:</u> MemcacheD as backend, use php-memcached APIs. Cache entries are
+persisted across HTTP requests.</p>
+<pre>
+$DPHP_CACHE_CONFIG = Array(
+    'cacheName' => Array(
+        'cache.type'         => 'memcached',
+        'memcached.servers'   => Array(
+            #list of MemcacheD servers
+            Array(
+                #see http://www.php.net/manual/en/memcached.addserver.php for more information
+                'host'       => '192.168.0.1',
+                'port'       => 11211, #optional
+                'weight'     => 1      #optional
+            ),
+            Array(
+                'host'       => '192.168.0.2',
+                'port'       => 11211, #optional
+                'weight'     => 1      #optional
+            )
+         )
+     )
+);
+</pre>
+
+<p><u>Default and Multiple caches:</u> Each configuration must have a "default" cache. Also,
+multiple caches are supported.</p>
+<pre>
+$DPHP_CACHE_CONFIG = Array(
+    #the 'default' cache
+    'default' => Array(
+        'cache.type' = 'apc',
+    ),
+    'cache1' => Array(
+        'cache.type'         => 'memcache',
+        'memcache.servers'   => Array(
+            Array(
+                'host'       => '192.168.0.1'
+            ),
+            Array(
+                'host'       => '192.168.0.2'
+            )
+         )
+     ),
+     'cache2' => Array(
+        'cache.type'         => 'memcached',
+        'memcached.servers'   => Array(
+            Array(
+                'host'       => '192.168.0.3'
+            ),
+            Array(
+                'host'       => '192.168.0.4'
+            )
+         )
+     )
+);
+</pre>
+
+<h1>3. Create A <code>Ddth_Cache_Manager</code> Instance</h1>
+<p>A <code>Ddth_Cache_Manager</code> instance can be obtained by calling function <code>Ddth_Cache_CacheManager::getInstance()</code>.</p>
+<pre>
+$cacheManager = Ddth_Cache_CacheManager::getInstance($config);
+</pre>
+
+<p>If no configuration array is passed to function <code>Ddth_Cache_CacheManager::getInstance()</code>,
+it will automatically look for a global variable named <code>$DPHP_CACHE_CONFIG</code>!</p>
+
+</body>
+</html>
