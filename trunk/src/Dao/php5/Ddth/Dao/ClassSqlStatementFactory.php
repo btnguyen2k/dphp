@@ -107,7 +107,7 @@ class Ddth_Dao_SqlStatementFactory {
         $this->configs = $props;
         $this->stmClass = $props->getProperty(self::PROP_STATEMENT_CLASS);
         if ($this->stmClass === NULL) {
-            $msg = 'Invalid statement class [' . $this->stmClass . ']!';
+            $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Invalid statement class: {$this->stmClass}!";
             $this->LOGGER->warn($msg);
         }
         $this->cache = Array(); //clear cache
@@ -139,7 +139,7 @@ class Ddth_Dao_SqlStatementFactory {
             if ($stm !== NULL) {
                 if (!($stm instanceof Ddth_Dao_SqlStatement)) {
                     $stm = NULL;
-                    $msg = "[{$this->stmClass}] is not instance of [Ddth_Dao_SqlStatement]!";
+                    $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "][{$this->stmClass}] is not instance of [Ddth_Dao_SqlStatement]!";
                     $this->LOGGER->error($msg);
                 } else {
                     $stm->setSql($sql);
@@ -150,4 +150,3 @@ class Ddth_Dao_SqlStatementFactory {
         return $stm;
     }
 }
-?>

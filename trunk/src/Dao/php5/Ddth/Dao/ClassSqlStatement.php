@@ -144,10 +144,14 @@ abstract class Ddth_Dao_SqlStatement {
      */
     public function execute($conn, $values = Array()) {
         $sql = $this->prepare($conn, $values);
+        if ($this->LOGGER->isDebugEnabled()) {
+            $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Executing query: $sql";
+            $this->LOGGER->debug($msg);
+        }
         try {
             return $this->doExecute($sql, $conn);
         } catch (Exception $e) {
-            $msg = $e->getMessage() . "\nThe executed query: $sql";
+            $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]{$e->getMessage()}. Query: $sql";
             $this->LOGGER->fatal($msg, $e);
             throw $e;
         }

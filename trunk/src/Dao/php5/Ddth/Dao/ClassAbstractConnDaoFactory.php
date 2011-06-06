@@ -37,8 +37,8 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
      * Constructs a new Ddth_Dao_AbstractConnDaoFactory object.
      */
     public function __construct() {
-        parent::__construct();
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
+        parent::__construct();
     }
 
     /**
@@ -54,7 +54,8 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
     public function getConnection($startTransaction = FALSE) {
         if ($this->conn == NULL) {
             if ($this->LOGGER->isDebugEnabled()) {
-                $this->LOGGER->debug('Creating new connection...');
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Creating a new db connection...";
+                $this->LOGGER->debug($msg);
             }
             $this->conn = $this->createConnection($startTransaction);
             if ($this->conn === NULL) {
@@ -66,7 +67,8 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
             $this->connCount++;
         }
         if ($this->LOGGER->isDebugEnabled()) {
-            $this->LOGGER->debug('Connection count: [' . $this->connCount . ']');
+            $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Db connection established, connection count: [{$this->connCount}]";
+            $this->LOGGER->debug($msg);
         }
         return $this->conn;
     }
@@ -93,7 +95,8 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
     public function closeConnection($hasError = FALSE, $forceClose = FALSE) {
         if ($hasError || $forceClose || $this->connCount < 2) {
             if ($this->LOGGER->isDebugEnabled()) {
-                $this->LOGGER->debug('Force closing the connection...');
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Forcibly closing a connection [Has error:{$hasError}/Force close:{$forceClose}/Conn count:{$this->connCount}]...";
+                $this->LOGGER->debug($msg);
             }
             $this->forceCloseConnection($this->conn, $hasError);
             $this->conn = NULL;
@@ -101,7 +104,8 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
         } else {
             $this->connCount--;
             if ($this->LOGGER->isDebugEnabled()) {
-                $this->LOGGER->debug('Connection count: [' . $this->connCount . ']');
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Closing a connection [Conn count:{$this->connCount}]...";
+                $this->LOGGER->debug($msg);
             }
         }
     }
@@ -114,4 +118,3 @@ abstract class Ddth_Dao_AbstractConnDaoFactory extends Ddth_Dao_BaseDaoFactory {
      */
     protected abstract function forceCloseConnection($conn, $hasError = FALSE);
 }
-?>

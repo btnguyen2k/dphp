@@ -47,9 +47,15 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
     private $pgsqlPersistent = FALSE;
 
     /**
+     * @var Ddth_Commons_Logging_ILog
+     */
+    private $LOGGER;
+
+    /**
      * Constructs a new Ddth_Dao_Pgsql_BasePgsqlDaoFactory object.
      */
     public function __construct() {
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
         parent::__construct();
     }
 
@@ -121,8 +127,16 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
     protected function createConnection($startTransaction = FALSE) {
         $pgsqlConn = NULL;
         if ($this->pgsqlPersistent) {
+            if ($this->LOGGER->isDebugEnabled()) {
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Opening a persistent pgsql connection...";
+                $this->LOGGER->debug($msg);
+            }
             $pgsqlConn = @pg_pconnect($this->pgsqlConnectionString);
         } else {
+            if ($this->LOGGER->isDebugEnabled()) {
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Opening a pgsql connection...";
+                $this->LOGGER->debug($msg);
+            }
             $pgsqlConn = @pg_connect($this->pgsqlConnectionString);
         }
         if ($pgsqlConn === FALSE || $pgsqlConn === NULL) {
@@ -130,6 +144,10 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
         }
         $result = new Ddth_Dao_Pgsql_PgsqlConnection($pgsqlConn);
         if ($startTransaction) {
+            if ($this->LOGGER->isDebugEnabled()) {
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Starting db transaction...";
+                $this->LOGGER->debug($msg);
+            }
             $result->startTransaction();
         }
         return $result;
@@ -149,4 +167,3 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
         }
     }
 }
-?>
