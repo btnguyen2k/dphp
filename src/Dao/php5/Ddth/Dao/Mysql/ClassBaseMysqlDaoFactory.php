@@ -54,9 +54,15 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
     private $mysqlDatabase = NULL;
 
     /**
+     * @var Ddth_Commons_Logging_ILog
+     */
+    private $LOGGER;
+
+    /**
      * Constructs a new Ddth_Dao_Mysql_BaseMysqlDaoFactory object.
      */
     public function __construct() {
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
         parent::__construct();
     }
 
@@ -181,6 +187,10 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
     protected function createConnection($startTransaction = FALSE) {
         $mysqlConn = NULL;
         if ($this->mysqlPersistent) {
+            if ($this->LOGGER->isDebugEnabled()) {
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Opening a persistent mysql connection to [{$this->mysqlHost}]...";
+                $this->LOGGER->debug($msg);
+            }
             if ($this->mysqlUsername !== false) {
                 if ($this->mysqlPassword !== false) {
                     $mysqlConn = @mysql_pconnect($this->mysqlHost, $this->mysqlUsername, $this->mysqlPassword);
@@ -191,6 +201,10 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
                 $mysqlConn = @mysql_pconnect($this->mysqlHost);
             }
         } else {
+            if ($this->LOGGER->isDebugEnabled()) {
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Opening a mysql connection to [{$this->mysqlHost}]...";
+                $this->LOGGER->debug($msg);
+            }
             if ($this->mysqlUsername !== false) {
                 if ($this->mysqlPassword !== false) {
                     $mysqlConn = @mysql_connect($this->mysqlHost, $this->mysqlUsername, $this->mysqlPassword);
@@ -205,12 +219,16 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
             throw new Ddth_Dao_DaoException('Can not make connection to MySQL server!');
         }
         if (isset($this->mysqlDatabase) && $this->mysqlDatabase !== FALSE) {
-            if ( !mysql_select_db($this->mysqlDatabase, $mysqlConn) ) {
+            if (!mysql_select_db($this->mysqlDatabase, $mysqlConn)) {
                 throw new Ddth_Dao_DaoException(mysql_error($mysqlConn));
             }
         }
         $result = new Ddth_Dao_Mysql_MysqlConnection($mysqlConn);
         if ($startTransaction) {
+            if ($this->LOGGER->isDebugEnabled()) {
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Starting db transaction...";
+                $this->LOGGER->debug($msg);
+            }
             $result->startTransaction();
         }
         return $result;
@@ -230,4 +248,3 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
         }
     }
 }
-?>

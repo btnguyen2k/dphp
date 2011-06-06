@@ -51,9 +51,15 @@ class Ddth_Dao_Sqlite_BaseSqliteDaoFactory extends Ddth_Dao_AbstractConnDaoFacto
     private $sqlitePersistent = FALSE;
 
     /**
+     * @var Ddth_Commons_Logging_ILog
+     */
+    private $LOGGER;
+
+    /**
      * Constructs a new Ddth_Dao_Sqlite_BaseSqliteDaoFactory object.
      */
     public function __construct() {
+        $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
         parent::__construct();
     }
 
@@ -142,9 +148,17 @@ class Ddth_Dao_Sqlite_BaseSqliteDaoFactory extends Ddth_Dao_AbstractConnDaoFacto
     protected function createConnection($startTransaction = FALSE) {
         $sqliteConn = NULL;
         if ($this->sqlitePersistent) {
+            if ($this->LOGGER->isDebugEnabled()) {
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Opening a persistent sqlite connection to [{$this->sqliteFilename}/mode:{$this->sqliteMode}]...";
+                $this->LOGGER->debug($msg);
+            }
             $sqliteConn = @sqlite_popen($this->sqliteFilename, $this->sqliteMode);
         } else {
             $sqliteConn = @sqlite_open($this->sqliteFilename, $this->sqliteMode);
+            if ($this->LOGGER->isDebugEnabled()) {
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Opening a sqlite connection to [{$this->sqliteFilename}/mode:{$this->sqliteMode}]...";
+                $this->LOGGER->debug($msg);
+            }
         }
         if ($sqliteConn === FALSE || $sqliteConn === NULL) {
             $msg = "Can not create the SQLite connection ({$this->sqliteFilename}:{$this->sqliteMode})!";
@@ -152,6 +166,10 @@ class Ddth_Dao_Sqlite_BaseSqliteDaoFactory extends Ddth_Dao_AbstractConnDaoFacto
         }
         $result = new Ddth_Dao_Sqlite_SqliteConnection($sqliteConn);
         if ($startTransaction) {
+            if ($this->LOGGER->isDebugEnabled()) {
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Starting db transaction...";
+                $this->LOGGER->debug($msg);
+            }
             $result->startTransaction();
         }
         return $result;
@@ -166,7 +184,7 @@ class Ddth_Dao_Sqlite_BaseSqliteDaoFactory extends Ddth_Dao_AbstractConnDaoFacto
         if ($conn instanceof Ddth_Dao_Sqlite_SqliteConnection) {
             try {
                 $conn->closeConn($hasError);
-            } catch ( Ddth_Dao_DaoException $de ) {
+            } catch (Ddth_Dao_DaoException $de) {
                 //ignore the case when the connection is closed twice
             }
         } else {
@@ -175,4 +193,3 @@ class Ddth_Dao_Sqlite_BaseSqliteDaoFactory extends Ddth_Dao_AbstractConnDaoFacto
         }
     }
 }
-?>
