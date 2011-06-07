@@ -78,7 +78,7 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
             global $DPHP_DAO_CONFIG;
             $config = isset($DPHP_DAO_CONFIG) ? $DPHP_DAO_CONFIG : NULL;
             if ($config !== NULL && $logger->isDebugEnabled()) {
-                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Use global config $DPHP_DAO_CONFIG";
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . ']Use global config $DPHP_DAO_CONFIG';
                 $logger->debug($msg);
             }
         }
@@ -86,7 +86,7 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
             global $DPHP_DAO_CONF;
             $config = isset($DPHP_DAO_CONF) ? $DPHP_DAO_CONF : NULL;
             if ($config !== NULL && $logger->isDebugEnabled()) {
-                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Use global config $DPHP_DAO_CONF";
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . ']Use global config $DPHP_DAO_CONF';
                 $logger->debug($msg);
             }
         }
@@ -94,7 +94,7 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
             global $DPHP_DAO_CFG;
             $config = isset($DPHP_DAO_CFG) ? $DPHP_DAO_CFG : NULL;
             if ($config !== NULL && $logger->isDebugEnabled()) {
-                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Use global config $DPHP_DAO_CFG";
+                $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . ']Use global config $DPHP_DAO_CFG';
                 $logger->debug($msg);
             }
         }
