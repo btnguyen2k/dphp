@@ -73,33 +73,34 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
      * @throws {@link Ddth_Dao_DaoException}
      */
     public static function getInstance($config = NULL) {
+        $logger = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
         if ($config === NULL) {
             global $DPHP_DAO_CONFIG;
             $config = isset($DPHP_DAO_CONFIG) ? $DPHP_DAO_CONFIG : NULL;
-            if ($config !== NULL && $this->LOGGER->isDebugEnabled()) {
+            if ($config !== NULL && $logger->isDebugEnabled()) {
                 $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Use global config $DPHP_DAO_CONFIG";
-                $this->LOGGER->debug($msg);
+                $logger->debug($msg);
             }
         }
         if ($config === NULL) {
             global $DPHP_DAO_CONF;
             $config = isset($DPHP_DAO_CONF) ? $DPHP_DAO_CONF : NULL;
-            if ($config !== NULL && $this->LOGGER->isDebugEnabled()) {
+            if ($config !== NULL && $logger->isDebugEnabled()) {
                 $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Use global config $DPHP_DAO_CONF";
-                $this->LOGGER->debug($msg);
+                $logger->debug($msg);
             }
         }
         if ($config === NULL) {
             global $DPHP_DAO_CFG;
             $config = isset($DPHP_DAO_CFG) ? $DPHP_DAO_CFG : NULL;
-            if ($config !== NULL && $this->LOGGER->isDebugEnabled()) {
+            if ($config !== NULL && $logger->isDebugEnabled()) {
                 $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Use global config $DPHP_DAO_CFG";
-                $this->LOGGER->debug($msg);
+                $logger->debug($msg);
             }
         }
         if ($config === NULL) {
             $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]NULL config!";
-            $this->LOGGER->warn($msg);
+            $logger->warn($msg);
             return NULL;
         }
         $hash = md5(serialize($config));
@@ -112,9 +113,9 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
             if ($daoFactoryClass === NULL || trim($daoFactoryClass) === '') {
                 $daoFactoryClass = __CLASS__;
             }
-            if ($this->LOGGER->isDebugEnabled()) {
+            if ($logger->isDebugEnabled()) {
                 $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Dao factory class: {$daoFactoryClass}";
-                $this->LOGGER->debug($msg);
+                $logger->debug($msg);
             }
             $obj = new $daoFactoryClass();
             if ($obj instanceof Ddth_Dao_IDaoFactory) {
