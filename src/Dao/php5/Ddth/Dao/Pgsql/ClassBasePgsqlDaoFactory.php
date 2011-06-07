@@ -137,7 +137,7 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
                 $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Opening a pgsql connection...";
                 $this->LOGGER->debug($msg);
             }
-            $pgsqlConn = @pg_connect($this->pgsqlConnectionString);
+            $pgsqlConn = @pg_connect($this->pgsqlConnectionString, PGSQL_CONNECT_FORCE_NEW);
         }
         if ($pgsqlConn === FALSE || $pgsqlConn === NULL) {
             throw new Ddth_Dao_DaoException('Can not make connection to PostgreSQL server!');

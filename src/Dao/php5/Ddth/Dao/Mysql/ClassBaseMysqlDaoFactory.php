@@ -207,12 +207,12 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
             }
             if ($this->mysqlUsername !== false) {
                 if ($this->mysqlPassword !== false) {
-                    $mysqlConn = @mysql_connect($this->mysqlHost, $this->mysqlUsername, $this->mysqlPassword);
+                    $mysqlConn = @mysql_connect($this->mysqlHost, $this->mysqlUsername, $this->mysqlPassword, TRUE);
                 } else {
-                    $mysqlConn = @mysql_connect($this->mysqlHost, $this->mysqlUsername);
+                    $mysqlConn = @mysql_connect($this->mysqlHost, $this->mysqlUsername, '', TRUE);
                 }
             } else {
-                $mysqlConn = @mysql_connect($this->mysqlHost);
+                $mysqlConn = @mysql_connect($this->mysqlHost, '', '', TRUE);
             }
         }
         if ($mysqlConn === FALSE || $mysqlConn === NULL) {
