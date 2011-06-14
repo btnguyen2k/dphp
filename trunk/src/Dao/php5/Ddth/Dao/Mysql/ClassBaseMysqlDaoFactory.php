@@ -30,7 +30,10 @@
  * 'dphp-dao.mysql.username'   => 'root', #supply FALSE or NULL to disable username field
  * 'dphp-dao.mysql.password'   => '',     #supply FALSE or NULL to disable password field
  * 'dphp-dao.mysql.persistent' => FALSE,  #indicate if mysql_pconnect (TRUE) or mysql_connect (FALSE) is used. Default value is FALSE
- * 'dphp-dap.mysql.database'   => 'mydb'  #name of the database to use
+ * 'dphp-dao.mysql.database'   => 'mydb', #name of the database to use
+ *
+ * #these queries will be automatically executed right after a new connection is established
+ * 'dphp-dao.mysql.setupSqls'  => Array("SET NAMES utf8")
  * )
  * </code>
  *
@@ -46,12 +49,14 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
     const CONF_MYSQL_PASSWORD = 'dphp-dao.mysql.password';
     const CONF_MYSQL_PERSISTENT = 'dphp-dao.mysql.persistent';
     const CONF_MYSQL_DATABASE = 'dphp-dao.mysql.database';
+    const CONF_SETUP_SQLS = 'dphp-dao.mysql.setupSqls';
 
     private $mysqlHost = 'localhost:3306';
     private $mysqlUsername = NULL;
     private $mysqlPassword = NULL;
     private $mysqlPersistent = FALSE;
     private $mysqlDatabase = NULL;
+    private $setupSqls = NULL;
 
     /**
      * @var Ddth_Commons_Logging_ILog
@@ -76,6 +81,7 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
         $this->mysqlPassword = isset($config[self::CONF_MYSQL_PASSWORD]) ? $config[self::CONF_MYSQL_PASSWORD] : NULL;
         $this->mysqlPersistent = isset($config[self::CONF_MYSQL_PERSISTENT]) ? $config[self::CONF_MYSQL_PERSISTENT] : FALSE;
         $this->mysqlDatabase = isset($config[self::CONF_MYSQL_DATABASE]) ? $config[self::CONF_MYSQL_DATABASE] : NULL;
+        $this->setupSqls = isset($config[self::CONF_SETUP_SQLS]) ? $config[self::CONF_SETUP_SQLS] : NULL;
     }
 
     /**
@@ -221,6 +227,15 @@ class Ddth_Dao_Mysql_BaseMysqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
         if (isset($this->mysqlDatabase) && $this->mysqlDatabase !== FALSE) {
             if (!mysql_select_db($this->mysqlDatabase, $mysqlConn)) {
                 throw new Ddth_Dao_DaoException(mysql_error($mysqlConn));
+            }
+        }
+        if ($this->setupSqls !== NULL && is_array($this->setupSqls)) {
+            foreach ($this->setupSqls as $sql) {
+                if ($this->LOGGER->isDebugEnabled()) {
+                    $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Execute startup sql: $sql";
+                    $this->LOGGER->debug($msg);
+                }
+                mysql_query($sql, $mysqlConn);
             }
         }
         $result = new Ddth_Dao_Mysql_MysqlConnection($mysqlConn);
