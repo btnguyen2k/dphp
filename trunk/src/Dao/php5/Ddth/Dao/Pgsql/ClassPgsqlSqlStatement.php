@@ -27,7 +27,10 @@ class Ddth_Dao_Pgsql_PgsqlSqlStatement extends Ddth_Dao_SqlStatement {
      * @see Ddth_Dao_SqlStatement::escape()
      */
     protected function escape($conn, $value, $bytea = FALSE) {
-        return $bytea ? pg_escape_string($conn, $value) : pg_escape_bytea($conn, $value);
+        if ($bytea) {
+            return $value != NULL ? pg_escape_bytea($conn, $value) : NULL;
+        }
+        return $value != NULL ? pg_escape_string($conn, $value) : NULL;
     }
 
     /**
