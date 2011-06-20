@@ -149,8 +149,10 @@ abstract class Ddth_Dao_SqlStatement {
             $this->LOGGER->debug($msg);
         }
         try {
+            $timeBegin = microtime(TRUE);
             $result = $this->doExecute($sql, $conn);
-            $queryInfo = Array($sql);
+            $timeEnd = microtime(TRUE);
+            $queryInfo = Array($sql, $timeEnd - $timeBegin);
             Ddth_Dao_BaseDaoFactory::logQuery($queryInfo);
             return $result;
         } catch (Exception $e) {
