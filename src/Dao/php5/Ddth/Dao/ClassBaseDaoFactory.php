@@ -43,6 +43,7 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
 
     private static $cache = Array();
     private $daoCache = Array();
+    private static $queryLog = Array();
 
     const DEFAULT_CONFIG_FILE = "dphp-dao.properties";
     const CONF_DAO_FACTORY_CLASS = 'dphp-dao.factoryClass';
@@ -63,6 +64,24 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
      */
     public function __construct() {
         $this->LOGGER = Ddth_Commons_Logging_LogFactory::getLog(__CLASS__);
+    }
+
+    /**
+     * Logs an executed query.
+     *
+     * @param mixed $queryInfo
+     */
+    public static function logQuery($queryInfo) {
+        self::$queryLog[] = $queryInfo;
+    }
+
+    /**
+     * Gets the query log.
+     *
+     * @return Array
+     */
+    public static function getQueryLog() {
+        return self::$queryLog;
     }
 
     /**

@@ -149,7 +149,10 @@ abstract class Ddth_Dao_SqlStatement {
             $this->LOGGER->debug($msg);
         }
         try {
-            return $this->doExecute($sql, $conn);
+            $result = $this->doExecute($sql, $conn);
+            $queryInfo = Array($sql);
+            Ddth_Dao_BaseDaoFactory::logQuery($queryInfo);
+            return $result;
         } catch (Exception $e) {
             $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]{$e->getMessage()}. Query: $sql";
             $this->LOGGER->fatal($msg, $e);
