@@ -27,7 +27,17 @@ class Ddth_Dao_Sqlite_SqliteSqlStatement extends Ddth_Dao_SqlStatement {
      * @see Ddth_Dao_SqlStatement::escape()
      */
     protected function escape($conn, $value) {
-        return $value !== NULL ? sqlite_escape_string($value) : NULL;
+        if ($value === NULL) {
+            return NULL;
+        }
+        if (is_array($value)) {
+            $resultArr = Array();
+            foreach ($value as $v) {
+                $resultArr[] = $this->escape($conn, $v);
+            }
+            return implode(',', $resultArr);
+        }
+        return sqlite_escape_string($value);
     }
 
     /**

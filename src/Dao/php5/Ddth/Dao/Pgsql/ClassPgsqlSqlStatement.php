@@ -27,10 +27,20 @@ class Ddth_Dao_Pgsql_PgsqlSqlStatement extends Ddth_Dao_SqlStatement {
      * @see Ddth_Dao_SqlStatement::escape()
      */
     protected function escape($conn, $value, $bytea = FALSE) {
-        if ($bytea) {
-            return $value !== NULL ? pg_escape_bytea($conn, $value) : NULL;
+        if ($value === NULL) {
+            return NULL;
         }
-        return $value !== NULL ? pg_escape_string($conn, $value) : NULL;
+        if (is_array($value)) {
+            $resultArr = Array();
+            foreach ($value as $v) {
+                $resultArr[] = $this->escape($conn, $v, $bytea);
+            }
+            return implode(',', $resultArr);
+        }
+        if ($bytea) {
+            return pg_escape_bytea($conn, $value);
+        }
+        return pg_escape_string($conn, $value);
     }
 
     /**
