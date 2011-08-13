@@ -112,11 +112,25 @@ abstract class Ddth_Dao_SqlStatement {
     public function prepare($conn, $values = Array()) {
         $sql = $this->sql;
         foreach ($values as $key => $value) {
-            $v = $this->escape($conn, $value);
-            if ($v === NULL) {
-                $v = $this->getNullLiterate();
-            } else if ($value == '' || is_string($value)) {
-                $v = "'$v'";
+            if (is_array($value)) {
+                $tempArr = Array();
+                foreach ($value as $val) {
+                    $v = $this->escape($conn, $val);
+                    if ($v === NULL) {
+                        $v = $this->getNullLiterate();
+                    } else if ($val === '' || is_string($val)) {
+                        $v = "'$v'";
+                    }
+                    $tempArr[] = $v;
+                }
+                $v = implode(',', $tempArr);
+            } else {
+                $v = $this->escape($conn, $value);
+                if ($v === NULL) {
+                    $v = $this->getNullLiterate();
+                } else if ($value === '' || is_string($value)) {
+                    $v = "'$v'";
+                }
             }
             $sql = str_replace('${' . $key . '}', $v, $sql);
         }
