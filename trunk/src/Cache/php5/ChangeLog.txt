@@ -1,3 +1,6 @@
+* 14-Aug-2011: version 0.2.1
+    - Added 'cache.keyPrefix' config 
+
 * 20-Dec-2010: version 0.2
     - Removed CacheConfig and CacheManagerConfig; replaced them by PHP-style config
     - Added class CacheManager; removed interface ICacheManager

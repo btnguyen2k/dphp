@@ -24,7 +24,7 @@
  * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since      	Class available since v0.2
  */
-class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
+class Ddth_Cache_Engine_ApcEngine extends Ddth_Cache_Engine_AbstractEngine {
 
     /**
      * @see Ddth_Cache_ICacheEngine::clear()
@@ -44,16 +44,18 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
      * @see Ddth_Cache_ICacheEngine::init()
      */
     public function init($config) {
-        if ( !function_exists('apc_store') ) {
+        if (!function_exists('apc_store')) {
             $msg = 'APC is not available!';
             throw new Ddth_Cache_CacheException($msg);
         }
+        parent::init($config);
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::exists()
      */
     public function exists($key) {
+        $key = $this->getCacheKeyPrefix() . $key;
         return apc_exists($key);
     }
 
@@ -64,8 +66,9 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
      * @see Ddth_Cache_ICacheEngine::get()
      */
     public function get($key) {
+        $key = $this->getCacheKeyPrefix() . $key;
         $result = apc_fetch($key, $success);
-        return $success?unserialize($result):NULL;
+        return $success ? unserialize($result) : NULL;
     }
 
     /**
@@ -74,21 +77,23 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
      * @see Ddth_Cache_ICacheEngine::put()
      */
     public function put($key, $value) {
+        $key = $this->getCacheKeyPrefix() . $key;
         $result = apc_fetch($key, $success);
         $value = serialize($value);
         apc_store($key, $value);
-        return $success?$result:NULL;
+        return $success ? $result : NULL;
     }
 
     /**
-     * @see Ddth_Cache_ICacheEngine::put()
+     * @see Ddth_Cache_ICacheEngine::remove()
      */
     public function remove($key) {
+        $key = $this->getCacheKeyPrefix() . $key;
         $result = apc_fetch($key, $success);
-        if ( $success ) {
+        if ($success) {
             apc_delete($key);
         }
-        return $success?$result:NULL;
+        return $success ? $result : NULL;
     }
 
     /**
@@ -96,7 +101,7 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
      */
     public function getNumHits() {
         $result = apc_cache_info(FALSE, TRUE);
-        return $result!==FALSE?$result['num_hits']:-1;
+        return $result !== FALSE ? $result['num_hits'] : -1;
     }
 
     /**
@@ -104,7 +109,7 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
      */
     public function getNumMisses() {
         $result = apc_cache_info(FALSE, TRUE);
-        return $result!==FALSE?$result['num_misses']:-1;
+        return $result !== FALSE ? $result['num_misses'] : -1;
     }
 
     /**
@@ -112,7 +117,7 @@ class Ddth_Cache_Engine_ApcEngine implements Ddth_Cache_ICacheEngine {
      */
     public function getSize() {
         $result = apc_cache_info('user', TRUE);
-        return $result!==FALSE?$result['num_entries']:-1;
+        return $result !== FALSE ? $result['num_entries'] : -1;
     }
 }
 ?>

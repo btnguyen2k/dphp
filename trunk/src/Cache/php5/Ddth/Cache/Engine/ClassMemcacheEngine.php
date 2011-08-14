@@ -24,15 +24,15 @@
  * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
  * @since       Class available since v0.2
  */
-class Ddth_Cache_Engine_MemcacheEngine implements Ddth_Cache_ICacheEngine {
+class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine {
 
     const CONF_SERVERS = 'memcache.servers';
-    const CONF_SERVER_HOST   = 'host';
-    const CONF_SERVER_PORT   = 'port';
+    const CONF_SERVER_HOST = 'host';
+    const CONF_SERVER_PORT = 'port';
     const CONF_SERVER_WEIGHT = 'weight';
 
-    const DEFAULT_SERVER_HOST   = 'localhost';
-    const DEFAULT_SERVER_PORT   = 11211;
+    const DEFAULT_SERVER_HOST = 'localhost';
+    const DEFAULT_SERVER_PORT = 11211;
     const DEFAULT_SERVER_WEIGHT = 1;
 
     private $memcache;
@@ -65,40 +65,41 @@ class Ddth_Cache_Engine_MemcacheEngine implements Ddth_Cache_ICacheEngine {
      * the array:
      * <code>
      * Array(
-     *     'memcache.servers'   => Array(
-     *         #list of MemcacheD servers
-     *         Array(
-     *             #see http://www.php.net/manual/en/memcached.addserver.php for more information
-     *             'host'       => '192.168.0.1',
-     *             'port'       => '(optional) 11211',
-     *             'weight'     => '(optional) 1'
-     *         ),
-     *         Array(
-     *             'host'       => 'unix:///path/to/memcached.sock',
-     *             'port'       => 0, #must be 0 if using UNIX socket
-     *             'weight'     => '(optional) 1'
-     *         )
-     *     )
+     * 'memcache.servers'   => Array(
+     * #list of MemcacheD servers
+     * Array(
+     * #see http://www.php.net/manual/en/memcached.addserver.php for more information
+     * 'host'       => '192.168.0.1',
+     * 'port'       => '(optional) 11211',
+     * 'weight'     => '(optional) 1'
+     * ),
+     * Array(
+     * 'host'       => 'unix:///path/to/memcached.sock',
+     * 'port'       => 0, #must be 0 if using UNIX socket
+     * 'weight'     => '(optional) 1'
+     * )
+     * )
      * )
      * </code>
      *
      * @see Ddth_Cache_ICacheEngine::init()
      */
     public function init($config) {
-        if ( !class_exists('Memcache', FALSE) ) {
+        if (!class_exists('Memcache', FALSE)) {
             $msg = 'PHP-Memcache is not available!';
             throw new Ddth_Cache_CacheException($msg);
         }
-        $servers = isset($config[self::CONF_SERVERS])?$config[self::CONF_SERVERS]:NULL;
-        if ( $servers === NULL || !is_array($servers) || count($servers) < 1 ) {
+        parent::init($config);
+        $servers = isset($config[self::CONF_SERVERS]) ? $config[self::CONF_SERVERS] : NULL;
+        if ($servers === NULL || !is_array($servers) || count($servers) < 1) {
             $msg = 'No Memcache servers defined!';
             throw new Ddth_Cache_CacheException($msg);
         }
         $memcache = new Memcache();
-        foreach ( $servers as $server ) {
-            $host = isset($server[self::CONF_SERVER_HOST])?($server[self::CONF_SERVER_HOST]):(self::DEFAULT_SERVER_HOST);
-            $port = isset($server[self::CONF_SERVER_PORT])?($server[self::CONF_SERVER_PORT]):(self::DEFAULT_SERVER_PORT);
-            $weight = isset($server[self::CONF_SERVER_WEIGHT])?($server[self::CONF_SERVER_WEIGHT]):(self::DEFAULT_SERVER_WEIGHT);
+        foreach ($servers as $server) {
+            $host = isset($server[self::CONF_SERVER_HOST]) ? ($server[self::CONF_SERVER_HOST]) : (self::DEFAULT_SERVER_HOST);
+            $port = isset($server[self::CONF_SERVER_PORT]) ? ($server[self::CONF_SERVER_PORT]) : (self::DEFAULT_SERVER_PORT);
+            $weight = isset($server[self::CONF_SERVER_WEIGHT]) ? ($server[self::CONF_SERVER_WEIGHT]) : (self::DEFAULT_SERVER_WEIGHT);
             $memcache->addServer($host, $port, TRUE, $weight);
         }
         $this->memcache = $memcache;
@@ -108,6 +109,7 @@ class Ddth_Cache_Engine_MemcacheEngine implements Ddth_Cache_ICacheEngine {
      * @see Ddth_Cache_ICacheEngine::exists()
      */
     public function exists($key) {
+        $key = $this->getCacheKeyPrefix() . $key;
         return $this->get($key) !== NULL;
     }
 
@@ -115,14 +117,16 @@ class Ddth_Cache_Engine_MemcacheEngine implements Ddth_Cache_ICacheEngine {
      * @see Ddth_Cache_ICacheEngine::get()
      */
     public function get($key) {
+        $key = $this->getCacheKeyPrefix() . $key;
         $result = $this->memcache->get($key);
-        return $result!==FALSE?$result:NULL;
+        return $result !== FALSE ? $result : NULL;
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::put()
      */
     public function put($key, $value) {
+        $key = $this->getCacheKeyPrefix() . $key;
         $result = $this->get($key);
 
         //Note: boolean and numeric values may cause annoying warning if using compression.
@@ -133,11 +137,12 @@ class Ddth_Cache_Engine_MemcacheEngine implements Ddth_Cache_ICacheEngine {
     }
 
     /**
-     * @see Ddth_Cache_ICacheEngine::put()
+     * @see Ddth_Cache_ICacheEngine::remove()
      */
     public function remove($key) {
+        $key = $this->getCacheKeyPrefix() . $key;
         $result = $this->get($key);
-        if ( $result !== NULL ) {
+        if ($result !== NULL) {
             $this->memcache->delete($key);
         }
         return $result;
@@ -149,7 +154,7 @@ class Ddth_Cache_Engine_MemcacheEngine implements Ddth_Cache_ICacheEngine {
     public function getNumHits() {
         $stats = $this->memcache->getExtendedStats();
         $numHits = 0;
-        foreach ( $stats as $serverName=>$serverStats ) {
+        foreach ($stats as $serverName => $serverStats) {
             $numHits += $serverStats['get_hits'];
         }
         return $numHits;
@@ -161,7 +166,7 @@ class Ddth_Cache_Engine_MemcacheEngine implements Ddth_Cache_ICacheEngine {
     public function getNumMisses() {
         $stats = $this->memcache->getExtendedStats();
         $numMisses = 0;
-        foreach ( $stats as $serverName=>$serverStats ) {
+        foreach ($stats as $serverName => $serverStats) {
             $numMisses += $serverStats['get_misses'];
         }
         return $numMisses;
@@ -173,7 +178,7 @@ class Ddth_Cache_Engine_MemcacheEngine implements Ddth_Cache_ICacheEngine {
     public function getSize() {
         $stats = $this->memcache->getExtendedStats();
         $size = 0;
-        foreach ( $stats as $serverName=>$serverStats ) {
+        foreach ($stats as $serverName => $serverStats) {
             $size += $serverStats['curr_items'];
         }
         return $size;

@@ -24,10 +24,12 @@
  *     'default' => Array(
  *         #the 'default' cache (where 'default' is cache's name), required
  *         'cache.type'         => 'type of cache, either: memcache, memcached, apc, or memory',
+ *         'cache.keyPrefix'    => '(optional) a prefix that is automatically added to every cache keys',
  *         'cache.class'        => '(optional) name of the cache class,
- *                                  must implement Ddth_Cache_ICache',
- *         'cache.engine.class' => '(optional) name of the cache engine class (if Ddth_Cache_GenericCache
- *                                  is used - which is the default), must implement Ddth_Cache_ICacheEngine',
+ *                                  must implement {@link Ddth_Cache_ICache}',
+ *         'cache.engine.class' => '(optional) name of the cache engine class (if cache class is
+ *                                  {@link Ddth_Cache_GenericCache} - which is the default),
+ *                                  must implement {@link Ddth_Cache_ICacheEngine}',
  *         'other configs'      => 'specified by each type of cache/engine'
  *     ),
  *     'memory' => Array(
