@@ -1,3 +1,6 @@
+* 18-Jun-2011: version 0.2.4:
+    - Added classes ParamAsIs
+
 * 30-May-2011: version 0.2.3:
     - Added classes AbstractSqlStatementDao
 

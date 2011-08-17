@@ -112,7 +112,12 @@ abstract class Ddth_Dao_SqlStatement {
     public function prepare($conn, $values = Array()) {
         $sql = $this->sql;
         foreach ($values as $key => $value) {
-            if (is_array($value)) {
+            if ($value instanceof Ddth_Dao_ParamAsIs) {
+                $v = $value->getValue();
+                if ($v === NULL) {
+                    $v = $this->getNullLiterate();
+                }
+            } else if (is_array($value)) {
                 $tempArr = Array();
                 foreach ($value as $val) {
                     $v = $this->escape($conn, $val);

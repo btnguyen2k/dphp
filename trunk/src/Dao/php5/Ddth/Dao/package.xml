@@ -4,7 +4,7 @@
 	"http://dphp.googlecode.com/svn/trunk/docs/package.dtd">
 <package>
 	<name>Ddth::Dao</name>
-	<version>0.2.3</version>
+	<version>0.2.4</version>
 	<description>A generic DAO library</description>
 	<summary>
 		This library is a generic multi-purposes implementation of DAO pattern. 
