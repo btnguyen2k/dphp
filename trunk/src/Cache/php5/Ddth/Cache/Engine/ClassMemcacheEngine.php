@@ -103,13 +103,13 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
             $memcache->addServer($host, $port, TRUE, $weight);
         }
         $this->memcache = $memcache;
+        @$this->memcache->get('');
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::exists()
      */
     public function exists($key) {
-        $key = $this->getCacheKeyPrefix() . $key;
         return $this->get($key) !== NULL;
     }
 
@@ -117,8 +117,8 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      * @see Ddth_Cache_ICacheEngine::get()
      */
     public function get($key) {
-        $key = $this->getCacheKeyPrefix() . $key;
-        $result = $this->memcache->get($key);
+        $newKey = $this->getCacheKeyPrefix() . $key;
+        $result = $this->memcache->get($newKey);
         return $result !== FALSE ? $result : NULL;
     }
 
@@ -126,13 +126,13 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      * @see Ddth_Cache_ICacheEngine::put()
      */
     public function put($key, $value) {
-        $key = $this->getCacheKeyPrefix() . $key;
+        $newKey = $this->getCacheKeyPrefix() . $key;
         $result = $this->get($key);
 
         //Note: boolean and numeric values may cause annoying warning if using compression.
         //So below is a workaround for it (http://www.php.net/manual/en/memcache.set.php)
         $compress = is_bool($value) || is_int($value) || is_float($value) ? FALSE : MEMCACHE_COMPRESSED;
-        $this->memcache->set($key, $value, $compress);
+        $this->memcache->set($newKey, $value, $compress);
         return $result;
     }
 
@@ -140,10 +140,10 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      * @see Ddth_Cache_ICacheEngine::remove()
      */
     public function remove($key) {
-        $key = $this->getCacheKeyPrefix() . $key;
+        $newKey = $this->getCacheKeyPrefix() . $key;
         $result = $this->get($key);
         if ($result !== NULL) {
-            $this->memcache->delete($key);
+            $this->memcache->delete($newKey);
         }
         return $result;
     }
@@ -184,4 +184,3 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
         return $size;
     }
 }
-?>

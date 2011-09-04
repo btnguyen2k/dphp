@@ -103,13 +103,13 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
             $memcached->addServer($host, $port, $weight);
         }
         $this->memcached = $memcached;
+        @$this->memcached->get('');
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::exists()
      */
     public function exists($key) {
-        $key = $this->getCacheKeyPrefix() . $key;
         return $this->get($key) !== NULL;
     }
 
@@ -117,8 +117,8 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
      * @see Ddth_Cache_ICacheEngine::get()
      */
     public function get($key) {
-        $key = $this->getCacheKeyPrefix() . $key;
-        $result = $this->memcached->get($key);
+        $newKey = $this->getCacheKeyPrefix() . $key;
+        $result = $this->memcached->get($newKey);
         if ($this->memcached->getResultCode() !== Memcached::RES_NOTFOUND) {
             return $result;
         } else {
@@ -130,9 +130,9 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
      * @see Ddth_Cache_ICacheEngine::put()
      */
     public function put($key, $value) {
-        $key = $this->getCacheKeyPrefix() . $key;
+        $newKey = $this->getCacheKeyPrefix() . $key;
         $result = $this->get($key);
-        $this->memcached->set($key, $value);
+        $this->memcached->set($newKey, $value);
         return $result;
     }
 
@@ -140,10 +140,10 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
      * @see Ddth_Cache_ICacheEngine::remove()
      */
     public function remove($key) {
-        $key = $this->getCacheKeyPrefix() . $key;
+        $newKey = $this->getCacheKeyPrefix() . $key;
         $result = $this->get($key);
         if ($result !== NULL) {
-            $this->memcached->delete($key);
+            $this->memcached->delete($newKey);
         }
         return $result;
     }
@@ -184,4 +184,3 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
         return $size;
     }
 }
-?>
