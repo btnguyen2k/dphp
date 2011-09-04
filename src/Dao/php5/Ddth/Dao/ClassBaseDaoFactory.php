@@ -184,6 +184,7 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
             $dao = new $className();
             if ($dao instanceof Ddth_Dao_IDao) {
                 $dao->init($this);
+                $this->daoCache[$name] = $dao;
             } else {
                 $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "][$className] is not instance of [Ddth_Dao_IDao]!";
                 $this->LOGGER->warn($msg);
