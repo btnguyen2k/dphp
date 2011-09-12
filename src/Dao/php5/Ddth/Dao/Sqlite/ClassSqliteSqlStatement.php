@@ -45,11 +45,19 @@ class Ddth_Dao_Sqlite_SqliteSqlStatement extends Ddth_Dao_SqlStatement {
      */
     protected function doExecute($preparedSql, $conn) {
         $errorMsg = '';
-        $result = sqlite_query($conn, $preparedSql, SQLITE_BOTH, $errorMsg);
+        $result = sqlite_unbuffered_query($conn, $preparedSql, SQLITE_BOTH, $errorMsg);
         if ($result === FALSE) {
             throw new Ddth_Dao_DaoException($errorMsg);
         }
         return $result;
     }
+
+    /**
+     * (non-PHPdoc)
+     * @see Ddth_Dao_SqlStatement::getNumAffectedRows()
+     */
+    public function getNumAffectedRows($conn) {
+        $result = sqlite_changes($conn);
+        return $result !== -1 ? $result : FALSE;
+    }
 }
-?>
