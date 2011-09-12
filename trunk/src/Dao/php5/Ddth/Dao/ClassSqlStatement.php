@@ -189,4 +189,17 @@ abstract class Ddth_Dao_SqlStatement {
      * @return mixed
      */
     protected abstract function doExecute($preparedSql, $conn);
+
+    /**
+     * Gets number of affected rows from previous operation.
+     *
+     * This function simply returns -1. Sub-class should override the function to implements its own business.
+     *
+     * @param mixed $conn an open database connection
+     * @return int number of affected rows, FALSE if error, -1 if not supported
+     * @since function available since v0.2.5
+     */
+    public function getNumAffectedRows($conn) {
+        return -1;
+    }
 }

@@ -54,5 +54,13 @@ class Ddth_Dao_Mysql_MysqlSqlStatement extends Ddth_Dao_SqlStatement {
         }
         return $result;
     }
+
+    /**
+     * (non-PHPdoc)
+     * @see Ddth_Dao_SqlStatement::getNumAffectedRows()
+     */
+    public function getNumAffectedRows($conn) {
+        $result = mysql_affected_rows($conn);
+        return $result !== -1 ? $result : FALSE;
+    }
 }
-?>
