@@ -103,7 +103,7 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
             $memcache->addServer($host, $port, TRUE, $weight);
         }
         $this->memcache = $memcache;
-        @$this->memcache->get('');
+        @$this->memcache->get('FOO');
     }
 
     /**
