@@ -19,7 +19,6 @@
  * Ddth_Cache provides a uniform caching APIs that wrap other underlying cache engines.
  *
  * <b>"Quick & Dirty":</b>
- * <code>
  * $DPHP_CACHE_CONFIG = Array(
  *     'default' => Array(
  *         #the 'default' cache (where 'default' is cache's name), required
@@ -84,7 +83,6 @@
  * $value = 'value1';
  * $cache->put($key, $value);
  * print_r($cache->get($key));
- * </code>
  *
  * <b>0. The configuration:</b> it's an associative array with the following structure
  * <code>
