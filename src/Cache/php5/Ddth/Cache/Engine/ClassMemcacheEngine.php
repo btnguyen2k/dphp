@@ -50,14 +50,21 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      * @see Ddth_Cache_ICacheEngine::clear()
      */
     public function clear() {
-        return $this->memcache->flush();
+        try {
+            return $this->memcache->flush();
+        } catch (Exception $e) {
+            return FALSE;
+        }
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::destroy()
      */
     public function destroy() {
-        $this->memcache->close();
+        try {
+            $this->memcache->close();
+        } catch (Exception $e) {
+        }
     }
 
     /**
@@ -103,7 +110,10 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
             $memcache->addServer($host, $port, TRUE, $weight);
         }
         $this->memcache = $memcache;
-        @$this->memcache->get('FOO');
+        try {
+            @$this->memcache->get('FOO');
+        } catch (Exception $e) {
+        }
     }
 
     /**
@@ -118,8 +128,12 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      */
     public function get($key) {
         $newKey = $this->getCacheKeyPrefix() . $key;
-        $result = $this->memcache->get($newKey);
-        return $result !== FALSE ? $result : NULL;
+        try {
+            $result = $this->memcache->get($newKey);
+            return $result !== FALSE ? $result : NULL;
+        } catch (Exception $e) {
+            return NULL;
+        }
     }
 
     /**
@@ -127,13 +141,17 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      */
     public function put($key, $value) {
         $newKey = $this->getCacheKeyPrefix() . $key;
-        $result = $this->get($key);
+        try {
+            $result = $this->get($key);
 
-        //Note: boolean and numeric values may cause annoying warning if using compression.
-        //So below is a workaround for it (http://www.php.net/manual/en/memcache.set.php)
-        $compress = is_bool($value) || is_int($value) || is_float($value) ? FALSE : MEMCACHE_COMPRESSED;
-        $this->memcache->set($newKey, $value, $compress);
-        return $result;
+            //Note: boolean and numeric values may cause annoying warning if using compression.
+            //So below is a workaround for it (http://www.php.net/manual/en/memcache.set.php)
+            $compress = is_bool($value) || is_int($value) || is_float($value) ? FALSE : MEMCACHE_COMPRESSED;
+            $this->memcache->set($newKey, $value, $compress);
+            return $result;
+        } catch (Exception $e) {
+            return NULL;
+        }
     }
 
     /**
@@ -141,46 +159,62 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      */
     public function remove($key) {
         $newKey = $this->getCacheKeyPrefix() . $key;
-        $result = $this->get($key);
-        if ($result !== NULL) {
-            $this->memcache->delete($newKey);
+        try {
+            $result = $this->get($key);
+            if ($result !== NULL) {
+                $this->memcache->delete($newKey);
+            }
+            return $result;
+        } catch (Exception $e) {
+            return NULL;
         }
-        return $result;
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::getNumHits()
      */
     public function getNumHits() {
-        $stats = $this->memcache->getExtendedStats();
-        $numHits = 0;
-        foreach ($stats as $serverName => $serverStats) {
-            $numHits += $serverStats['get_hits'];
+        try {
+            $stats = $this->memcache->getExtendedStats();
+            $numHits = 0;
+            foreach ($stats as $serverName => $serverStats) {
+                $numHits += $serverStats['get_hits'];
+            }
+            return $numHits;
+        } catch (Exception $e) {
+            return -1;
         }
-        return $numHits;
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::getNumMisses()
      */
     public function getNumMisses() {
-        $stats = $this->memcache->getExtendedStats();
-        $numMisses = 0;
-        foreach ($stats as $serverName => $serverStats) {
-            $numMisses += $serverStats['get_misses'];
+        try {
+            $stats = $this->memcache->getExtendedStats();
+            $numMisses = 0;
+            foreach ($stats as $serverName => $serverStats) {
+                $numMisses += $serverStats['get_misses'];
+            }
+            return $numMisses;
+        } catch (Exception $e) {
+            return -1;
         }
-        return $numMisses;
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::getSize()
      */
     public function getSize() {
-        $stats = $this->memcache->getExtendedStats();
-        $size = 0;
-        foreach ($stats as $serverName => $serverStats) {
-            $size += $serverStats['curr_items'];
+        try {
+            $stats = $this->memcache->getExtendedStats();
+            $size = 0;
+            foreach ($stats as $serverName => $serverStats) {
+                $size += $serverStats['curr_items'];
+            }
+            return $size;
+        } catch (Exception $e) {
+            return -1;
         }
-        return $size;
     }
 }

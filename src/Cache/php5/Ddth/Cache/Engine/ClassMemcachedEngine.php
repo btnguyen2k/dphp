@@ -50,7 +50,11 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
      * @see Ddth_Cache_ICacheEngine::clear()
      */
     public function clear() {
-        return $this->memcached->flush();
+        try {
+            return $this->memcached->flush();
+        } catch (Exception $e) {
+            return FALSE;
+        }
     }
 
     /**
@@ -103,7 +107,10 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
             $memcached->addServer($host, $port, $weight);
         }
         $this->memcached = $memcached;
-        @$this->memcached->get('FOO');
+        try {
+            @$this->memcached->get('FOO');
+        } catch (Exception $e) {
+        }
     }
 
     /**
@@ -118,10 +125,14 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
      */
     public function get($key) {
         $newKey = $this->getCacheKeyPrefix() . $key;
-        $result = $this->memcached->get($newKey);
-        if ($this->memcached->getResultCode() !== Memcached::RES_NOTFOUND) {
-            return $result;
-        } else {
+        try {
+            $result = $this->memcached->get($newKey);
+            if ($this->memcached->getResultCode() !== Memcached::RES_NOTFOUND) {
+                return $result;
+            } else {
+                return NULL;
+            }
+        } catch (Exception $e) {
             return NULL;
         }
     }
@@ -131,9 +142,13 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
      */
     public function put($key, $value) {
         $newKey = $this->getCacheKeyPrefix() . $key;
-        $result = $this->get($key);
-        $this->memcached->set($newKey, $value);
-        return $result;
+        try {
+            $result = $this->get($key);
+            $this->memcached->set($newKey, $value);
+            return $result;
+        } catch (Exception $e) {
+            return NULL;
+        }
     }
 
     /**
@@ -141,46 +156,62 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
      */
     public function remove($key) {
         $newKey = $this->getCacheKeyPrefix() . $key;
-        $result = $this->get($key);
-        if ($result !== NULL) {
-            $this->memcached->delete($newKey);
+        try {
+            $result = $this->get($key);
+            if ($result !== NULL) {
+                $this->memcached->delete($newKey);
+            }
+            return $result;
+        } catch (Exception $e) {
+            return NULL;
         }
-        return $result;
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::getNumHits()
      */
     public function getNumHits() {
-        $stats = $this->memcached->getStats();
-        $numHits = 0;
-        foreach ($stats as $serverName => $serverStats) {
-            $numHits += $serverStats['get_hits'];
+        try {
+            $stats = $this->memcached->getStats();
+            $numHits = 0;
+            foreach ($stats as $serverName => $serverStats) {
+                $numHits += $serverStats['get_hits'];
+            }
+            return $numHits;
+        } catch (Exception $e) {
+            return -1;
         }
-        return $numHits;
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::getNumMisses()
      */
     public function getNumMisses() {
-        $stats = $this->memcached->getStats();
-        $numMisses = 0;
-        foreach ($stats as $serverName => $serverStats) {
-            $numMisses += $serverStats['get_misses'];
+        try {
+            $stats = $this->memcached->getStats();
+            $numMisses = 0;
+            foreach ($stats as $serverName => $serverStats) {
+                $numMisses += $serverStats['get_misses'];
+            }
+            return $numMisses;
+        } catch (Exception $e) {
+            return -1;
         }
-        return $numMisses;
     }
 
     /**
      * @see Ddth_Cache_ICacheEngine::getSize()
      */
     public function getSize() {
-        $stats = $this->memcached->getStats();
-        $size = 0;
-        foreach ($stats as $serverName => $serverStats) {
-            $size += $serverStats['curr_items'];
+        try {
+            $stats = $this->memcached->getStats();
+            $size = 0;
+            foreach ($stats as $serverName => $serverStats) {
+                $size += $serverStats['curr_items'];
+            }
+            return $size;
+        } catch (Exception $e) {
+            return -1;
         }
-        return $size;
     }
 }
