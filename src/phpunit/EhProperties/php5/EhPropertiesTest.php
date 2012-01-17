@@ -19,10 +19,10 @@
 
 //initialization
 //defines package name and package php version
-if ( !defined('PACKAGE') ) {
+if (!defined('PACKAGE')) {
     define('PACKAGE', 'EhProperties');
 }
-if ( !defined('PACKAGE_PHP_VERSION') ) {
+if (!defined('PACKAGE_PHP_VERSION')) {
     define('PACKAGE_PHP_VERSION', 'php5');
 }
 $REQUIRED_PACKAGES = Array('Commons');
@@ -30,22 +30,22 @@ $REQUIRED_PACKAGES = Array('Commons');
 //setting up include path
 $dir = dirname(dirname(dirname(dirname(__FILE__))));
 $INCLUDE_PATH = '.';
-$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/libs/PHPUnit-3.2.9';
-$INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.PACKAGE.'/'.PACKAGE_PHP_VERSION;
-foreach ( $REQUIRED_PACKAGES as $package ) {
-    $INCLUDE_PATH .= PATH_SEPARATOR.$dir.'/'.$package.'/'.PACKAGE_PHP_VERSION;
+$INCLUDE_PATH .= PATH_SEPARATOR . $dir . '/libs/PHPUnit-3.2.9';
+$INCLUDE_PATH .= PATH_SEPARATOR . $dir . '/' . PACKAGE . '/' . PACKAGE_PHP_VERSION;
+foreach ($REQUIRED_PACKAGES as $package) {
+    $INCLUDE_PATH .= PATH_SEPARATOR . $dir . '/' . $package . '/' . PACKAGE_PHP_VERSION;
 }
 ini_set('include_path', $INCLUDE_PATH);
 
 require_once 'PHPUnit/Framework.php';
 
 class EhPropertiesTest extends PHPUnit_Framework_TestCase {
-    public function test1() {
+    public function _test1() {
         $obj = new Ddth_EhProperties_EhProperties();
         $this->assertNotNull($obj);
     }
 
-    public function test2() {
+    public function _test2() {
         $obj = new Ddth_EhProperties_EhProperties();
         $this->assertNotNull($obj);
         $obj->load('test.properties');
@@ -54,7 +54,7 @@ class EhPropertiesTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Thanh', $value);
     }
 
-    public function test3() {
+    public function _test3() {
         $obj = new Ddth_EhProperties_EhProperties();
         $this->assertNotNull($obj);
         $obj->load('test.properties');
@@ -63,7 +63,7 @@ class EhPropertiesTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Hello Thanh! How are you Thanh?', $value);
     }
 
-    public function test4() {
+    public function _test4() {
         $obj = new Ddth_EhProperties_EhProperties();
         $this->assertNotNull($obj);
         $obj->load('test.properties');
@@ -72,13 +72,22 @@ class EhPropertiesTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals('Hola !', $value);
     }
 
-    public function test5() {
+    public function _test5() {
         $obj = new Ddth_EhProperties_EhProperties();
         $this->assertNotNull($obj);
         $obj->load('test.properties');
 
         $value = $obj->getProperty('greeting');
         $this->assertEquals('Greeting! Hello Thanh! How are you Thanh?', $value);
+    }
+
+    public function test6() {
+        $obj = new Ddth_EhProperties_EhProperties();
+        $this->assertNotNull($obj);
+        $obj->load('test.properties');
+
+        $value = $obj->getProperty('wrongFormat');
+        $this->assertEquals('Hello, ${wrong} format!', $value);
     }
 }
 ?>
