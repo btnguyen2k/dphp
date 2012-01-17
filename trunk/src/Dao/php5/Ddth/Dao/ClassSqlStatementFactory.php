@@ -49,7 +49,7 @@ class Ddth_Dao_SqlStatementFactory {
     const PROP_STATEMENT_CLASS = 'statement.class';
 
     /**
-     * @var Ddth_Commons_Properties
+     * @var Ddth_EhProperties_EhProperties
      */
     private $configs;
 
@@ -79,7 +79,8 @@ class Ddth_Dao_SqlStatementFactory {
             if ($fileContent === NULL || $fileContent === "") {
                 return NULL;
             }
-            $props = new Ddth_Commons_Properties();
+            //$props = new Ddth_Commons_Properties();
+            $props = new Ddth_EhProperties_EhProperties();
             $props->import($fileContent);
             $obj = new Ddth_Dao_SqlStatementFactory($props);
 
