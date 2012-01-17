@@ -83,6 +83,8 @@ abstract class Ddth_Cache_Engine_AbstractEngine implements Ddth_Cache_ICacheEngi
             $this->keyPrefix = $this->getConfig(self::CONF_KEY_PREFIX);
             if ($this->keyPrefix === NULL) {
                 $this->keyPrefix = $this->getCacheName();
+            } else {
+                $this->keyPrefix = $this->getCacheName() . '_' . $this->keyPrefix;
             }
         }
         return $this->keyPrefix;
