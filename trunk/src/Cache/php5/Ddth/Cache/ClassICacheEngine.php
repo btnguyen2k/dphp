@@ -36,9 +36,10 @@ interface Ddth_Cache_ICacheEngine {
     /**
      * Initializing method. The cache engine should not be used unless this function is called.
      *
+     * @param Ddth_Cache_ICache $cache
      * @param Array $config cache configurations
      */
-    public function init($config);
+    public function init($cache, $config);
 
     /**
      * Checks if an entry exists.

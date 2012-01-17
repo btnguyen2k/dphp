@@ -1,3 +1,6 @@
+* 19-Jan-2012: version 0.2.2
+    - If 'cache.keyPrefix' is not set, use cache's name as 'cache.keyPrefix'
+
 * 14-Aug-2011: version 0.2.1
     - Added 'cache.keyPrefix' config 
 

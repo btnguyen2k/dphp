@@ -26,6 +26,7 @@ abstract class Ddth_Cache_Engine_AbstractEngine implements Ddth_Cache_ICacheEngi
 
     const CONF_KEY_PREFIX = 'cache.keyPrefix';
 
+    private $cache;
     private $config = Array();
     private $keyPrefix = NULL;
 
@@ -39,8 +40,27 @@ abstract class Ddth_Cache_Engine_AbstractEngine implements Ddth_Cache_ICacheEngi
     /**
      * @see Ddth_Cache_ICacheEngine::init()
      */
-    public function init($config) {
+    public function init($cache, $config) {
+        $this->cache = $cache;
         $this->config = is_array($config) ? $config : Array();
+    }
+
+    /**
+     * Gets the cache instance.
+     *
+     * @return Ddth_Cache_ICache
+     */
+    protected function getCache() {
+        return $this->cache;
+    }
+
+    /**
+     * Gets cache's name.
+     *
+     * @return string
+     */
+    protected function getCacheName() {
+        return $this->cache->getName();
     }
 
     /**
@@ -62,7 +82,7 @@ abstract class Ddth_Cache_Engine_AbstractEngine implements Ddth_Cache_ICacheEngi
         if ($this->keyPrefix === NULL) {
             $this->keyPrefix = $this->getConfig(self::CONF_KEY_PREFIX);
             if ($this->keyPrefix === NULL) {
-                $this->keyPrefix = '';
+                $this->keyPrefix = $this->getCacheName();
             }
         }
         return $this->keyPrefix;
