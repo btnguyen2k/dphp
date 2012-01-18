@@ -200,6 +200,15 @@ class Ddth_Cache_CacheManager {
     }
 
     /**
+     * Gets all created caches.
+     *
+     * @return Array all created caches as an associative array {cacheName:cacheInstance}
+     */
+    public function getCaches() {
+        return $this->caches;
+    }
+
+    /**
      * Creates a cache by name.
      *
      * @param string $name
