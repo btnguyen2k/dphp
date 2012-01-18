@@ -43,12 +43,12 @@ class Ddth_Cache_Engine_ApcEngine extends Ddth_Cache_Engine_AbstractEngine {
     /**
      * @see Ddth_Cache_ICacheEngine::init()
      */
-    public function init($config) {
+    public function init($cache, $config) {
         if (!function_exists('apc_store')) {
             $msg = 'APC is not available!';
             throw new Ddth_Cache_CacheException($msg);
         }
-        parent::init($config);
+        parent::init($cache, $config);
     }
 
     /**
