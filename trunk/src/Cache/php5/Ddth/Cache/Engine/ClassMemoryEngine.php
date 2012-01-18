@@ -48,7 +48,7 @@ class Ddth_Cache_Engine_MemoryEngine implements Ddth_Cache_ICacheEngine {
     /**
      * @see Ddth_Cache_ICacheEngine::init()
      */
-    public function init($config) {
+    public function init($cache, $config) {
         //EMPTY
     }
 

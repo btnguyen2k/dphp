@@ -91,12 +91,12 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      *
      * @see Ddth_Cache_ICacheEngine::init()
      */
-    public function init($config) {
+    public function init($cache, $config) {
         if (!class_exists('Memcache', FALSE)) {
             $msg = 'PHP-Memcache is not available!';
             throw new Ddth_Cache_CacheException($msg);
         }
-        parent::init($config);
+        parent::init($cache, $config);
         $servers = isset($config[self::CONF_SERVERS]) ? $config[self::CONF_SERVERS] : NULL;
         if ($servers === NULL || !is_array($servers) || count($servers) < 1) {
             $msg = 'No Memcache servers defined!';
