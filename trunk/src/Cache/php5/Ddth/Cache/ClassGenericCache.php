@@ -78,7 +78,7 @@ class Ddth_Cache_GenericCache extends Ddth_Cache_AbstractCache {
                 }
             }
         }
-        $this->engine->init($config);
+        $this->engine->init($this, $config);
     }
 
     /**
