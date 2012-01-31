@@ -127,10 +127,20 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      * @see Ddth_Cache_ICacheEngine::get()
      */
     public function get($key) {
+        $statsKeyHits = $this->getCacheKeyPrefix() . '_stats_hits';
+        $statsKeyMisses = $this->getCacheKeyPrefix() . '_stats_misses';
+        $this->memcache->add($statsKeyHits, 0);
+        $this->memcache->add($statsKeyMisses, 0);
         $newKey = $this->getCacheKeyPrefix() . $key;
         try {
             $result = $this->memcache->get($newKey);
-            return $result !== FALSE ? $result : NULL;
+            if ($result === FALSE) {
+                $this->memcache->increment($statsKeyMisses);
+                return NULL;
+            } else {
+                $this->memcache->increment($statsKeyHits);
+                return $result;
+            }
         } catch (Exception $e) {
             return NULL;
         }
@@ -175,6 +185,12 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      */
     public function getNumHits() {
         try {
+            $statsKeyHits = $this->getCacheKeyPrefix() . '_stats_hits';
+            $numHits = $this->memcache->get($statsKeyHits);
+            if ($numHits !== FALSE) {
+                return $numHits;
+            }
+
             $stats = $this->memcache->getExtendedStats();
             $numHits = 0;
             foreach ($stats as $serverName => $serverStats) {
@@ -191,6 +207,12 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      */
     public function getNumMisses() {
         try {
+            $statsKeyHits = $this->getCacheKeyPrefix() . '_stats_hits';
+            $numHits = $this->memcache->get($statsKeyHits);
+            if ($numHits !== FALSE) {
+                return $numHits;
+            }
+
             $stats = $this->memcache->getExtendedStats();
             $numMisses = 0;
             foreach ($stats as $serverName => $serverStats) {
