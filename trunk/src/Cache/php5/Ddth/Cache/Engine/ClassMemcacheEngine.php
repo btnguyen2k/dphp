@@ -131,6 +131,7 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
         $statsKeyMisses = $this->getCacheKeyPrefix() . '_stats_misses';
         $this->memcache->add($statsKeyHits, 0);
         $this->memcache->add($statsKeyMisses, 0);
+
         $newKey = $this->getCacheKeyPrefix() . $key;
         try {
             $result = $this->memcache->get($newKey);
@@ -207,10 +208,10 @@ class Ddth_Cache_Engine_MemcacheEngine extends Ddth_Cache_Engine_AbstractEngine 
      */
     public function getNumMisses() {
         try {
-            $statsKeyHits = $this->getCacheKeyPrefix() . '_stats_hits';
-            $numHits = $this->memcache->get($statsKeyHits);
-            if ($numHits !== FALSE) {
-                return $numHits;
+            $statsKeyMisses = $this->getCacheKeyPrefix() . '_stats_misses';
+            $numMisses = $this->memcache->get($statsKeyMisses);
+            if ($numMisses !== FALSE) {
+                return $numMisses;
             }
 
             $stats = $this->memcache->getExtendedStats();

@@ -124,12 +124,19 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
      * @see Ddth_Cache_ICacheEngine::get()
      */
     public function get($key) {
+        $statsKeyHits = $this->getCacheKeyPrefix() . '_stats_hits';
+        $statsKeyMisses = $this->getCacheKeyPrefix() . '_stats_misses';
+        $this->memcached->add($statsKeyHits, 0);
+        $this->memcached->add($statsKeyMisses, 0);
+
         $newKey = $this->getCacheKeyPrefix() . $key;
         try {
             $result = $this->memcached->get($newKey);
             if ($this->memcached->getResultCode() !== Memcached::RES_NOTFOUND) {
+                $this->memcached->increment($statsKeyHits);
                 return $result;
             } else {
+                $this->memcached->increment($statsKeyMisses);
                 return NULL;
             }
         } catch (Exception $e) {
@@ -172,6 +179,12 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
      */
     public function getNumHits() {
         try {
+            $statsKeyHits = $this->getCacheKeyPrefix() . '_stats_hits';
+            $numHits = $this->memcached->get($statsKeyHits);
+            if ($this->memcached->getResultCode() !== Memcached::RES_NOTFOUND) {
+                return $numHits;
+            }
+
             $stats = $this->memcached->getStats();
             $numHits = 0;
             foreach ($stats as $serverName => $serverStats) {
@@ -188,6 +201,12 @@ class Ddth_Cache_Engine_MemcachedEngine extends Ddth_Cache_Engine_AbstractEngine
      */
     public function getNumMisses() {
         try {
+            $statsKeyMisses = $this->getCacheKeyPrefix() . '_stats_misses';
+            $numMisses = $this->memcached->get($statsKeyMisses);
+            if ($this->memcached->getResultCode() !== Memcached::RES_NOTFOUND) {
+                return $numMisses;
+            }
+
             $stats = $this->memcached->getStats();
             $numMisses = 0;
             foreach ($stats as $serverName => $serverStats) {
