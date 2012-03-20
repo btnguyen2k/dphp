@@ -7,26 +7,29 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Dao
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
- * @since       File available since v0.2.3
+ * @package Dao
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id: ClassAbstractSqlStatementDao.php 275 2011-06-02 16:32:27Z
+ *          btnguyen2k@gmail.com $
+ * @since File available since v0.2.3
  */
 
 /**
  * Abstract SqlStatement implementation of {@link Ddth_Dao_IDao}.
  *
- * This abstract implementation of {@link Ddth_Dao_IDao} utilizes {@link Ddth_Dao_SqlStatement}
+ * This abstract implementation of {@link Ddth_Dao_IDao} utilizes {@link
+ * Ddth_Dao_SqlStatement}
  * to interact with the persistent storage.
  *
- * @package    	Dao
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.2.1
+ * @package Dao
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since Class available since v0.2.1
  */
 abstract class Ddth_Dao_AbstractSqlStatementDao extends Ddth_Dao_AbstractConnDao {
 
+    const CONF_SQL_STM_FILE = 'sqlStmFile';
+
     private $sqlStmFactory;
-    private $sqlStmFile;
 
     /**
      * Gets name of the sql statement file.
@@ -34,7 +37,7 @@ abstract class Ddth_Dao_AbstractSqlStatementDao extends Ddth_Dao_AbstractConnDao
      * @return string
      */
     protected function getSqlStatementFile() {
-        return $this->sqlStmFile;
+        return $this->getConfig(self::CONF_SQL_STM_FILE);
     }
 
     /**
@@ -43,10 +46,11 @@ abstract class Ddth_Dao_AbstractSqlStatementDao extends Ddth_Dao_AbstractConnDao
      * @param string $sqlStmFile
      */
     public function setSqlStatementFile($sqlStmFile) {
-        $this->sqlStmFile = $sqlStmFile;
+        $this->setConfig(self::CONF_SQL_STM_FILE, $sqlStmFile);
     }
 
     /**
+     *
      * @see Ddth_Dao_IDao::init()
      */
     public function init($daoFactory) {
