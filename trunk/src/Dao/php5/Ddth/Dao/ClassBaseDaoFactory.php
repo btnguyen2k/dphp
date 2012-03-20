@@ -7,37 +7,45 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Dao
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
- * @since       File available since v0.2
+ * @package Dao
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id: ClassBaseDaoFactory.php 293 2011-09-04 19:06:23Z
+ *          btnguyen2k@gmail.com $
+ * @since File available since v0.2
  */
 
 /**
- * An implementation of {@link Ddth_Dao_IDaoFactory}. This can be used as a base implementation
+ * An implementation of {@link Ddth_Dao_IDaoFactory}.
+ * This can be used as a base implementation
  * of dao factory.
  *
- * This class also provides static function to create instance of {@link Ddth_Dao_IDaoFactory}.
- * This function accepts an associative array as parameter. If the argument is NULL,
- * the global variable $DPHP_DAO_CONFIG is used instead (if there is no global variable
- * $DPHP_DAO_CONFIG, the function falls back to use the global variable $DPHP_DAO_CONF).
+ * This class also provides static function to create instance of {@link
+ * Ddth_Dao_IDaoFactory}.
+ * This function accepts an associative array as parameter. If the argument is
+ * NULL,
+ * the global variable $DPHP_DAO_CONFIG is used instead (if there is no global
+ * variable
+ * $DPHP_DAO_CONFIG, the function falls back to use the global variable
+ * $DPHP_DAO_CONF).
  *
  * Detailed specs of the configuration array:
  * <code>
  * Array(
- * # Name of the DAO factory class (must implement interface Ddth_Dao_IDaoFactory)
+ * # Name of the DAO factory class (must implement interface
+ * Ddth_Dao_IDaoFactory)
  * 'dphp-dao.factoryClass' => 'Ddth_Dao_BaseDaoFactory',
  *
  * # DAOs configurations: Each DAO is configured in the following format
- * 'dao.<daoname>' => '<dao class name, must implement interface Ddth_Dao_IDao>',
+ * 'dao.<daoname>' => '<dao class name, must implement interface
+ * Ddth_Dao_IDao>',
  * # Example:
  * 'dao.user' => 'Ddth_Demo_Dao_UserDao'
  * )
  * </code>
  *
- * @package     Dao
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.2
+ * @package Dao
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since Class available since v0.2
  */
 class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
 
@@ -50,11 +58,13 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
     const CONF_DAO_PREFIX = 'dao.';
 
     /**
+     *
      * @var Ddth_Commons_Logging_ILog
      */
     private $LOGGER;
 
     /**
+     *
      * @var Array
      */
     private $config = NULL;
@@ -87,7 +97,9 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
     /**
      * Gets an instance of DAO factory.
      *
-     * @param Array $config configuration array (see {@link Ddth_Dao_BaseDaoFactory here} for more information.
+     * @param Array $config
+     *            configuration array (see {@link Ddth_Dao_BaseDaoFactory here}
+     *            for more information.
      * @return Ddth_Dao_IDaoFactory
      * @throws {@link Ddth_Dao_DaoException}
      */
@@ -124,6 +136,7 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
         }
         $hash = md5(serialize($config));
         /**
+         *
          * @var Ddth_Dao_IDaoFactory
          */
         $obj = isset(self::$cache[$hash]) ? self::$cache[$hash] : NULL;
@@ -149,6 +162,7 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
     }
 
     /**
+     *
      * @see Ddth_Dao_IDaoFactory::init();
      */
     public function init($config) {
@@ -172,8 +186,8 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
      * @throws {@link Ddth_Dao_DaoException}
      */
     public function getDao($name) {
-        $className = isset($this->config[$name]) ? $this->config[$name] : NULL;
-        if ($className === NULL || trim($className) === '') {
+        $daoConfig = isset($this->config[$name]) ? $this->config[$name] : NULL;
+        if ($daoConfig === NULL) {
             return NULL;
         }
         $dao = isset($this->daoCache[$name]) ? $this->daoCache[$name] : NULL;
@@ -181,9 +195,17 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
             $dao = NULL;
         }
         if ($dao === NULL) {
+            if (is_array($daoConfig)) {
+                $className = $daoConfig['class'];
+                $_daoConfig = $daoConfig;
+                unset($_daoConfig['class']);
+            } else {
+                $className = $daoConfig;
+                $_daoConfig = Array();
+            }
             $dao = new $className();
             if ($dao instanceof Ddth_Dao_IDao) {
-                $dao->init($this);
+                $dao->init($this, $_daoConfig);
                 $this->daoCache[$name] = $dao;
             } else {
                 $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "][$className] is not instance of [Ddth_Dao_IDao]!";
@@ -205,7 +227,7 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
     public function __call($name, $arguments = Array()) {
         $matches = Array();
         if (preg_match('/get((\w+)Dao)/i', $name, $matches)) {
-            //try 1
+            // try 1
             $names = $this->_genNames($matches[1]);
             $dao = NULL;
             foreach ($names as $name) {
@@ -215,7 +237,7 @@ class Ddth_Dao_BaseDaoFactory implements Ddth_Dao_IDaoFactory {
                 }
             }
 
-            //try 2
+            // try 2
             $names = $this->_genNames($matches[2]);
             $dao = NULL;
             foreach ($names as $name) {
