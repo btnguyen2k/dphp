@@ -53,8 +53,8 @@ abstract class Ddth_Dao_AbstractSqlStatementDao extends Ddth_Dao_AbstractConnDao
      *
      * @see Ddth_Dao_IDao::init()
      */
-    public function init($daoFactory) {
-        parent::init($daoFactory);
+    public function init($daoFactory, $config = Array()) {
+        parent::init($daoFactory, $config);
         $this->initSqlStatementFactory();
     }
 
