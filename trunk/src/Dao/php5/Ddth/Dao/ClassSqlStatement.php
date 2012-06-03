@@ -7,19 +7,22 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Dao
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
- * @since       File available since v0.2.2
+ * @package Dao
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id: ClassSqlStatement.php 294 2011-09-12 12:30:53Z
+ *          btnguyen2k@gmail.com $
+ * @since File available since v0.2.2
  */
 
 /**
  * SQL query wrapper.
  *
- * This class encapsulates an SQL statement, which is a SQL query with placeholders.
+ * This class encapsulates an SQL statement, which is a SQL query with
+ * placeholders.
  * For example: <i>SELECT * FROM tbl_user WHERE id=${id}</i>.
  *
- * Note: do NOT use quotes (' or ") around the place-holders. Single quotes (') will be
+ * Note: do NOT use quotes (' or ") around the place-holders. Single quotes (')
+ * will be
  * automatically added when needed.
  *
  * Usage:
@@ -54,15 +57,16 @@
  * $resultSet = $sqlStm->execute($dbConn, $value);
  * </code>
  *
- * @package    	Dao
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.2.2
+ * @package Dao
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since Class available since v0.2.2
  */
 abstract class Ddth_Dao_SqlStatement {
 
     private $sql = '';
 
     /**
+     *
      * @var Ddth_Commons_Logging_ILog
      */
     private $LOGGER;
@@ -79,6 +83,7 @@ abstract class Ddth_Dao_SqlStatement {
 
     /**
      * Gets the sql query.
+     *
      * @return string
      */
     public function getSql() {
@@ -87,15 +92,19 @@ abstract class Ddth_Dao_SqlStatement {
 
     /**
      * Sets the sql command.
-     * @param string
+     *
+     * @param
+     *            string
      */
     public function setSql($sql) {
         $this->sql = $sql;
     }
 
     /**
-     * Gets the 'null' literate. This function returns <code>NULL</code>. Sub-class may override
+     * Gets the 'null' literate.
+     * This function returns <code>NULL</code>. Sub-class may override
      * the behavior of this function if needed.
+     *
      * @return string
      */
     protected function getNullLiterate() {
@@ -105,8 +114,10 @@ abstract class Ddth_Dao_SqlStatement {
     /**
      * Prepares the SQL statement.
      *
-     * @param mixed $conn an open database connection
-     * @param Array $values parameters to be bind to the query (an associative array)
+     * @param mixed $conn
+     *            an open database connection
+     * @param Array $values
+     *            parameters to be bind to the query (an associative array)
      * @return string the prepared SQL statement
      */
     public function prepare($conn, $values = Array()) {
@@ -143,13 +154,17 @@ abstract class Ddth_Dao_SqlStatement {
     }
 
     /**
-     * Escapes a value to be used in a SQL statement. Sub-class must implement this function.
+     * Escapes a value to be used in a SQL statement.
+     * Sub-class must implement this function.
      *
-     * Note: sub-class should not add quotes (" or ') around the value, leave that to
+     * Note: sub-class should not add quotes (" or ') around the value, leave
+     * that to
      * {@link prepare()} function.
      *
-     * @param mixed $conn an open database connection
-     * @param mixed $value the value to escape
+     * @param mixed $conn
+     *            an open database connection
+     * @param mixed $value
+     *            the value to escape
      * @return string the escaped string
      */
     protected abstract function escape($conn, $value);
@@ -157,8 +172,10 @@ abstract class Ddth_Dao_SqlStatement {
     /**
      * Prepares and executes the statement.
      *
-     * @param mixed $conn an open database connection
-     * @param Array $values parameters to be bind to the query (an associative array)
+     * @param mixed $conn
+     *            an open database connection
+     * @param Array $values
+     *            parameters to be bind to the query (an associative array)
      * @return mixed
      */
     public function execute($conn, $values = Array()) {
@@ -176,16 +193,19 @@ abstract class Ddth_Dao_SqlStatement {
             return $result;
         } catch (Exception $e) {
             $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]{$e->getMessage()}. Query: $sql";
-            $this->LOGGER->fatal($msg, $e);
+            // $this->LOGGER->fatal($msg, $e);
             throw $e;
         }
     }
 
     /**
-     * Executes the prepared sql query. Sub-class must implement this function.
+     * Executes the prepared sql query.
+     * Sub-class must implement this function.
      *
-     * @param string $preparedSql the prepared sql query
-     * @param mixed $conn an open database connection
+     * @param string $preparedSql
+     *            the prepared sql query
+     * @param mixed $conn
+     *            an open database connection
      * @return mixed
      */
     protected abstract function doExecute($preparedSql, $conn);
@@ -193,9 +213,11 @@ abstract class Ddth_Dao_SqlStatement {
     /**
      * Gets number of affected rows from previous operation.
      *
-     * This function simply returns -1. Sub-class should override the function to implements its own business.
+     * This function simply returns -1. Sub-class should override the function
+     * to implements its own business.
      *
-     * @param mixed $conn an open database connection
+     * @param mixed $conn
+     *            an open database connection
      * @return int number of affected rows, FALSE if error, -1 if not supported
      * @since function available since v0.2.5
      */

@@ -7,18 +7,22 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Template
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
- * @since       File available since v0.1
+ * @package Template
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id: ClassBaseTemplateFactory.php 260 2011-01-04 04:10:06Z
+ *          btnguyen2k@gmail.com $
+ * @since File available since v0.1
  */
 
 /**
- * An implementation of {@link Ddth_Template_ITemplateFactory}. This can be used as the base class
+ * An implementation of {@link Ddth_Template_ITemplateFactory}.
+ * This can be used as the base class
  * to develop custom template factory class.
  *
- * This class provides a {@link getInstance() static function} to get instance of
- * {@link Ddth_Template_ITemplateFactory}. The static function takes an array as parameter.
+ * This class provides a {@link getInstance() static function} to get instance
+ * of
+ * {@link Ddth_Template_ITemplateFactory}. The static function takes an array as
+ * parameter.
  * See {@link getInstance()} for details of the configuration array.
  *
  * Usage:
@@ -29,9 +33,9 @@
  * $page->render($model);
  * </code>
  *
- * @package    	Template
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.1
+ * @package Template
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since Class available since v0.1
  */
 class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactory {
 
@@ -49,11 +53,13 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
     const DEFAULT_FACTORY_CLASS = 'Ddth_Template_BaseTemplateFactory';
 
     /**
+     *
      * @var Ddth_Commons_Logging_ILog
      */
     private $LOGGER;
 
     /**
+     *
      * @var Array
      */
     private $config = Array();
@@ -66,23 +72,29 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
     private $templateNames = NULL;
 
     /**
-     * Registered template packs (associative array {templateName => templateObject}).
+     * Registered template packs (associative array {templateName =>
+     * templateObject}).
      *
      * @var Array
      */
     private $templatePacks = NULL;
 
     /**
+     *
      * @var string
      */
     private $baseDir = NULL;
 
     /**
-     * Static function to get instances of {@link Ddth_Template_ITemplateFactory}.
+     * Static function to get instances of {@link
+     * Ddth_Template_ITemplateFactory}.
      *
-     * This function accepts an associative array as parameter. If the argument is NULL,
-     * the global variable $DPHP_TEMPLATE_CONFIG is used instead (if there is no global variable
-     * $DPHP_TEMPLATE_CONFIG, the function falls back to use the global variable $DPHP_TEMPLATE_CONF).
+     * This function accepts an associative array as parameter. If the argument
+     * is NULL,
+     * the global variable $DPHP_TEMPLATE_CONFIG is used instead (if there is no
+     * global variable
+     * $DPHP_TEMPLATE_CONFIG, the function falls back to use the global variable
+     * $DPHP_TEMPLATE_CONF).
      *
      * Detailed specs of the configuration array:
      * <code>
@@ -92,7 +104,8 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
      * 'factory.class' => 'Ddth_Template_BaseTemplateFactory',
      *
      * # Names of registered template packs, separated by (,) or (;) or spaces.
-     * # Template name should contain only lower-cased letters (a-z), digits (0-9)
+     * # Template name should contain only lower-cased letters (a-z), digits
+     * (0-9)
      * # and underscores (_) only!
      * 'templates' => 'default, fancy',
      *
@@ -106,34 +119,41 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
      * # Note: all those configuration settings will be passed to the template
      * # pack Ddth_Template_ITemplate::init() function. Before being passed to
      * # the function, the "template.<name>." will be removed from the key.
-     * # Which means, the passed array will contain elements such as {'<key>' => <value>}
+     * # Which means, the passed array will contain elements such as {'<key>' =>
+     * <value>}
      *
      * # Several important template settings:
      *
      * # - Class name of the template pack (required): must extend either
-     * #   Ddth_Template_Php_PhpTemplate or Ddth_Template_Smarty_SmartyTemplate
-     * 'template.fancy.class'       => 'Ddth_Template_Php_PhpTemplate',
+     * # Ddth_Template_Php_PhpTemplate or Ddth_Template_Smarty_SmartyTemplate
+     * 'template.fancy.class' => 'Ddth_Template_Php_PhpTemplate',
      *
      * # - Class name of template's page object (optional)
-     * 'template.fancy.pageClass'   => 'Ddth_Template_Php_PhpPage',
+     * 'template.fancy.pageClass' => 'Ddth_Template_Php_PhpPage',
      *
-     * # If template is Smarty-based, there are several important settings for Smarty:
-     * # - Name of the directory to store Smarty's cache files (located under template.<name>.location)
-     * 'template.fancy.smarty.cache'   => 'cache',
-     * # - Name of the directory to store Smarty's compiled template files (located under template.<name>.location)
+     * # If template is Smarty-based, there are several important settings for
+     * Smarty:
+     * # - Name of the directory to store Smarty's cache files (located under
+     * template.<name>.location)
+     * 'template.fancy.smarty.cache' => 'cache',
+     * # - Name of the directory to store Smarty's compiled template files
+     * (located under template.<name>.location)
      * 'template.fancy.smarty.compile' => 'templates_c',
-     * # - Name of the directory to store Smarty's configuration files (located under template.<name>.location)
+     * # - Name of the directory to store Smarty's configuration files (located
+     * under template.<name>.location)
      * 'template.fancy.smarty.configs' => 'configs',
      *
-     * # - Location (required, points to a sub-directory, relative to the template.baseDirectory) where
-     * #   where files of this template pack are located:
-     * 'template.fancy.location'    => 'fancy',
+     * # - Location (required, points to a sub-directory, relative to the
+     * template.baseDirectory) where
+     * # where files of this template pack are located:
+     * 'template.fancy.location' => 'fancy',
      *
      * # - Character encoding (default is 'utf-8') used by this template pack
-     * 'template.fancy.charset'     => 'utf-8',
+     * 'template.fancy.charset' => 'utf-8',
      *
-     * # - Name of the configuration file (required, {@link Ddth_Commons_Properties .properties format})
-     * 'template.fancy.configFile'  => 'config.properties',
+     * # - Name of the configuration file (required, {@link
+     * Ddth_Commons_Properties .properties format})
+     * 'template.fancy.configFile' => 'config.properties',
      *
      * # - Display name of the template pack (optional):
      * 'template.fancy.displayName' => 'Fancy',
@@ -234,6 +254,7 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
     }
 
     /**
+     *
      * @see Ddth_Template_ITemplateFactory::init()
      */
     public function init($config) {
@@ -252,13 +273,13 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
         $baseDir = isset($config[self::CONF_BASE_DIRECTORY]) ? trim($config[self::CONF_BASE_DIRECTORY]) : NULL;
         if ($baseDir === NULL || $baseDir === "") {
             $msg = 'Can not find base directory setting!';
-            $this->LOGGER->fatal($msg);
+            // $this->LOGGER->fatal($msg);
             throw new Ddth_Template_TemplateException($msg);
         }
         $baseDir = new Ddth_Commons_File($baseDir);
         if (!$baseDir->isDirectory() || !$baseDir->canRead()) {
             $msg = "[{$baseDir->getPathname()}] is not a directory or not readable!";
-            $this->LOGGER->fatal($msg);
+            // $this->LOGGER->fatal($msg);
             throw new Ddth_Template_TemplateException($msg);
         }
         $this->setBaseDir($baseDir);
@@ -280,8 +301,9 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
 
     /**
      * Creates a template pack object.
-
-     * @param string $templateName name of the template pack to create
+     *
+     * @param string $templateName
+     *            name of the template pack to create
      * @return Ddth_Template_ITemplate
      */
     protected function createTemplatePack($templateName) {
@@ -307,7 +329,8 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
     }
 
     /**
-     * Builds/Extracts the template settings from the factory settings. See {@link getInstance()}
+     * Builds/Extracts the template settings from the factory settings.
+     * See {@link getInstance()}
      * for more information.
      *
      * @param string $templateName
@@ -316,7 +339,7 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
     protected function getTemplateConfig($templateName) {
         $templateNames = $this->getTemplateNames();
         $templateConfig = Array();
-        //extract template configurations from factory's config object
+        // extract template configurations from factory's config object
         $prefix = self::CONF_PREFIX . $templateName . '.';
         $len = strlen($prefix);
         foreach ($this->config as $key => $value) {
@@ -329,9 +352,9 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
                 $templateConfig[$key] = $value;
             }
         }
-        //load template configurations from file
+        // load template configurations from file
         $configFromFile = $this->loadTemplateConfigFile($templateName);
-        //merge them
+        // merge them
         foreach ($configFromFile as $key => $value) {
             $templateConfig[$key] = $value;
         }
@@ -342,11 +365,14 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
     /**
      * Gets class name of the template pack.
      *
-     * This function uses the configuration {@link CONF_TEMPLATE_CLASS} to look up
-     * the name of the template pack class. Sub-class may override this function to
+     * This function uses the configuration {@link CONF_TEMPLATE_CLASS} to look
+     * up
+     * the name of the template pack class. Sub-class may override this function
+     * to
      * provide its own behavior.
      *
-     * @param string $templateName name of the template
+     * @param string $templateName
+     *            name of the template
      * @return string
      */
     protected function getTemplateClassName($templateName) {
@@ -357,11 +383,14 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
     /**
      * Gets location setting of the template pack.
      *
-     * This function uses the configuration {@link CONF_TEMPLATE_LOCATION} to look up
-     * the location of the template pack. Sub-class may override this function to
+     * This function uses the configuration {@link CONF_TEMPLATE_LOCATION} to
+     * look up
+     * the location of the template pack. Sub-class may override this function
+     * to
      * provide its own behavior.
      *
-     * @param string $templateName name of the template
+     * @param string $templateName
+     *            name of the template
      * @return string
      */
     protected function getTemplateLocation($templateName) {
@@ -372,11 +401,14 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
     /**
      * Gets template pack's configuration file.
      *
-     * This function uses the configuration {@link CONF_TEMPLATE_CONFIG_FILE} to look up
-     * the template pack's configuration file. Sub-class may override this function to
+     * This function uses the configuration {@link CONF_TEMPLATE_CONFIG_FILE} to
+     * look up
+     * the template pack's configuration file. Sub-class may override this
+     * function to
      * provide its own behavior.
      *
-     * @param string $templateName name of the template
+     * @param string $templateName
+     *            name of the template
      * @return string
      */
     protected function getTemplateConfigFile($templateName) {
@@ -385,20 +417,25 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
     }
 
     /**
-     * Loads template configurations from the template pack's configuration file.
+     * Loads template configurations from the template pack's configuration
+     * file.
      *
-     * Template pack's configuration file is a {@link Ddth_Commons_Properties .properties file}. This
-     * function, however, loads the file content and returns configurations as an associative array.
+     * Template pack's configuration file is a {@link Ddth_Commons_Properties
+     * .properties file}. This
+     * function, however, loads the file content and returns configurations as
+     * an associative array.
      *
      * @param string $templateName
      * @return Array
      */
     protected function loadTemplateConfigFile($templateName) {
-        //the template pack's configuration is:
-        //template.baseDirectory/template.<name>.location>/template.<name>.configFile
+        // the template pack's configuration is:
+        // template.baseDirectory/template.<name>.location>/template.<name>.configFile
         $templateConfigFile = new Ddth_Commons_File($this->getBaseDir());
-        $templateConfigFile = new Ddth_Commons_File($this->getTemplateLocation($templateName), $templateConfigFile);
-        $templateConfigFile = new Ddth_Commons_File($this->getTemplateConfigFile($templateName), $templateConfigFile);
+        $templateConfigFile = new Ddth_Commons_File($this->getTemplateLocation($templateName),
+                $templateConfigFile);
+        $templateConfigFile = new Ddth_Commons_File($this->getTemplateConfigFile($templateName),
+                $templateConfigFile);
         $templateConfig = new Ddth_Commons_Properties();
         $templateConfig->load($templateConfigFile->getPathname());
         return $templateConfig->toArray();
