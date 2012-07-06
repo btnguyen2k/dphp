@@ -28,6 +28,7 @@
 abstract class Ddth_Dao_AbstractSqlStatementDao extends Ddth_Dao_AbstractConnDao {
 
     const CONF_SQL_STM_FILE = 'sqlStmFile';
+    const CONF_SQL_BASE_STM_FILE = 'sqlBaseStmFile';
 
     private $sqlStmFactory;
 
@@ -50,6 +51,24 @@ abstract class Ddth_Dao_AbstractSqlStatementDao extends Ddth_Dao_AbstractConnDao
     }
 
     /**
+     * Gets name of the base sql statement file.
+     *
+     * @return string
+     */
+    protected function getBaseSqlStatementFile() {
+        return $this->getConfig(self::CONF_SQL_BASE_STM_FILE);
+    }
+
+    /**
+     * Sets the base sql statement file.
+     *
+     * @param string $sqlStmFile
+     */
+    public function setBaseSqlStatementFile($sqlStmFile) {
+        $this->setConfig(self::CONF_SQL_BASE_STM_FILE, $sqlStmFile);
+    }
+
+    /**
      *
      * @see Ddth_Dao_IDao::init()
      */
@@ -62,8 +81,9 @@ abstract class Ddth_Dao_AbstractSqlStatementDao extends Ddth_Dao_AbstractConnDao
      * Initializes the {@link Ddth_Dao_SqlStatementFactory} instance.
      */
     protected function initSqlStatementFactory() {
+        $configFileBase = $this->getBaseSqlStatementFile();
         $configFile = $this->getSqlStatementFile();
-        $this->sqlStmFactory = Ddth_Dao_SqlStatementFactory::getInstance($configFile);
+        $this->sqlStmFactory = Ddth_Dao_SqlStatementFactory::getInstance($configFile, $configFileBase);
     }
 
     /**
@@ -89,4 +109,3 @@ abstract class Ddth_Dao_AbstractSqlStatementDao extends Ddth_Dao_AbstractConnDao
         return $stm;
     }
 }
-?>

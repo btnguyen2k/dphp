@@ -7,19 +7,22 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Dao
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
- * @since       File available since v0.1.6
+ * @package Dao
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id: ClassSqlStatementFactory.php 301 2012-01-17 08:50:25Z
+ *          btnguyen2k@gmail.com $
+ * @since File available since v0.1.6
  */
 
 /**
  * Factory to create {@link Ddth_Dao_SqlStatement} objects.
  *
- * This factory loads sql statements from a file ({@link Ddth_Commons_Properties .properties format}).
+ * This factory loads sql statements from a file ({@link Ddth_Commons_Properties
+ * .properties format}).
  * Detailed specification of the configuration file is as the following:
  * <code>
- * statement.class = name of the concrete SqlStatement class (must extend Ddth_Dao_SqlStatement)
+ * statement.class = name of the concrete SqlStatement class (must extend
+ * Ddth_Dao_SqlStatement)
  *
  * # Each line is a sql statement, in .properties format
  * <name>=<the SQL query>
@@ -27,7 +30,8 @@
  * # Examples:
  * sql.selectUserById = SELECT * FROM tbl_user WHERE id=${id}
  * sql.deleteUserByEmail = DELETE FROM tbl_user WHERE email=${email}
- * sql.createUser = INSERT INTO tbl_user (id, username, email) VALUES (${id}, ${username}, ${email})
+ * sql.createUser = INSERT INTO tbl_user (id, username, email) VALUES (${id},
+ * ${username}, ${email})
  *
  * # Note: do NOT use quotes (" or ') around the place-holders.
  * </code>
@@ -38,17 +42,19 @@
  * $factory = Ddth_Dao_SqlStatementFactory::getInstance($configFile);
  * $sqlStm = $factory->getSqlStatement('sql.selectUserById');
  * </code>
- * See {@link Ddth_Dao_SqlStatement here} for more details on how to use {@link Ddth_Dao_SqlStatement}.
+ * See {@link Ddth_Dao_SqlStatement here} for more details on how to use {@link
+ * Ddth_Dao_SqlStatement}.
  *
- * @package     Dao
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.1.6
+ * @package Dao
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since Class available since v0.1.6
  */
 class Ddth_Dao_SqlStatementFactory {
 
     const PROP_STATEMENT_CLASS = 'statement.class';
 
     /**
+     *
      * @var Ddth_EhProperties_EhProperties
      */
     private $configs;
@@ -58,6 +64,7 @@ class Ddth_Dao_SqlStatementFactory {
     private $stmClass = NULL;
 
     /**
+     *
      * @var Ddth_Commons_Logging_ILog
      */
     private $LOGGER;
@@ -65,26 +72,37 @@ class Ddth_Dao_SqlStatementFactory {
     private static $staticCache = Array();
 
     /**
-     * Constructs a Ddth_Dao_SqlStatementFactory object from a configuration file.
+     * Constructs a Ddth_Dao_SqlStatementFactory object from a configuration
+     * file.
      *
-     * See {@link Ddth_Dao_SqlStatementFactory} for format of the configuration file.
+     * See {@link Ddth_Dao_SqlStatementFactory} for format of the configuration
+     * file.
      *
-     * @param string $configFile path to the configuration file
+     * @param string $configFile
+     *            path to the configuration file
      * @return Ddth_Dao_SqlStatementFactory
      */
-    public static function getInstance($configFile) {
-        $obj = isset(self::$staticCache[$configFile]) ? self::$staticCache[$configFile] : NULL;
+    public static function getInstance($configFile, $configBaseFile = NULL) {
+        $cacheKey = "$configFile.$configBaseFile";
+        $obj = isset(self::$staticCache[$cacheKey]) ? self::$staticCache[$cacheKey] : NULL;
         if ($obj === NULL) {
-            $fileContent = Ddth_Commons_Loader::loadFileContent($configFile);
-            if ($fileContent === NULL || $fileContent === "") {
+            $fileContentBase = $configBaseFile !== NULL ? Ddth_Commons_Loader::loadFileContent($configBaseFile) : NULL;
+            $fileContent = $configFile !== NULL ? Ddth_Commons_Loader::loadFileContent($configFile) : NULL;
+            if (($fileContent === NULL || $fileContent === "") && ($fileContentBase === NULL || $fileContentBase === "")) {
+                // $fileContent and $fileContentBase both are NULL
                 return NULL;
             }
-            //$props = new Ddth_Commons_Properties();
+            // $props = new Ddth_Commons_Properties();
             $props = new Ddth_EhProperties_EhProperties();
-            $props->import($fileContent);
+            if ($fileContentBase !== NULL && $fileContentBase !== "") {
+                $props->import($fileContentBase);
+            }
+            if ($fileContent !== NULL && $fileContent !== "") {
+                $props->import($fileContent);
+            }
             $obj = new Ddth_Dao_SqlStatementFactory($props);
 
-            self::$staticCache[$configFile] = $obj;
+            self::$staticCache[$cacheKey] = $obj;
         }
         return $obj;
     }
@@ -102,7 +120,8 @@ class Ddth_Dao_SqlStatementFactory {
     /**
      * Sets configurations.
      *
-     * @param Ddth_Commons_Properties
+     * @param
+     *            Ddth_Commons_Properties
      */
     public function setConfigs($props) {
         $this->configs = $props;
@@ -111,7 +130,7 @@ class Ddth_Dao_SqlStatementFactory {
             $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Invalid statement class: {$this->stmClass}!";
             $this->LOGGER->warn($msg);
         }
-        $this->cache = Array(); //clear cache
+        $this->cache = Array(); // clear cache
     }
 
     /**
@@ -126,7 +145,8 @@ class Ddth_Dao_SqlStatementFactory {
     /**
      * Gets a SqlStatement.
      *
-     * @param string $name identification name of the statement
+     * @param string $name
+     *            identification name of the statement
      * @return Ddth_Dao_SqlStatement the obtained statement, NULL if not found
      */
     public function getSqlStatement($name) {
@@ -134,6 +154,7 @@ class Ddth_Dao_SqlStatementFactory {
         if ($stm === NULL) {
             $sql = $this->configs->getProperty($name);
             /**
+             *
              * @var Ddth_Dao_SqlStatement
              */
             $stm = $sql !== NULL ? new $this->stmClass() : NULL;
