@@ -83,7 +83,7 @@ abstract class Ddth_Dao_AbstractSqlStatementDao extends Ddth_Dao_AbstractConnDao
     protected function initSqlStatementFactory() {
         $configFileBase = $this->getBaseSqlStatementFile();
         $configFile = $this->getSqlStatementFile();
-        $this->sqlStmFactory = Ddth_Dao_SqlStatementFactory::getInstance($configFile, $configFileBase);
+        $this->sqlStmFactory = Ddth_Dao_SqlStatementFactory::getInstance($this, $configFile, $configFileBase);
     }
 
     /**
