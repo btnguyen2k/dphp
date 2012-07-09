@@ -106,7 +106,7 @@ class Ddth_Dao_Pgsql_BasePgsqlDaoFactory extends Ddth_Dao_AbstractConnDaoFactory
      */
     protected function buildConnectionString() {
         $connStr = "host={$this->pgsqlHost}";
-        if ($this->pgsqlHost !== NULL) {
+        if ($this->pgsqlPort !== NULL) {
             $connStr .= " port={$this->pgsqlPort}";
         }
         if ($this->pgsqlDatabase !== NULL) {
