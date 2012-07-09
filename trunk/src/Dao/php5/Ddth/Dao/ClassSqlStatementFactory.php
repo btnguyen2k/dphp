@@ -78,11 +78,13 @@ class Ddth_Dao_SqlStatementFactory {
      * See {@link Ddth_Dao_SqlStatementFactory} for format of the configuration
      * file.
      *
+     * @parmam Ddth_Dao_IDao $dao
+     *
      * @param string $configFile
      *            path to the configuration file
      * @return Ddth_Dao_SqlStatementFactory
      */
-    public static function getInstance($configFile, $configBaseFile = NULL) {
+    public static function getInstance($dao, $configFile, $configBaseFile = NULL) {
         $cacheKey = "$configFile.$configBaseFile";
         $obj = isset(self::$staticCache[$cacheKey]) ? self::$staticCache[$cacheKey] : NULL;
         if ($obj === NULL) {
@@ -100,8 +102,15 @@ class Ddth_Dao_SqlStatementFactory {
             if ($fileContent !== NULL && $fileContent !== "") {
                 $props->import($fileContent);
             }
-            $obj = new Ddth_Dao_SqlStatementFactory($props);
-
+            if ($dao instanceof Ddth_Dao_Mysql_IMysqlDao) {
+                $obj = new Ddth_Dao_Mysql_MysqlSqlStatementFactory($props);
+            } else if ($dao instanceof Ddth_Dao_Pgsql_IPgsqlDao) {
+                $obj = new Ddth_Dao_Pgsql_PgsqlSqlStatementFactory($props);
+            } else if ($dao instanceof Ddth_Dao_Sqlite_ISqliteDao) {
+                $obj = new Ddth_Dao_Sqlite_SqliteSqlStatementFactory($props);
+            } else {
+                $obj = new Ddth_Dao_SqlStatementFactory($props);
+            }
             self::$staticCache[$cacheKey] = $obj;
         }
         return $obj;
@@ -118,18 +127,37 @@ class Ddth_Dao_SqlStatementFactory {
     }
 
     /**
+     * Gets name of the statement class.
+     *
+     * @return string
+     * @since fucntion available since v0.2.7
+     */
+    protected function getStatementClass() {
+        return $this->stmClass;
+    }
+
+    /**
+     * Sets name of the statement class
+     *
+     * @param string $stmClass
+     * @since fucntion available since v0.2.7
+     */
+    protected function setStatementClass($stmClass = NULL) {
+        $this->stmClass = $stmClass;
+        if ($this->stmClass === NULL) {
+            $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Invalid statementclass: NULL!";
+            $this->LOGGER->warn($msg);
+        }
+    }
+
+    /**
      * Sets configurations.
      *
-     * @param
-     *            Ddth_Commons_Properties
+     * @param Ddth_Commons_Properties $props
      */
     public function setConfigs($props) {
         $this->configs = $props;
-        $this->stmClass = $props->getProperty(self::PROP_STATEMENT_CLASS);
-        if ($this->stmClass === NULL) {
-            $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]Invalid statement class: {$this->stmClass}!";
-            $this->LOGGER->warn($msg);
-        }
+        $this->setStatementClass($props->getProperty(self::PROP_STATEMENT_CLASS));
         $this->cache = Array(); // clear cache
     }
 
