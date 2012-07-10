@@ -7,23 +7,25 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Dao
- * @subpackage  Mysql
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id$
- * @since       File available since v0.2.2
+ * @package Dao
+ * @subpackage Mysql
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id: ClassMysqlSqlStatement.php 294 2011-09-12 12:30:53Z
+ *          btnguyen2k@gmail.com $
+ * @since File available since v0.2.2
  */
 
 /**
  * MySQL-specific {@link Ddth_Dao_SqlStatement}.
  *
- * @package    	Dao
- * @subpackage  Mysql
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @since      	Class available since v0.2.2
+ * @package Dao
+ * @subpackage Mysql
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @since Class available since v0.2.2
  */
 class Ddth_Dao_Mysql_MysqlSqlStatement extends Ddth_Dao_SqlStatement {
     /**
+     *
      * @see Ddth_Dao_SqlStatement::escape()
      */
     protected function escape($conn, $value) {
@@ -45,6 +47,7 @@ class Ddth_Dao_Mysql_MysqlSqlStatement extends Ddth_Dao_SqlStatement {
     }
 
     /**
+     *
      * @see Ddth_Dao_SqlStatement::doExecute()
      */
     protected function doExecute($preparedSql, $conn) {
@@ -57,10 +60,14 @@ class Ddth_Dao_Mysql_MysqlSqlStatement extends Ddth_Dao_SqlStatement {
 
     /**
      * (non-PHPdoc)
+     *
      * @see Ddth_Dao_SqlStatement::getNumAffectedRows()
+     *
+     * @param resource $res
+     *            for MySQL, the parameter is a connection resource identifier
      */
-    public function getNumAffectedRows($conn) {
-        $result = mysql_affected_rows($conn);
+    public function getNumAffectedRows($res) {
+        $result = mysql_affected_rows($res);
         return $result !== -1 ? $result : FALSE;
     }
 }
