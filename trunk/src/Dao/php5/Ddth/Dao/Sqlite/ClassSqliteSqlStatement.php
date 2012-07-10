@@ -60,11 +60,10 @@ class Ddth_Dao_Sqlite_SqliteSqlStatement extends Ddth_Dao_SqlStatement {
      *
      * @see Ddth_Dao_SqlStatement::getNumAffectedRows()
      *
-     * @param resource $res
-     *            for SQLite, the parameter is a connection resource identifier
+     * SQLite uses the connection result resource identifier to detect number of affected rows.
      */
-    public function getNumAffectedRows($res) {
-        $result = sqlite_changes($res);
+    public function getNumAffectedRows($conn = NULL, $qres = NULL) {
+        $result = sqlite_changes($conn);
         return $result !== -1 ? $result : FALSE;
     }
 }
