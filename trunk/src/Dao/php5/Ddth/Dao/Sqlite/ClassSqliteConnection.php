@@ -103,7 +103,7 @@ class Ddth_Dao_Sqlite_SqliteConnection {
      */
     public function commitTransaction() {
         if ($this->hasTransaction) {
-            sqlite_query("COMMIT TRANSACTION", $this->sqliteConn);
+            sqlite_query('COMMIT TRANSACTION', $this->sqliteConn);
             $this->hasTransaction = FALSE;
             return TRUE;
         } else {
@@ -118,7 +118,7 @@ class Ddth_Dao_Sqlite_SqliteConnection {
      */
     public function rollbackTransaction() {
         if ($this->hasTransaction) {
-            sqlite_query("ROLLBACK TRANSACTION", $this->sqliteConn);
+            sqlite_query('ROLLBACK TRANSACTION', $this->sqliteConn);
             $this->hasTransaction = FALSE;
             return TRUE;
         } else {
@@ -131,9 +131,8 @@ class Ddth_Dao_Sqlite_SqliteConnection {
      */
     public function startTransaction() {
         if (!$this->hasTransaction) {
-            sqlite_query("BEGIN TRANSACTION", $this->sqliteConn);
+            sqlite_query('BEGIN TRANSACTION', $this->sqliteConn);
             $this->hasTransaction = TRUE;
         }
     }
 }
-?>
