@@ -216,14 +216,16 @@ abstract class Ddth_Dao_SqlStatement {
      * This function simply returns -1. Sub-class should override the function
      * to implements its own business.
      *
-     * @param resource $res
-     *            a database resource identifier. Depends on the underlying
-     *            database this can be a connection (MySQL, for example) or a
-     *            query result (PostgreSQL, for example) resource identifier
+     * Depends on the underlying database, one of the parameters will be used.
+     *
+     * @param resource $conn
+     *            database connection resource identifier
+     * @param resource $result
+     *            database query result resource identifier
      * @return int number of affected rows, FALSE if error, -1 if not supported
      * @since function available since v0.2.5
      */
-    public function getNumAffectedRows($res) {
+    public function getNumAffectedRows($conn = NULL, $qres = NULL) {
         return -1;
     }
 }

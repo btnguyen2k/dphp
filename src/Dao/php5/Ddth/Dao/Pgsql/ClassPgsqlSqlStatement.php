@@ -62,11 +62,10 @@ class Ddth_Dao_Pgsql_PgsqlSqlStatement extends Ddth_Dao_SqlStatement {
      *
      * @see Ddth_Dao_SqlStatement::getNumAffectedRows()
      *
-     * @param resource $result
-     *            for PostgreSQL, the parameter is a result resource identifier
+     * PgSQL uses the query result resource identifier to detect number of affected rows.
      */
-    public function getNumAffectedRows($res) {
-        $result = pg_affected_rows($res);
+    public function getNumAffectedRows($conn = NULL, $qres = NULL) {
+        $result = pg_affected_rows($qres);
         return $result !== -1 ? $result : FALSE;
     }
 }

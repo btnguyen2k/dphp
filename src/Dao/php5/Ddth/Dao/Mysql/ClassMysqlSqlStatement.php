@@ -63,11 +63,10 @@ class Ddth_Dao_Mysql_MysqlSqlStatement extends Ddth_Dao_SqlStatement {
      *
      * @see Ddth_Dao_SqlStatement::getNumAffectedRows()
      *
-     * @param resource $res
-     *            for MySQL, the parameter is a connection resource identifier
+     * MySQL uses the connection resource identifier to detect number of affected rows.
      */
-    public function getNumAffectedRows($res) {
-        $result = mysql_affected_rows($res);
+    public function getNumAffectedRows($conn = NULL, $qres = NULL) {
+        $result = mysql_affected_rows($conn);
         return $result !== -1 ? $result : FALSE;
     }
 }

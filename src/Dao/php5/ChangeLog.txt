@@ -1,4 +1,8 @@
-* 10-Jul-2012: version 0.2.7:
+* 10-Jul-2012: version 0.2.8:
+    - Bugs fixed in PgSQL classes
+    - Update the interface of function Ddth_Dao_Sqlite_SqliteSqlStatement::getNumAffectedRows() 
+
+* 09-Jul-2012: version 0.2.7:
     - Added classes MysqlSqlStatementFactory, PgsqlSqlStatementFactory and SqliteSqlStatementFactory
     
 * 17-Jan-2012: version 0.2.6:
