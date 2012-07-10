@@ -1,3 +1,6 @@
+* 11-Jul-2012: version 0.3.0
+    - Update Ddth_Cache_CacheEntry: support expireAfterWrite and expireAfterAccess
+
 * 19-Jan-2012: version 0.2.2
     - If 'cache.keyPrefix' is not set, use cache's name as 'cache.keyPrefix'
 
