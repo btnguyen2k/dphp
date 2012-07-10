@@ -103,7 +103,7 @@ class Ddth_Dao_Mysql_MysqlConnection {
      */
     public function commitTransaction() {
         if ($this->hasTransaction) {
-            mysql_query("COMMIT", $this->mysqlConn);
+            mysql_query('COMMIT', $this->mysqlConn);
             $this->hasTransaction = FALSE;
             return TRUE;
         } else {
@@ -118,7 +118,7 @@ class Ddth_Dao_Mysql_MysqlConnection {
      */
     public function rollbackTransaction() {
         if ($this->hasTransaction) {
-            mysql_query("ROLLBACK", $this->mysqlConn);
+            mysql_query('ROLLBACK', $this->mysqlConn);
             $this->hasTransaction = FALSE;
             return TRUE;
         } else {
@@ -131,9 +131,8 @@ class Ddth_Dao_Mysql_MysqlConnection {
      */
     public function startTransaction() {
         if (!$this->hasTransaction) {
-            mysql_query("BEGIN", $this->mysqlConn);
+            mysql_query('BEGIN', $this->mysqlConn);
             $this->hasTransaction = TRUE;
         }
     }
 }
-?>
