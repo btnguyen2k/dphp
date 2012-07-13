@@ -152,6 +152,6 @@ class Ddth_Cache_CacheEntry {
         if ($this->expireAfterAccess >= 0) {
             return $this->expireAfterAccess + $this->lastAccessTimestamp < time();
         }
-        return TRUE;
+        return FALSE;
     }
 }
