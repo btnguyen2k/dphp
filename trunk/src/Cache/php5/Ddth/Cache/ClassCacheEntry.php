@@ -97,7 +97,7 @@ class Ddth_Cache_CacheEntry {
      *
      * @return mixed
      */
-    public function getValue() {
+    public function &getValue() {
         if (!$this->isExpired()) {
             $this->lastAccessTimestamp = time();
             return $this->value;
