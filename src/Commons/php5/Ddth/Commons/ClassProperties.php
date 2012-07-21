@@ -7,10 +7,11 @@
  *
  * COPYRIGHT: See the included copyright.txt file for detail.
  *
- * @package     Commons
- * @author      Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @version     $Id: ClassProperties.php 260 2011-01-04 04:10:06Z btnguyen2k@gmail.com $
- * @since       File available since v0.1
+ * @package Commons
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @version $Id: ClassProperties.php 260 2011-01-04 04:10:06Z
+ *          btnguyen2k@gmail.com $
+ * @since File available since v0.1
  */
 
 /**
@@ -36,20 +37,21 @@
  * #this is also a comment
  * key1=value1
  * key2 = value2
- * key3  =     multiple-line value \
+ * key3 = multiple-line value \
  * line 2 \
  * ; line 3 \
  * # line 4
  * </pre>
  *
- * @package    	Commons
- * @author     	Thanh Ba Nguyen <btnguyen2k@gmail.com>
- * @license    	http://www.gnu.org/licenses/lgpl.html LGPL 3.0
- * @since      	Class available since v0.1
+ * @package Commons
+ * @author Thanh Ba Nguyen <btnguyen2k@gmail.com>
+ * @license http://www.gnu.org/licenses/lgpl.html LGPL 3.0
+ * @since Class available since v0.1
  */
 class Ddth_Commons_Properties {
     /**
-     * Set of properties (key => value). Key is a string, value is an array of
+     * Set of properties (key => value).
+     * Key is a string, value is an array of
      * 2 elements, the first one is the property value (string),
      * the second (optional) is the property comment (string.
      */
@@ -135,9 +137,12 @@ class Ddth_Commons_Properties {
     /**
      * Imports property list from a string input (Java-like properties format).
      *
-     * @param string property list in Java-like properties format
-     * @throws {@link Ddth_Commons_Exceptions_IllegalArgumentException IllegalArgumentException}
-     * @throws {@link Ddth_Commons_Exceptions_IllegalStateException IllegalStateException}
+     * @param
+     *            string property list in Java-like properties format
+     * @throws {@link Ddth_Commons_Exceptions_IllegalArgumentException
+     *         IllegalArgumentException}
+     * @throws {@link Ddth_Commons_Exceptions_IllegalStateException
+     *         IllegalStateException}
      */
     public function import($input) {
         if ($input === NULL) {
@@ -153,9 +158,12 @@ class Ddth_Commons_Properties {
     /**
      * Loads property list from a file (Java-like properties format).
      *
-     * @param string name of the property list file
-     * @throws {@link Ddth_Commons_Exceptions_IllegalArgumentException IllegalArgumentException}
-     * @throws {@link Ddth_Commons_Exceptions_IllegalStateException IllegalStateException}
+     * @param
+     *            string name of the property list file
+     * @throws {@link Ddth_Commons_Exceptions_IllegalArgumentException
+     *         IllegalArgumentException}
+     * @throws {@link Ddth_Commons_Exceptions_IllegalStateException
+     *         IllegalStateException}
      * @throws {@link Ddth_Commons_Exceptions_IOException IOException}
      */
     public function load($fileName) {
@@ -171,7 +179,8 @@ class Ddth_Commons_Properties {
     /**
      * Stores property list to a file.
      *
-     * @param string name of the file
+     * @param
+     *            string name of the file
      * @throws {@link Ddth_Commons_Exceptions_IOException IOException}
      */
     public function store($fileName) {
@@ -194,9 +203,12 @@ class Ddth_Commons_Properties {
     /**
      * Parses input and populates properties.
      *
-     * @param Array() input as array of strings
-     * @throws {@link Ddth_Commons_Exceptions_IllegalArgumentException IllegalArgumentException}
-     * @throws {@link Ddth_Commons_Exceptions_IllegalStateException IllegalStateException}
+     * @param
+     *            Array() input as array of strings
+     * @throws {@link Ddth_Commons_Exceptions_IllegalArgumentException
+     *         IllegalArgumentException}
+     * @throws {@link Ddth_Commons_Exceptions_IllegalStateException
+     *         IllegalStateException}
      */
     private function parse($lines = Array()) {
         if (!is_array($lines)) {
@@ -257,11 +269,12 @@ class Ddth_Commons_Properties {
             throw new Ddth_Commons_Exceptions_IllegalArgumentException($msg);
         }
         if ($value !== "" && $value[strlen($value) - 1] === self::$MULTILINE_FLAG) {
-            $value = trim(substr($value, 0, strlen($value) - 1)); //ignore the last char
+            $value = trim(substr($value, 0, strlen($value) - 1)); // ignore the
+                                                                  // last char
             $state = self::$STATE_IN_PROPERTY_VALUE;
         } else {
             $this->setProperty($key, $value, $comment);
-            //reset
+            // reset
             $this->parseReset($state, $key, $value, $comment);
         }
     }
@@ -269,13 +282,13 @@ class Ddth_Commons_Properties {
     private function parseStateStart(&$state, $line, &$key, &$value, &$comment) {
         $line = trim($line);
         if ($line === "") {
-            //reset
+            // reset
             $this->parseReset($state, $key, $value, $comment);
         } elseif (in_array($line[0], self::$COMMENT_START)) {
-            //comment
+            // comment
             $this->parseComment($state, $comment, substr($line, 1));
         } else {
-            //should be propertyKey=propertyValue line by now
+            // should be propertyKey=propertyValue line by now
             $this->parseValue($state, $key, $value, $comment, $line);
         }
     }
@@ -283,13 +296,13 @@ class Ddth_Commons_Properties {
     private function parseStateInComment(&$state, $line, &$key, &$value, &$comment) {
         $line = trim($line);
         if ($line === "") {
-            //reset
+            // reset
             $this->parseReset($state, $key, $value, $comment);
         } elseif (in_array($line[0], self::$COMMENT_START)) {
-            //comment
+            // comment
             $this->parseComment($state, $comment, substr($line, 1));
         } else {
-            //should be propertyKey=propertyValue line by now
+            // should be propertyKey=propertyValue line by now
             $this->parseValue($state, $key, $value, $comment, $line);
         }
     }
@@ -298,22 +311,25 @@ class Ddth_Commons_Properties {
         $line = trim($line);
         if ($line === "") {
             $this->setProperty($key, $value, $comment);
-            //reset
+            // reset
             $this->parseReset($state, $key, $value, $comment);
         } elseif (in_array($line[0], self::$COMMENT_START)) {
             $this->setProperty($key, $value, $comment);
-            //reset
+            // reset
             $this->parseReset($state, $key, $value, $comment);
-            //comment
+            // comment
             $this->parseComment($state, $comment, substr($line, 1));
         } else {
             if ($line[strlen($line) - 1] === self::$MULTILINE_FLAG) {
-                //property value continues
-                $value .= "\n" . substr($line, 0, strlen($line) - 1); //ignore the last char
+                // property value continues
+                $value .= "\n" . substr($line, 0, strlen($line) - 1); // ignore
+                                                                      // the
+                                                                      // last
+                                                                      // char
                 $value = trim($value);
                 $state = self::$STATE_IN_PROPERTY_VALUE;
             } else {
-                //last line of property value
+                // last line of property value
                 $value .= "\n" . $line;
                 $this->setProperty($key, $value, $comment);
                 $this->parseReset($state, $key, $value, $comment);
@@ -324,7 +340,8 @@ class Ddth_Commons_Properties {
     /**
      * Gets a property comment.
      *
-     * @param string the property key
+     * @param
+     *            string the property key
      * @return string the property comment if found, NULL otherwise
      */
     public function getComment($key) {
@@ -342,8 +359,10 @@ class Ddth_Commons_Properties {
     /**
      * Gets a property value.
      *
-     * @param string the property key
-     * @param string a default value
+     * @param
+     *            string the property key
+     * @param
+     *            string a default value
      * @return string the property value if found, the default value otherwise
      */
     public function getProperty($key, $defaultValue = NULL) {
@@ -361,16 +380,20 @@ class Ddth_Commons_Properties {
     /**
      * Sets a property value.
      *
-     * @param string the property key
-     * @param string the property value
-     * @param string the property comment
-     * @return string the previous value of the property specified by property key, or
-     * NULL if there is no such value
+     * @param
+     *            string the property key
+     * @param
+     *            string the property value
+     * @param
+     *            string the property comment
+     * @return string the previous value of the property specified by property
+     *         key, or
+     *         NULL if there is no such value
      */
     public function setProperty($key, $value, $comment = NULL) {
-        $result = $this->getProperty($key);
+        $oldValue = isset($this->properties[$key]) ? $this->properties[$key] : NULL;
         $this->properties[$key] = Array($value, $comment);
-        return $result;
+        return $oldValue !== NULL && is_array($oldValue) && count($oldValue) > 0 ? $oldValue[0] : NULL;
     }
 
     /**
@@ -395,4 +418,3 @@ class Ddth_Commons_Properties {
         return $result;
     }
 }
-?>
