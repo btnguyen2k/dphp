@@ -193,8 +193,7 @@ abstract class Ddth_Dao_SqlStatement {
             return $result;
         } catch (Exception $e) {
             $msg = '[' . __CLASS__ . '::' . __FUNCTION__ . "]{$e->getMessage()}. Query: $sql";
-            // $this->LOGGER->fatal($msg, $e);
-            throw $e;
+            throw new Exception($msg);
         }
     }
 

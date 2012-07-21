@@ -273,13 +273,11 @@ class Ddth_Template_BaseTemplateFactory implements Ddth_Template_ITemplateFactor
         $baseDir = isset($config[self::CONF_BASE_DIRECTORY]) ? trim($config[self::CONF_BASE_DIRECTORY]) : NULL;
         if ($baseDir === NULL || $baseDir === "") {
             $msg = 'Can not find base directory setting!';
-            // $this->LOGGER->fatal($msg);
             throw new Ddth_Template_TemplateException($msg);
         }
         $baseDir = new Ddth_Commons_File($baseDir);
         if (!$baseDir->isDirectory() || !$baseDir->canRead()) {
             $msg = "[{$baseDir->getPathname()}] is not a directory or not readable!";
-            // $this->LOGGER->fatal($msg);
             throw new Ddth_Template_TemplateException($msg);
         }
         $this->setBaseDir($baseDir);
