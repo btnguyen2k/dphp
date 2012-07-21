@@ -88,20 +88,27 @@ class Ddth_Dao_SqlStatementFactory {
         $cacheKey = "$configFile.$configBaseFile";
         $obj = isset(self::$staticCache[$cacheKey]) ? self::$staticCache[$cacheKey] : NULL;
         if ($obj === NULL) {
-            $fileContentBase = $configBaseFile !== NULL ? Ddth_Commons_Loader::loadFileContent($configBaseFile) : NULL;
-            $fileContent = $configFile !== NULL ? Ddth_Commons_Loader::loadFileContent($configFile) : NULL;
-            if (($fileContent === NULL || $fileContent === "") && ($fileContentBase === NULL || $fileContentBase === "")) {
-                // $fileContent and $fileContentBase both are NULL
-                return NULL;
-            }
-            // $props = new Ddth_Commons_Properties();
             $props = new Ddth_EhProperties_EhProperties();
-            if ($fileContentBase !== NULL && $fileContentBase !== "") {
-                $props->import($fileContentBase);
+            if ($configBaseFile !== NULL && $configBaseFile !== '') {
+                $fileContentBase = Ddth_Commons_Loader::loadFileContent($configBaseFile);
+                if ($fileContentBase === NULL || trim($fileContentBase) === "") {
+                    $msg = "[$configBaseFile] is not found or empty!";
+                    throw new Ddth_Dao_DaoException($msg);
+                } else {
+                    $props->import($fileContentBase);
+                }
             }
-            if ($fileContent !== NULL && $fileContent !== "") {
-                $props->import($fileContent);
+
+            if ($configFile !== NULL && $configFile !== '') {
+                $fileContent = Ddth_Commons_Loader::loadFileContent($configFile);
+                if ($fileContent === NULL || trim($fileContent) === "") {
+                    $msg = "[$configFile] is not found or empty!";
+                    throw new Ddth_Dao_DaoException($msg);
+                } else {
+                    $props->import($fileContent);
+                }
             }
+
             if ($dao instanceof Ddth_Dao_Mysql_IMysqlDao) {
                 $obj = new Ddth_Dao_Mysql_MysqlSqlStatementFactory($props);
             } else if ($dao instanceof Ddth_Dao_Pgsql_IPgsqlDao) {
